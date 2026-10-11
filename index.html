@@ -870,7 +870,7 @@
             <select class="history-select" onchange="insertHistory('pPlan', this.value)"><option value="">↺ Histori...</option></select>
           </div>
         </div>
-        <div id="pPlan" class="rich-editor" contenteditable="true" data-placeholder="Planning medis (otomatis masuk ke Notes Slaberan bila terisi)..."></div>
+        <div id="pPlan" class="rich-editor" contenteditable="true" data-placeholder="Planning medis (tidak akan masuk ke Notes sensus)..."></div>
       </div>
       <div>
         <div class="label-wrapper">
@@ -1275,7 +1275,7 @@
     "I48.2 - Fibrilasi Atrium Permanen",
     "I48.3 - Flutter Atrium (Typical)",
     "I49.0 - Ventricular Fibrillation (VF)",
-    "I49.3 - Premature器官Ventricular Contractions (VES/PVC)",
+    "I49.3 - Premature Ventricular Contractions (VES/PVC)",
     "I50.0 - Gagal Jantung Kongestif (CHF)",
     "I50.1 - Left Ventricular Failure (Edema Paru Akut / ALO)",
     "I50.22 - Chronic Systolic (Congestive) Heart Failure",
@@ -2091,7 +2091,7 @@
       p.bed = getVal('pBed');
       p.dpjpUtama = getDPJPUtamaValue();
       p.dpjpKonsulList = semuaDokterKonsul;
-      p.dpjpKonsul = semuaDokterKonsul.join(', '),
+      p.dpjpKonsul = semuaDokterKonsul.join(', ');
       p.koasPJ = getVal('pKoasPJ') || koasSekarang;
       p.notesJaga = getVal('pNotesJaga');
       p.terakhirDiisiOleh = koasSekarang;
@@ -2597,14 +2597,10 @@
         match.forEach((p, idx) => {
           const isBaru = (p.status === 'Baru') ? '🆕' : '';
           const usiaStr = p.usia ? `${p.usia} tahun` : '-';
-          const entries = p.cpptEntries || [];
-          const latest = entries[0] || {};
-          const planText = latest.pPlan ? htmlToWhatsAppText(latest.pPlan) : '';
 
-          let noteGabung = p.notesJaga || 'Sesuaikan nyanyian dengan CPPT terbaru dan penunjang terbaru';
-          if (planText) noteGabung += `\n- Plan: ${planText}`;
-
-          const formattedNote = noteGabung.split('\n').map(line => `\t⁃\t${line.trim()}`).join('\n');
+          // HANYA MENGAMBIL DARI KOLOM NOTES JAGA SAJA (MURNI, TANPA PLAN)
+          const noteMurni = p.notesJaga || 'Sesuaikan nyanyian dengan CPPT terbaru dan penunjang terbaru';
+          const formattedNote = noteMurni.split('\n').map(line => `\t⁃\t${line.trim()}`).join('\n');
 
           detailRonde += `*${idx + 1}. ${formatNamaLengkap(p.gelar, p.nama)}/${p.rm}/${usiaStr}/${p.bed || p.ruang}*\n`;
           if (p.tipePelayanan === 'KONSUL') {
