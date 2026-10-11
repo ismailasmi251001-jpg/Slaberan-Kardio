@@ -1087,7 +1087,7 @@
         dbRef = db.ref("medlog_pasien_koleksi");
         isFirebaseReady = true;
 
-        // Cek status koneksi realtime langsung ke server
+        // Pantau status konektivitas realtime ke server Firebase
         db.ref(".info/connected").on("value", function(snap) {
           const badge = document.getElementById('cloudStatusBadge');
           if (snap.val() === true) {
@@ -1105,7 +1105,7 @@
           }
         });
 
-        // Dengarkan perubahan data
+        // Dengarkan pembaruan data secara real-time
         dbRef.on('value', (snapshot) => {
           const cloudData = snapshot.val();
           if (cloudData !== null && cloudData !== undefined) {
@@ -1122,7 +1122,7 @@
               tx.objectStore(STORE_NAME).put({ id: "cardioIbnuSinaCollection", data: pasienList });
             }
           } else {
-            // Bila di cloud masih kosong tapi di perangkat sudah ada data tersimpan, sinkronkan ke cloud
+            // Bila server kosong namun perangkat sudah memiliki data lokal, otomatis sinkronkan ke cloud
             if (pasienList && pasienList.length > 0) {
               savePasienListDB(pasienList);
             }
@@ -2753,53 +2753,65 @@
 
       txt += `Ekstremitas :\n${cur.statusFisikEkstremitas || 'atas : Akral hangat. CRT <2 detik, clubbing finger (-), edema (-)\nbawah : akral hangat, CRT <2 detik, clubbing finger (-), edema (-)'}\n\n`;
 
+      // --- PEMERIKSAAN PENUNJANG (AGREGASI KRONOLOGIS SEMUA ENTRI) ---
       txt += `Pemeriksaan Penunjang\n`;
-      const hasEKG = cur.ekgIrama || cur.ekgHR || cur.ekgAksis || cur.ekgGelP || cur.ekgIntervalPR || cur.ekgQRS || cur.ekgSegmenST || cur.ekgGelT || cur.ekgKesan;
-      if (hasEKG) {
-        txt += `‎*EKG*\n`;
-        if (cur.ekgIrama) txt += `Irama : ${cur.ekgIrama}\n`;
-        if (cur.ekgHR) txt += `HR : ${cur.ekgHR} bpm\n`;
-        if (cur.ekgAksis) txt += `Axis : ${cur.ekgAksis}\n`;
-        if (cur.ekgGelP) txt += `Gel p : ${cur.ekgGelP} s\n`;
-        if (cur.ekgIntervalPR) txt += `Segmen PR : ${cur.ekgIntervalPR} s\n`;
-        if (cur.ekgQRS) txt += `Gel QRS : ${cur.ekgQRS} s\n`;
-        if (cur.ekgSegmenST) txt += `Segmen ST : ${cur.ekgSegmenST}\n`;
-        if (cur.ekgGelT) txt += `Gel T : ${cur.ekgGelT}\n`;
-        if (cur.ekgKesan) txt += `Kesan : ${cur.ekgKesan}\n\n`;
+
+      // 1. Agregasi Riwayat EKG
+      let listEKG = [];
+      entries.forEach(e => {
+        const hasEKGData = e.ekgIrama || e.ekgHR || e.ekgAksis || e.ekgSegmenST || e.ekgGelT || e.ekgKesan;
+        if (hasEKGData) {
+          let detail = [];
+          if (e.ekgIrama) detail.push(`Irama: ${e.ekgIrama}`);
+          if (e.ekgHR) detail.push(`HR: ${e.ekgHR} bpm`);
+          if (e.ekgAksis) detail.push(`Axis: ${e.ekgAksis}`);
+          if (e.ekgGelP) detail.push(`P: ${e.ekgGelP} s`);
+          if (e.ekgIntervalPR) detail.push(`PR: ${e.ekgIntervalPR} s`);
+          if (e.ekgQRS) detail.push(`QRS: ${e.ekgQRS} s`);
+          if (e.ekgSegmenST) detail.push(`ST: ${e.ekgSegmenST}`);
+          if (e.ekgGelT) detail.push(`T: ${e.ekgGelT}`);
+          if (e.ekgKesan) detail.push(`*Kesan: ${e.ekgKesan}*`);
+          
+          listEKG.push(`• *(${formatTanggalID(e.tglPeriksa)} - ${(e.shiftWaktu || '').toUpperCase()})*:\n  ${detail.join(' | ')}`);
+        }
+      });
+      if (listEKG.length > 0) {
+        txt += `‎*EKG:*\n${listEKG.join('\n')}\n\n`;
       }
 
-      const hasLab = cur.labWBC || cur.labNeutrofil || cur.labLimfosit || cur.labMonosit || cur.labEosinofil || cur.labBasofil || cur.labRBC || cur.labHb || cur.labHCT || cur.labMCV || cur.labMCH || cur.labMCHC || cur.labRDWCV || cur.labRDWSD || cur.labPLT || cur.labPCT || cur.labMPV || cur.labPDW || cur.labPLCR || cur.labIPF || cur.labGDS || cur.labTroponin || cur.labCKMB || cur.labUrCr;
-      if (hasLab) {
-        txt += `Pemeriksaan Laboratorium\n`;
-        if (cur.labWBC) txt += `WBC: ${cur.labWBC}\n`;
-        if (cur.labNeutrofil) txt += `Neutrofil:${cur.labNeutrofil}%\n`;
-        if (cur.labLimfosit) txt += `Limfosit:${cur.labLimfosit}%\n`;
-        if (cur.labMonosit) txt += `Monosit:${cur.labMonosit}%\n`;
-        if (cur.labEosinofil) txt += `Eosinofil:${cur.labEosinofil}%\n`;
-        if (cur.labBasofil) txt += `Basofil:${cur.labBasofil}%\n`;
-        if (cur.labRBC) txt += `RBC: ${cur.labRBC}\n`;
-        if (cur.labHb) txt += `Hemoglobin (Hb): ${cur.labHb} g/dL\n`;
-        if (cur.labHCT) txt += `Hematokrit (HCT):${cur.labHCT}%\n`;
-        if (cur.labMCV) txt += `MCV: ${cur.labMCV} fL\n`;
-        if (cur.labMCH) txt += `MCH: ${cur.labMCH} pg\n`;
-        if (cur.labMCHC) txt += `MCHC: ${cur.labMCHC} g/dL\n`;
-        if (cur.labRDWCV) txt += `RDW-CV:${cur.labRDWCV}%\n`;
-        if (cur.labRDWSD) txt += `RDW-SD: ${cur.labRDWSD} fL\n`;
-        if (cur.labPLT) txt += `Trombosit (PLT): ${cur.labPLT}\n`;
-        if (cur.labPCT) txt += `PCT:${cur.labPCT}%\n`;
-        if (cur.labMPV) txt += `MPV: ${cur.labMPV} fL\n`;
-        if (cur.labPDW) txt += `PDW:${cur.labPDW}%\n`;
-        if (cur.labPLCR) txt += `P-LCR: ${cur.labPLCR}\n`;
-        if (cur.labIPF) txt += `IPF: ${cur.labIPF}\n`;
-        if (cur.labGDS) txt += `GDS: ${cur.labGDS} mg/dL\n`;
-        if (cur.labTroponin) txt += `Troponin: ${cur.labTroponin}\n`;
-        if (cur.labCKMB) txt += `CK-MB: ${cur.labCKMB}\n`;
-        if (cur.labUrCr) txt += `Ureum/Creatinin: ${cur.labUrCr}\n`;
-        txt += `\n`;
+      // 2. Agregasi Riwayat Laboratorium
+      let listLab = [];
+      entries.forEach(e => {
+        let labItems = [];
+        if (e.labHb) labItems.push(`Hb: ${e.labHb} g/dL`);
+        if (e.labWBC) labItems.push(`WBC: ${e.labWBC}`);
+        if (e.labPLT) labItems.push(`PLT: ${e.labPLT}`);
+        if (e.labHCT) labItems.push(`HCT: ${e.labHCT}%`);
+        if (e.labNeutrofil) labItems.push(`Neu: ${e.labNeutrofil}%`);
+        if (e.labLimfosit) labItems.push(`Lim: ${e.labLimfosit}%`);
+        if (e.labMonosit) labItems.push(`Mon: ${e.labMonosit}%`);
+        if (e.labTroponin) labItems.push(`Troponin: ${e.labTroponin}`);
+        if (e.labCKMB) labItems.push(`CK-MB: ${e.labCKMB}`);
+        if (e.labGDS) labItems.push(`GDS: ${e.labGDS} mg/dL`);
+        if (e.labUrCr) labItems.push(`Ur/Cr: ${e.labUrCr}`);
+
+        if (labItems.length > 0) {
+          listLab.push(`• *(${formatTanggalID(e.tglPeriksa)} - ${(e.shiftWaktu || '').toUpperCase()})*:\n  ${labItems.join(' | ')}`);
+        }
+      });
+      if (listLab.length > 0) {
+        txt += `‎*Laboratorium:*\n${listLab.join('\n')}\n\n`;
       }
 
-      if (cur.penunjangLain) {
-        txt += `Pemeriksaan Penunjang Lain:\n${cur.penunjangLain}\n\n`;
+      // 3. Agregasi Riwayat Penunjang Lain
+      let listLain = [];
+      entries.forEach(e => {
+        if (e.penunjangLain && e.penunjangLain.trim()) {
+          listLain.push(`• *(${formatTanggalID(e.tglPeriksa)} - ${(e.shiftWaktu || '').toUpperCase()})*:\n  ${e.penunjangLain.trim()}`);
+        }
+      });
+      if (listLain.length > 0) {
+        txt += `‎*Pemeriksaan Penunjang Lain:*\n${listLain.join('\n')}\n\n`;
       }
 
       txt += `‎A/\n${htmlToWhatsAppText(cur.diag || '-')}\n\n`;
