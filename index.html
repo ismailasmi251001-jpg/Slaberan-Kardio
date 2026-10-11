@@ -1029,7 +1029,7 @@
   const firebaseConfig = {
     apiKey: "AIzaSyDTngOtrTtWywrDQxzVo2eCCrB_AmtmNQE",
     authDomain: "slaberan-kardio-4785e.firebaseapp.com",
-    databaseURL: "https://slaberan-kardio-4785e-default-rtdb.firebaseio.com",
+    databaseURL: "https://slaberan-kardio-4785e-default-rtdb.asia-southeast1.firebasedatabase.app",
     projectId: "slaberan-kardio-4785e",
     storageBucket: "slaberan-kardio-4785e.firebasestorage.app",
     messagingSenderId: "187525474575",
@@ -1072,33 +1072,70 @@
     try {
       if (typeof firebase !== 'undefined' && firebaseConfig.apiKey) {
         if (!firebase.apps.length) {
-          firebase.initializeApp(firebaseConfig);
+          firebase.initializeApp({
+            apiKey: firebaseConfig.apiKey,
+            authDomain: firebaseConfig.authDomain,
+            databaseURL: firebaseConfig.databaseURL,
+            projectId: firebaseConfig.projectId,
+            storageBucket: firebaseConfig.storageBucket,
+            messagingSenderId: firebaseConfig.messagingSenderId,
+            appId: firebaseConfig.appId
+          });
         }
-        dbRef = firebase.database().ref("medlog_pasien_koleksi");
+        
+        const db = firebase.database();
+        dbRef = db.ref("medlog_pasien_koleksi");
         isFirebaseReady = true;
 
+        // Cek status koneksi realtime langsung ke server
+        db.ref(".info/connected").on("value", function(snap) {
+          const badge = document.getElementById('cloudStatusBadge');
+          if (snap.val() === true) {
+            if (badge) {
+              badge.innerText = "☁️ Multi-Device Live (Online)";
+              badge.style.background = "rgba(16, 185, 129, 0.2)";
+              badge.style.color = "#6ee7b7";
+            }
+          } else {
+            if (badge) {
+              badge.innerText = "⚡ Menghubungkan Cloud...";
+              badge.style.background = "rgba(217, 119, 6, 0.2)";
+              badge.style.color = "#fcd34d";
+            }
+          }
+        });
+
+        // Dengarkan perubahan data
         dbRef.on('value', (snapshot) => {
           const cloudData = snapshot.val();
-          if (cloudData && Array.isArray(cloudData)) {
-            pasienList = cloudData;
-          } else if (cloudData && typeof cloudData === 'object') {
-            pasienList = Object.values(cloudData);
+          if (cloudData !== null && cloudData !== undefined) {
+            if (Array.isArray(cloudData)) {
+              pasienList = cloudData;
+            } else if (typeof cloudData === 'object') {
+              pasienList = Object.values(cloudData);
+            }
+            renderTable();
+            updateFilterOptions();
+            populateAllSuggestions();
+            if (dbInstance) {
+              const tx = dbInstance.transaction(STORE_NAME, "readwrite");
+              tx.objectStore(STORE_NAME).put({ id: "cardioIbnuSinaCollection", data: pasienList });
+            }
+          } else {
+            // Bila di cloud masih kosong tapi di perangkat sudah ada data tersimpan, sinkronkan ke cloud
+            if (pasienList && pasienList.length > 0) {
+              savePasienListDB(pasienList);
+            }
           }
-          renderTable();
-          updateFilterOptions();
-          populateAllSuggestions();
-          const badge = document.getElementById('cloudStatusBadge');
-          if (badge) {
-            badge.innerText = "☁️ Multi-Device Live (Online)";
-            badge.style.background = "rgba(16, 185, 129, 0.2)";
-            badge.style.color = "#6ee7b7";
-          }
+        }, (error) => {
+          alert("Gagal Terhubung ke Firebase: " + error.message);
+          fallbackToLocalIndexedDB();
         });
       } else {
         fallbackToLocalIndexedDB();
       }
     } catch (e) {
-      console.warn("Firebase belum terhubung, beralih ke IndexedDB lokal:", e);
+      alert("Error Inisialisasi Firebase: " + e.message);
       fallbackToLocalIndexedDB();
     }
   }
@@ -1145,9 +1182,14 @@
 
   function savePasienListDB(data) {
     if (isFirebaseReady && dbRef) {
-      dbRef.set(data).catch(err => {
-        console.warn("Gagal sinkronisasi data ke Firebase, data tetap aman di lokal:", err);
-      });
+      const payloadBersih = JSON.parse(JSON.stringify(data || []));
+      dbRef.set(payloadBersih)
+        .then(() => {
+          console.log("Sinkronisasi Cloud Berhasil");
+        })
+        .catch(err => {
+          alert("Firebase Menolak Penyimpanan: " + err.message);
+        });
     }
     return new Promise((resolve, reject) => {
       if (!dbInstance) return resolve();
@@ -2340,7 +2382,6 @@
     let pasienButuhCekPlan = [];
 
     pasienList.forEach(p => {
-      // Pastikan memiliki ID unik
       if (!p.idPasien) p.idPasien = 'CARDIO_' + (p.rm || '') + '_' + Math.random().toString(36).substr(2, 6);
 
       const isPulang = (p.status === 'Pulang');
@@ -3262,12 +3303,13 @@
   // --- INISIALISASI HALAMAN ---
   async function jalankanSistem() {
     await initIndexedDB();
-    initOnlineFirebase();
 
     let data = await getPasienListDB();
-    if (data && data.length > 0 && pasienList.length === 0) {
+    if (data && data.length > 0) {
       pasienList = data;
     }
+
+    initOnlineFirebase();
 
     muatDatalistICD();
     setTanggalOtomatis();
