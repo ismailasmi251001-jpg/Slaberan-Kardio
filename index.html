@@ -1275,7 +1275,7 @@
     "I48.2 - Fibrilasi Atrium Permanen",
     "I48.3 - Flutter Atrium (Typical)",
     "I49.0 - Ventricular Fibrillation (VF)",
-    "I49.3 - Premature Ventricular Contractions (VES/PVC)",
+    "I49.3 - Premature器官Ventricular Contractions (VES/PVC)",
     "I50.0 - Gagal Jantung Kongestif (CHF)",
     "I50.1 - Left Ventricular Failure (Edema Paru Akut / ALO)",
     "I50.22 - Chronic Systolic (Congestive) Heart Failure",
@@ -2091,7 +2091,7 @@
       p.bed = getVal('pBed');
       p.dpjpUtama = getDPJPUtamaValue();
       p.dpjpKonsulList = semuaDokterKonsul;
-      p.dpjpKonsul = semuaDokterKonsul.join(', ');
+      p.dpjpKonsul = semuaDokterKonsul.join(', '),
       p.koasPJ = getVal('pKoasPJ') || koasSekarang;
       p.notesJaga = getVal('pNotesJaga');
       p.terakhirDiisiOleh = koasSekarang;
@@ -3120,19 +3120,19 @@
 
     let p = [];
     if (diag.includes('stemi') || diag.includes('elevasi')) {
-      p.push("<b>STEMI Akut (PPK):</b> Evaluasi onset: onset <12 jam indikasi Primary PCI (Door-to-balloon <90 mnt) atau Fibrinolitik (Door-to-needle <30 mnt jika delay IKP >120 mnt)[span_0](start_span)[span_0](end_span). Protokol O-ANIMO: Aspilet 160mg kunyah, Ticagrelor 180mg atau Clopidogrel 300/600mg, Atorvastatin 40mg, Nitrat SL (hati-hati infark ventrikel kanan V3R/V4R), Morfin 2-4mg IV[span_1](start_span)[span_1](end_span).");
+      p.push("<b>STEMI Akut (PPK):</b> Evaluasi onset: onset <12 jam indikasi Primary PCI (Door-to-balloon <90 mnt) atau Fibrinolitik (Door-to-needle <30 mnt jika delay IKP >120 mnt). Protokol O-ANIMO: Aspilet 160mg kunyah, Ticagrelor 180mg atau Clopidogrel 300/600mg, Atorvastatin 40mg, Nitrat SL (hati-hati infark ventrikel kanan V3R/V4R), Morfin 2-4mg IV.");
     }
     if (diag.includes('nstemi') || diag.includes('uap')) {
-      p.push("<b>NSTE-ACS (PPK):</b> Stratifikasi risiko TIMI/GRACE. Indikasi strategi invasif cito (<2 jam): nyeri dada refrakter, syok kardiogenik, aritmia malignant (VT/VF), hemodinamik tidak stabil[span_2](start_span)[span_2](end_span). Inisiasi DAPT + Heparinisasi[span_3](start_span)[span_3](end_span).");
+      p.push("<b>NSTE-ACS (PPK):</b> Stratifikasi risiko TIMI/GRACE. Indikasi strategi invasif cito (<2 jam): nyeri dada refrakter, syok kardiogenik, aritmia malignant (VT/VF), hemodinamik tidak stabil. Inisiasi DAPT + Heparinisasi.");
     }
     if (diag.includes('gagal jantung') || diag.includes('adhf') || diag.includes('alo')) {
-      p.push("<b>Gagal Jantung Akut (ADHF/ALO):</b> Profil Warm-Wet: Furosemid IV bolus 40mg + infus Nitrogliserin mulai 5 mcg/mnt jika TDS >110 mmHg[span_4](start_span)[span_4](end_span). Jika TDS <90 mmHg: inotropik (Dobutamin 2-20 mcg/kgBB/mnt atau Dopamin/Norepinefrin)[span_5](start_span)[span_5](end_span).");
+      p.push("<b>Gagal Jantung Akut (ADHF/ALO):</b> Profil Warm-Wet: Furosemid IV bolus 40mg + infus Nitrogliserin mulai 5 mcg/mnt jika TDS >110 mmHg. Jika TDS <90 mmHg: inotropik (Dobutamin 2-20 mcg/kgBB/mnt atau Dopamin/Norepinefrin).");
     }
     if (diag.includes('fibrilasi atrium') || diag.includes('af')) {
-      p.push("<b>Fibrilasi Atrium (PPK):</b> Hemodinamik tidak stabil: Kardioversi elektrik tersinkronisasi[span_6](start_span)[span_6](end_span). Stabil: kendali laju (Diltiazem IV / Metoprolol IV / Amiodaron / Digoksin)[span_7](start_span)[span_7](end_span). Hitung CHA2DS2-VASc dan HAS-BLED untuk inisiasi antikoagulan[span_8](start_span)[span_8](end_span).");
+      p.push("<b>Fibrilasi Atrium (PPK):</b> Hemodinamik tidak stabil: Kardioversi elektrik tersinkronisasi. Stabil: kendali laju (Diltiazem IV / Metoprolol IV / Amiodaron / Digoksin). Hitung CHA2DS2-VASc dan HAS-BLED untuk inisiasi antikoagulan.");
     }
     if (diag.includes('av blok') || diag.includes('tavb')) {
-      p.push("<b>Total AV Blok:</b> Jika HR <40 x/mnt atau hemodinamik tidak stabil: siapkan Pacu Jantung Sementara (TPM)[span_9](start_span)[span_9](end_span). Sulfas Atropin 1 mg IV (maks 3 mg), lanjutkan infus Dopamin atau Epinefrin bila refrakter[span_10](start_span)[span_10](end_span).");
+      p.push("<b>Total AV Blok:</b> Jika HR <40 x/mnt atau hemodinamik tidak stabil: siapkan Pacu Jantung Sementara (TPM). Sulfas Atropin 1 mg IV (maks 3 mg), lanjutkan infus Dopamin atau Epinefrin bila refrakter.");
     }
 
     if (p.length > 0) {
@@ -3185,9 +3185,9 @@
       html: `
         <div class="modal-card">
           <div class="modal-card-title">📋 Rumus Perhitungan & Nilai Rujukan:</div>
-          • <b>Rumus MAP:</b> $[(2 \\times Diastol) + Sistol] / 3$.<br>
-          • <b>Target Klinis:</b> Nilai MAP &ge; 65 mmHg diperlukan untuk mempertahankan perfusi organ vital (koroner, serebral, dan ginjal) pada kondisi syok kardiogenik.<br>
-          • <b>Kontraindikasi Nitrat:</b> Tekanan darah sistolik &lt; 90 mmHg atau penurunan &gt; 30 mmHg dari baseline merupakan kontraindikasi pemberian nitrat karena risiko kolaps hemodinamik.
+          • <b>Rumus MAP:</b> [(2 × Diastol) + Sistol] / 3.<br>
+          • <b>Target Klinis:</b> Nilai MAP ≥ 65 mmHg diperlukan untuk mempertahankan perfusi organ vital (koroner, serebral, dan ginjal) pada kondisi syok kardiogenik.<br>
+          • <b>Kontraindikasi Nitrat:</b> Tekanan darah sistolik < 90 mmHg atau penurunan > 30 mmHg dari baseline merupakan kontraindikasi pemberian nitrat karena risiko kolaps hemodinamik.
         </div>
       `
     },
@@ -3217,7 +3217,7 @@
         <div class="modal-card">
           • <b>Langkah Pemeriksaan:</b> Inspeksi kelembaban mukosa bibir, warna bibir, dan lidah di bawah pencahayaan yang memadai.<br>
           • <b>Interpretasi Klinis:</b><br>
-          - <i>Sianosis sentral (bibir & lidah kebiruan):</i> Menandakan desaturasi oksigen darah arteri berat (&lt; 85%), umum ditemukan pada edema paru akut masif atau pirau jantung kanan-ke-kiri.<br>
+          - <i>Sianosis sentral (bibir & lidah kebiruan):</i> Menandakan desaturasi oksigen darah arteri berat (< 85%), umum ditemukan pada edema paru akut masif atau pirau jantung kanan-ke-kiri.<br>
           - <i>Bibir kering:</i> Menandakan dehidrasi atau hipovolemia yang perlu dievaluasi sebelum pemberian diuretik agresif.
         </div>
       `
@@ -3229,7 +3229,7 @@
           • <b>Langkah Pengukuran JVP:</b> Posisikan pasien semi-fowler 30°-45°. Identifikasi pulsasi vena jugularis interna dextra. Ukur tinggi vertikal puncak pulsasi di atas angulus sternalis Ludovici.<br>
           • <b>Interpretasi Klinis:</b><br>
           - <i>Normal:</i> 5 - 2 cmH2O.<br>
-          - <i>JVP Meningkat (&gt; 5+2 cmH2O):</i> Menandakan peningkatan tekanan atrium kanan dan kongesti sistemik (Gagal Jantung Kanan, Efusi Perikardium Masif, atau Tamponade Jantung)[span_11](start_span)[span_11](end_span).<br>
+          - <i>JVP Meningkat (> 5+2 cmH2O):</i> Menandakan peningkatan tekanan atrium kanan dan kongesti sistemik (Gagal Jantung Kanan, Efusi Perikardium Masif, atau Tamponade Jantung).<br>
           - <i>Bruit Karotis (+):</i> Menandakan stenosis arteri karotis interna akibat aterosklerosis lanjut.
         </div>
       `
@@ -3239,13 +3239,13 @@
       html: `
         <div class="modal-card">
           • <b>Inspeksi:</b> Amati bentuk dada simetris, pectus excavatum/carinatum, sela iga, dan pulsasi iktus kordis.<br>
-          • <b>Palpasi:</b> Rasakan simetris taktil fremitus; tentukan letak iktus kordis di ICS V linea midklavikularis sinistra; raba ada tidaknya *thrill* (getaran bising jantung) atau *parasternal heave* (tanda hipertrofi ventrikel kanan)[span_12](start_span)[span_12](end_span).<br>
+          • <b>Palpasi:</b> Rasakan simetris taktil fremitus; tentukan letak iktus kordis di ICS V linea midklavikularis sinistra; raba ada tidaknya thrill (getaran bising jantung) atau parasternal heave (tanda hipertrofi ventrikel kanan).<br>
           • <b>Perkusi:</b> Tentukan batas sonor paru serta batas redup jantung untuk menilai kardiomegali.<br>
           • <b>Auskultasi:</b><br>
-          - <i>Bunyi Jantung I/II:</i> Penutupan katup atrioventrikular dan semilunar. Ireguler total menandakan Atrial Fibrilasi[span_13](start_span)[span_13](end_span).<br>
-          - <i>Gallop S3:</i> Penanda peregangan cepat dinding ventrikel kiri akibat kelebihan volume cairan (Gagal Jantung Sistolik)[span_14](start_span)[span_14](end_span).<br>
+          - <i>Bunyi Jantung I/II:</i> Penutupan katup atrioventrikular dan semilunar. Ireguler total menandakan Atrial Fibrilasi.<br>
+          - <i>Gallop S3:</i> Penanda peregangan cepat dinding ventrikel kiri akibat kelebihan volume cairan (Gagal Jantung Sistolik).<br>
           - <i>Murmur:</i> Bising katup sistolik atau diastolik.<br>
-          - <i>Ronki Basah Halus:</i> Transudasi cairan ke alveolus basal paru menandakan edema paru kardiogenik (Gagal Jantung Kiri / ALO)[span_15](start_span)[span_15](end_span).
+          - <i>Ronki Basah Halus:</i> Transudasi cairan ke alveolus basal paru menandakan edema paru kardiogenik (Gagal Jantung Kiri / ALO).
         </div>
       `
     },
@@ -3253,10 +3253,10 @@
       judul: "Pemeriksaan Fisik Abdomen",
       html: `
         <div class="modal-card">
-          • <b>Langkah Pemeriksaan:</b> Inspeksi kontur dinding perut, auskultasi bising usus, palpasi hepar di bawah arkus kosta kanan, perkusi adanya redup beralih (*shifting dullness*).<br>
+          • <b>Langkah Pemeriksaan:</b> Inspeksi kontur dinding perut, auskultasi bising usus, palpasi hepar di bawah arkus kosta kanan, perkusi adanya redup beralih (shifting dullness).<br>
           • <b>Interpretasi Klinis:</b><br>
-          - <i>Hepatomegali & Refleks Hepatojugular (+):</i> Tanda spesifik kongesti vena sistemik akibat kegagalan ventrikel kanan memompakan darah ke sirkulasi paru[span_16](start_span)[span_16](end_span).<br>
-          - <i>Asites:</i> Penimbunan cairan intraabdomen sekunder akibat hipertensi porta pasif kronis pada gagal jantung kanan stadium lanjut[span_17](start_span)[span_17](end_span).
+          - <i>Hepatomegali & Refleks Hepatojugular (+):</i> Tanda spesifik kongesti vena sistemik akibat kegagalan ventrikel kanan memompakan darah ke sirkulasi paru.<br>
+          - <i>Asites:</i> Penimbunan cairan intraabdomen sekunder akibat hipertensi porta pasif kronis pada gagal jantung kanan stadium lanjut.
         </div>
       `
     },
@@ -3266,8 +3266,8 @@
         <div class="modal-card">
           • <b>Langkah Pemeriksaan:</b> Palpasi suhu akral menggunakan punggung tangan; tekan bantalan kuku 5 detik lalu lepas untuk mengukur CRT; tekan area pretibial/maleolus 5 detik untuk menguji edema.<br>
           • <b>Interpretasi Klinis:</b><br>
-          - <i>Akral Dingin & CRT &gt; 2 Detik:</i> Menandakan vasokonstriksi perifer sekunder dan penurunan curah jantung berat (hipoperfusi jaringan / syok kardiogenik)[span_18](start_span)[span_18](end_span).<br>
-          - <i>Pitting Edema (+/+):</i> Menandakan retensi natrium dan air dengan peningkatan tekanan hidrostatik kapiler sistemik pada gagal jantung kongestif[span_19](start_span)[span_19](end_span).<br>
+          - <i>Akral Dingin & CRT > 2 Detik:</i> Menandakan vasokonstriksi perifer sekunder dan penurunan curah jantung berat (hipoperfusi jaringan / syok kardiogenik).<br>
+          - <i>Pitting Edema (+/+):</i> Menandakan retensi natrium dan air dengan peningkatan tekanan hidrostatik kapiler sistemik pada gagal jantung kongestif.<br>
           - <i>Clubbing Finger (+):</i> Penebalan jaringan periungual akibat hipoksemia kronis jangka panjang (cth: PJB Sianotik).
         </div>
       `
@@ -3277,12 +3277,12 @@
       html: `
         <div class="modal-card">
           1. <b>Irama:</b> Sinus (setiap P diikuti QRS, P positif di II dan negatif di aVR) atau Non-Sinus (Atrial Fibrilasi, Flutter, SVT, VT).<br>
-          2. <b>Heart Rate (HR):</b> Irama reguler = 300 / jumlah kotak besar (atau 1500 / kotak kecil). Ireguler = jumlah kompleks QRS dalam 6 detik $\\times$ 10.<br>
+          2. <b>Heart Rate (HR):</b> Irama reguler = 300 / jumlah kotak besar (atau 1500 / kotak kecil). Ireguler = jumlah kompleks QRS dalam 6 detik × 10.<br>
           3. <b>Aksis QRS:</b> Normal (-30° s/d +90°). Lead I (+) & aVF (+) = Normal Axis ; Lead I (+) & aVF (-) = LAD ; Lead I (-) & aVF (+) = RAD.<br>
-          4. <b>Gelombang P:</b> Normal lebar &lt; 0.12 detik, tinggi &lt; 2.5 mm. P Pulmonal (&gt;2.5 mm) = pembesaran atrium kanan (RAH) ; P Mitral (&gt;0.12 detik berlekuk) = pembesaran atrium kiri (LAH).<br>
+          4. <b>Gelombang P:</b> Normal lebar < 0.12 detik, tinggi < 2.5 mm. P Pulmonal (>2.5 mm) = pembesaran atrium kanan (RAH) ; P Mitral (>0.12 detik berlekuk) = pembesaran atrium kiri (LAH).<br>
           5. <b>Interval PR:</b> Normal 0.12 - 0.20 detik (3-5 kotak kecil). Memanjang konstan = AV Blok Derajat 1 ; Memanjang progresif = AV Blok Derajat 2 Mobitz I.<br>
-          6. <b>Kompleks QRS:</b> Normal durasi 0.06 - 0.10 detik. QRS lebar (&ge;0.12 detik) curiga LBBB atau RBBB. Evaluasi LVH menggunakan kriteria Sokolow-Lyon ($S_{V1} + R_{V5/V6} > 35$ mm).<br>
-          7. <b>Segmen ST:</b> Evaluasi isoelektris, elevasi (STEMI &ge;1 mm di sadapan ekstremitas atau &ge;2 mm di prekordial bersebelahan), atau depresi (NSTE-ACS/iskemia subendokard)[span_20](start_span)[span_20](end_span).<br>
+          6. <b>Kompleks QRS:</b> Normal durasi 0.06 - 0.10 detik. QRS lebar (≥0.12 detik) curiga LBBB atau RBBB. Evaluasi LVH menggunakan kriteria Sokolow-Lyon (SV1 + RV5/V6 > 35 mm).<br>
+          7. <b>Segmen ST:</b> Evaluasi isoelektris, elevasi (STEMI ≥1 mm di sadapan ekstremitas atau ≥2 mm di prekordial bersebelahan), atau depresi (NSTE-ACS/iskemia subendokard).<br>
           8. <b>Gelombang T:</b> T inverted simetris menandakan iskemia ; Tall tent-shaped T menandakan hiperkalemia.
         </div>
       `
@@ -3294,7 +3294,7 @@
           • <b>Skor 0:</b> Bebas nyeri sama sekali.<br>
           • <b>Skor 1 - 3 (Nyeri Ringan):</b> Nyeri dada minimal, tidak mengganggu aktivitas fisik santai.<br>
           • <b>Skor 4 - 6 (Nyeri Sedang):</b> Angina pektoris tipikal sedang, mulai mengganggu kenyamanan istirahat, responsif terhadap ISDN sublingual 5 mg.<br>
-          • <b>Skor 7 - 10 (Nyeri Berat):</b> Nyeri dada infark hebat (*crushing retrosternal chest pain*), pertimbangkan analgesia Morfin Sulfat 2-4 mg IV pelan dengan pemantauan tekanan darah dan frekuensi napas[span_21](start_span)[span_21](end_span).
+          • <b>Skor 7 - 10 (Nyeri Berat):</b> Nyeri dada infark hebat (crushing retrosternal chest pain), pertimbangkan analgesia Morfin Sulfat 2-4 mg IV pelan dengan pemantauan tekanan darah dan frekuensi napas.
         </div>
       `
     }
