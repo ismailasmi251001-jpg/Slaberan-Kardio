@@ -21,9 +21,10 @@
   <!-- File Manifes PWA -->
   <link rel="manifest" href="manifest.json">
 
-  <!-- Firebase SDK Realtime Modules -->
+  <!-- Firebase SDK Realtime & Auth Modules -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 
   <style>
     :root {
@@ -37,7 +38,7 @@
       --text-muted: #64748b;
     }
 
-    /* --- SPLASH SCREEN ANTARMUKA PEMBUKA APLIKASI --- */
+    /* --- SPLASH SCREEN PEMBUKA APLIKASI --- */
     #appSplashScreen {
       position: fixed;
       top: 0; left: 0; width: 100vw; height: 100vh;
@@ -47,7 +48,7 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.6s;
+      transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.5s;
     }
     #appSplashScreen.fade-out {
       opacity: 0;
@@ -55,17 +56,15 @@
       pointer-events: none;
     }
     .splash-logo-box {
-      width: 105px; height: 105px;
-      border-radius: 24px;
+      width: 100px; height: 100px;
+      border-radius: 22px;
       box-shadow: 0 10px 35px rgba(225, 29, 72, 0.55), 0 0 20px rgba(251, 113, 133, 0.35);
       overflow: hidden;
-      margin-bottom: 20px;
+      margin-bottom: 18px;
       animation: pulseLogo 2s infinite ease-in-out;
       border: 2px solid rgba(251, 113, 133, 0.4);
     }
-    .splash-logo-box img {
-      width: 100%; height: 100%; object-fit: cover;
-    }
+    .splash-logo-box img { width: 100%; height: 100%; object-fit: cover; }
     .splash-title {
       font-size: 28px; font-weight: 800; letter-spacing: -0.5px;
       color: #ffffff; display: flex; align-items: baseline; gap: 3px;
@@ -74,11 +73,11 @@
     .splash-title span { color: #fb7185; }
     .splash-subtitle {
       font-size: 11.5px; font-weight: 600; letter-spacing: 1.5px;
-      color: #fecdd3; text-transform: uppercase; margin-bottom: 28px;
+      color: #fecdd3; text-transform: uppercase; margin-bottom: 24px;
       opacity: 0.85;
     }
     .splash-loader-bar {
-      width: 140px; height: 4px;
+      width: 130px; height: 4px;
       background: rgba(255, 255, 255, 0.12);
       border-radius: 4px; overflow: hidden; position: relative;
     }
@@ -96,6 +95,72 @@
       0% { left: -50%; width: 30%; }
       50% { left: 25%; width: 60%; }
       100% { left: 100%; width: 40%; }
+    }
+
+    /* --- MODAL AUTENTIKASI / LOGIN GATE --- */
+    #authOverlay {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      background: rgba(15, 23, 42, 0.95);
+      backdrop-filter: blur(8px);
+      z-index: 888888;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      padding: 16px;
+      box-sizing: border-box;
+    }
+    .auth-card {
+      background: #ffffff;
+      width: 100%;
+      max-width: 440px;
+      border-radius: 16px;
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.45);
+      border: 1px solid rgba(225, 29, 72, 0.2);
+      overflow: hidden;
+    }
+    .auth-header {
+      background: linear-gradient(135deg, #4c0519 0%, #881337 100%);
+      padding: 22px 20px;
+      text-align: center;
+      color: #ffffff;
+    }
+    .auth-header h3 { margin: 0; font-size: 20px; color: #ffffff; }
+    .auth-header p { margin: 4px 0 0; font-size: 11.5px; color: #ffe4e6; }
+    .auth-tabs {
+      display: flex;
+      border-bottom: 1px solid #e2e8f0;
+      background: #f8fafc;
+    }
+    .auth-tab-btn {
+      flex: 1;
+      padding: 11px;
+      background: none;
+      border: none;
+      font-size: 13px;
+      font-weight: 700;
+      color: #64748b;
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      border-radius: 0;
+    }
+    .auth-tab-btn.active {
+      color: var(--primary);
+      border-bottom-color: var(--primary);
+      background: #ffffff;
+    }
+    .auth-body { padding: 20px; }
+    .auth-body label { font-size: 11.5px; font-weight: 700; color: #334155; margin-bottom: 4px; display: block; }
+    .auth-body input { margin-bottom: 12px; }
+    .token-badge-info {
+      background: #fff1f2;
+      border: 1px dashed #f43f5e;
+      border-radius: 6px;
+      padding: 7px 10px;
+      font-size: 11px;
+      color: #881337;
+      margin-bottom: 12px;
+      line-height: 1.4;
     }
 
     body {
@@ -142,6 +207,17 @@
       background: rgba(16, 185, 129, 0.2); color: #6ee7b7; border: 1px solid rgba(16, 185, 129, 0.4);
       display: inline-flex; align-items: center; gap: 5px;
     }
+    .user-auth-badge {
+      font-size: 11.5px; font-weight: 700; padding: 4px 12px; border-radius: 20px;
+      background: rgba(255, 255, 255, 0.15); color: #ffffff; border: 1px solid rgba(255, 255, 255, 0.3);
+      display: inline-flex; align-items: center; gap: 6px;
+    }
+    .logout-btn-header {
+      background: #be123c; color: white; border: none; padding: 3px 10px; border-radius: 12px;
+      font-size: 11px; cursor: pointer; font-weight: 700; transition: background 0.2s;
+    }
+    .logout-btn-header:hover { background: #e11d48; }
+
     .medlog-header p { margin: 0 0 12px 0; font-size: 13px; color: #ffe4e6; line-height: 1.5; max-width: 85%; }
     .medlog-creator {
       display: inline-block; font-size: 11.5px; color: #fff1f2; background: rgba(255, 255, 255, 0.12);
@@ -367,7 +443,69 @@
   </div>
 </div>
 
-<div class="container">
+<!-- MODAL AUTENTIKASI LOGIN / REGISTRASI MANDIRI -->
+<div id="authOverlay">
+  <div class="auth-card">
+    <div class="auth-header">
+      <div style="font-size:26px; line-height:1; margin-bottom:4px;">🫀</div>
+      <h3>Autentikasi MedLog</h3>
+      <p>Akses Terenkripsi Khusus Dokter Muda Kardiologi</p>
+    </div>
+    <div class="auth-tabs">
+      <button type="button" id="btnTabLogin" class="auth-tab-btn active" onclick="switchAuthTab('login')">Masuk (Login)</button>
+      <button type="button" id="btnTabDaftar" class="auth-tab-btn" onclick="switchAuthTab('daftar')">Daftar Akun Baru</button>
+    </div>
+
+    <!-- FORM LOGIN -->
+    <div id="formLoginContainer" class="auth-body">
+      <div>
+        <label for="authLoginEmail">Email Dokter Muda</label>
+        <input type="email" id="authLoginEmail" placeholder="nama@email.com" autocomplete="username">
+      </div>
+      <div>
+        <label for="authLoginPass">Kata Sandi</label>
+        <input type="password" id="authLoginPass" placeholder="••••••••" autocomplete="current-password">
+      </div>
+      <button type="button" style="width:100%; margin-top:6px;" onclick="eksekusiLogin()">Masuk ke Sistem</button>
+    </div>
+
+    <!-- FORM DAFTAR MANDIRI DENGAN KODE TOKEN STASE -->
+    <div id="formDaftarContainer" class="auth-body" style="display:none;">
+      <div class="token-badge-info">
+        🔑 <b>Registrasi Mandiri Terproteksi:</b> Masukkan <b>Kode Akses Stase</b> yang diberikan oleh Chief/PJ Stase untuk mengaktifkan akun Anda.
+      </div>
+      <div>
+        <label for="authDaftarToken">Kode Akses Stase *</label>
+        <input type="text" id="authDaftarToken" placeholder="..." style="text-transform:uppercase; font-weight:700; border-color:#f43f5e;">
+      </div>
+      <div class="grid-2">
+        <div>
+          <label for="authDaftarNama">Nama Lengkap *</label>
+          <input type="text" id="authDaftarNama" placeholder="Nama lengkap">
+        </div>
+        <div>
+          <label for="authDaftarNIM">NIM / Stambuk *</label>
+          <input type="text" id="authDaftarNIM" placeholder="Nomor stambuk">
+        </div>
+      </div>
+      <div>
+        <label for="authDaftarWA">Nomor WhatsApp Aktif *</label>
+        <input type="tel" id="authDaftarWA" placeholder="08xxxxxxxxxx">
+      </div>
+      <div>
+        <label for="authDaftarEmail">Email *</label>
+        <input type="email" id="authDaftarEmail" placeholder="nama@email.com" autocomplete="username">
+      </div>
+      <div>
+        <label for="authDaftarPass">Kata Sandi Baru (Min. 6 Karakter) *</label>
+        <input type="password" id="authDaftarPass" placeholder="Minimal 6 karakter" autocomplete="new-password">
+      </div>
+      <button type="button" class="alt" style="width:100%; margin-top:4px;" onclick="eksekusiDaftarMandiri()">Daftarkan Akun Saya</button>
+    </div>
+  </div>
+</div>
+
+<div class="container" id="appMainContainer" style="opacity:0; transition:opacity 0.4s ease;">
 
   <div id="notifToast">
     <span style="font-size: 18px;">🫀</span>
@@ -383,14 +521,18 @@
       </div>
       <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
         <span id="cloudStatusBadge" class="cloud-status">☁️ Multi-Device Live</span>
-        <button type="button" class="backup-btn" style="padding:4px 10px; font-size:11px; border-radius:20px;" onclick="bukaModalHistoryGlobal()">📜 Log & Riwayat Aktivitas</button>
+        <button type="button" class="backup-btn" style="padding:4px 10px; font-size:11px; border-radius:20px;" onclick="bukaModalHistoryGlobal()">📜 Log & Riwayat</button>
         <div class="dept-badge">
           <span style="font-size: 16px; line-height: 1;">🫀</span>
-          <span>Stase: Kardiologi dan Kedokteran Vaskuler</span>
+          <span>Stase: Kardiologi & Kedokteran Vaskuler</span>
+        </div>
+        <div id="currentUserBadge" class="user-auth-badge" style="display:none;">
+          <span id="currentUserNameText">Dokter</span>
+          <button type="button" class="logout-btn-header" onclick="eksekusiLogout()">Keluar</button>
         </div>
       </div>
     </div>
-    <p>Sistem EMR, CPPT & Ronde Klinis Terintegrasi KSM Jantung & Pembuluh Darah RS Pendidikan Ibnu Sina Y.W. UMI. Sinkronisasi data atomik real-time, audit trail permanen di cloud, dan pengoptimalan performa penyimpanan.</p>
+    <p>Sistem EMR, CPPT & Ronde Klinis Terintegrasi KSM Jantung & Pembuluh Darah RS Pendidikan Ibnu Sina Y.W. UMI. Akses terotentikasi, basis data terproteksi, dan sinkronisasi atomik real-time multi-device.</p>
     <div class="medlog-creator">
       Dibuat oleh: <b>@IsmailAsmi_</b> — Fakultas Kedokteran Universitas Muslim Indonesia
     </div>
@@ -1167,19 +1309,24 @@
     measurementId: "G-65H4C5VXTJ"
   };
 
+  // KUNCI PENGAMAN STASE (Ganti kapan saja sesuai kebutuhan rotasi baru)
+  const KODE_AKSES_STASE_VALID = "KARDIO2026";
+
   let db = null;
+  let auth = null;
   let patientsRef = null;
   let auditLogsRef = null;
   let isFirebaseReady = false;
+  let currentUserAuth = null;
 
-  // Tutup Splash Screen secara mulus setelah aplikasi termuat
+  // Tutup Splash Screen
   function dismissSplashScreen() {
     const splash = document.getElementById('appSplashScreen');
     if (!splash) return;
     setTimeout(() => {
       splash.classList.add('fade-out');
-      setTimeout(() => { splash.style.display = 'none'; }, 650);
-    }, 450);
+      setTimeout(() => { splash.style.display = 'none'; }, 550);
+    }, 400);
   }
 
   function putarSuaraBerhasil() {
@@ -1209,7 +1356,107 @@
     }
   }
 
-  // Inisialisasi Firebase dengan Struktur Ternormalisasi (Atomik per Pasien)
+  // --- LOGIKA AUTENTIKASI DENGAN TOKEN STASE ---
+  function switchAuthTab(tab) {
+    const tabLogin = document.getElementById('btnTabLogin');
+    const tabDaftar = document.getElementById('btnTabDaftar');
+    const formLogin = document.getElementById('formLoginContainer');
+    const formDaftar = document.getElementById('formDaftarContainer');
+
+    if (tab === 'login') {
+      tabLogin.classList.add('active');
+      tabDaftar.classList.remove('active');
+      formLogin.style.display = 'block';
+      formDaftar.style.display = 'none';
+    } else {
+      tabDaftar.classList.add('active');
+      tabLogin.classList.remove('active');
+      formDaftar.style.display = 'block';
+      formLogin.style.display = 'none';
+    }
+  }
+
+  function showAuthGate() {
+    document.getElementById('authOverlay').style.display = 'flex';
+    document.getElementById('appMainContainer').style.opacity = '0';
+    dismissSplashScreen();
+  }
+
+  function hideAuthGate() {
+    document.getElementById('authOverlay').style.display = 'none';
+    document.getElementById('appMainContainer').style.opacity = '1';
+    dismissSplashScreen();
+  }
+
+  async function eksekusiLogin() {
+    const email = document.getElementById('authLoginEmail').value.trim();
+    const pass = document.getElementById('authLoginPass').value.trim();
+
+    if (!email || !pass) {
+      alert("Harap masukkan email dan kata sandi!");
+      return;
+    }
+
+    try {
+      await auth.signInWithEmailAndPassword(email, pass);
+      showToast("Berhasil masuk!");
+    } catch (err) {
+      alert("Gagal masuk: " + err.message);
+    }
+  }
+
+  async function eksekusiDaftarMandiri() {
+    const token = document.getElementById('authDaftarToken').value.trim().toUpperCase();
+    const nama = document.getElementById('authDaftarNama').value.trim();
+    const nim = document.getElementById('authDaftarNIM').value.trim();
+    const wa = document.getElementById('authDaftarWA').value.trim();
+    const email = document.getElementById('authDaftarEmail').value.trim();
+    const pass = document.getElementById('authDaftarPass').value.trim();
+
+    if (!token || !nama || !nim || !wa || !email || !pass) {
+      alert("Seluruh kolom pendaftaran wajib diisi!");
+      return;
+    }
+
+    if (token !== KODE_AKSES_STASE_VALID) {
+      alert("❌ KODE AKSES STASE SALAH!\nHubungi Chief atau PJ Stase Kardiologi untuk mendapatkan kode yang valid.");
+      return;
+    }
+
+    if (pass.length < 6) {
+      alert("Kata sandi minimal 6 karakter!");
+      return;
+    }
+
+    try {
+      const userCred = await auth.createUserWithEmailAndPassword(email, pass);
+      await userCred.user.updateProfile({ displayName: nama });
+
+      // Simpan data profil ke node pengguna
+      await db.ref("users/" + userCred.user.uid).set({
+        nama, nim, wa, email, createdAt: new Date().toISOString()
+      });
+
+      // Pasang otomatis data koas aktif
+      setVal('koasNama', nama);
+      setVal('koasNim', nim);
+      setVal('koasWA', wa);
+      simpanOtomatisKoas();
+
+      showToast("Akun berhasil dibuat dan aktif!");
+    } catch (err) {
+      alert("Pendaftaran gagal: " + err.message);
+    }
+  }
+
+  async function eksekusiLogout() {
+    if (confirm("Keluar dari sesi MedLog?")) {
+      await auth.signOut();
+      showToast("Sesi telah keluar.");
+    }
+  }
+
+  // Inisialisasi Firebase dengan Auth Listener
   function initOnlineFirebase() {
     try {
       if (typeof firebase !== 'undefined' && firebaseConfig.apiKey) {
@@ -1218,6 +1465,7 @@
         }
         
         db = firebase.database();
+        auth = firebase.auth();
         patientsRef = db.ref("patients");
         auditLogsRef = db.ref("audit_logs");
         isFirebaseReady = true;
@@ -1239,27 +1487,47 @@
           }
         });
 
-        // Listener Real-time Data Pasien
-        patientsRef.on('value', (snapshot) => {
-          const val = snapshot.val();
-          if (val) {
-            pasienList = Object.values(val);
-          } else {
-            pasienList = [];
-          }
-          renderTable();
-          updateFilterOptions();
-          populateAllSuggestions();
+        // Pantau Status Autentikasi Pengguna
+        auth.onAuthStateChanged(async (user) => {
+          if (user) {
+            currentUserAuth = user;
+            hideAuthGate();
 
-          if (dbInstance) {
-            const tx = dbInstance.transaction(STORE_NAME, "readwrite");
-            tx.objectStore(STORE_NAME).put({ id: "cardioIbnuSinaCollection", data: pasienList });
+            // Ambil profil pengguna
+            const userSnap = await db.ref("users/" + user.uid).once('value');
+            const uData = userSnap.val();
+            const displayName = (uData && uData.nama) ? uData.nama : (user.displayName || user.email);
+
+            document.getElementById('currentUserBadge').style.display = 'inline-flex';
+            document.getElementById('currentUserNameText').innerText = displayName.split(' ')[0];
+
+            if (uData) {
+              if (!getVal('koasNama')) setVal('koasNama', uData.nama);
+              if (!getVal('koasNim')) setVal('koasNim', uData.nim);
+              if (!getVal('koasWA')) setVal('koasWA', uData.wa);
+              simpanOtomatisKoas();
+            }
+
+            // Pasang Listener Real-time Pasien setelah terotentikasi
+            patientsRef.on('value', (snapshot) => {
+              const val = snapshot.val();
+              pasienList = val ? Object.values(val) : [];
+              renderTable();
+              updateFilterOptions();
+              populateAllSuggestions();
+
+              if (dbInstance) {
+                const tx = dbInstance.transaction(STORE_NAME, "readwrite");
+                tx.objectStore(STORE_NAME).put({ id: "cardioIbnuSinaCollection", data: pasienList });
+              }
+            });
+
+          } else {
+            currentUserAuth = null;
+            document.getElementById('currentUserBadge').style.display = 'none';
+            if (patientsRef) patientsRef.off();
+            showAuthGate();
           }
-          dismissSplashScreen();
-        }, (error) => {
-          console.warn("Gagal terhubung ke node patients Firebase:", error.message);
-          fallbackToLocalIndexedDB();
-          dismissSplashScreen();
         });
 
       } else {
@@ -1312,7 +1580,6 @@
     });
   }
 
-  // Simpan Atomik per Pasien ke Firebase (Mencegah Race Condition Overwrite)
   function simpanPasienKeFirebase(pasienObj) {
     if (isFirebaseReady && patientsRef && pasienObj.idPasien) {
       const payloadBersih = JSON.parse(JSON.stringify(pasienObj));
@@ -1549,9 +1816,9 @@
     if (!el) return;
     if (el.isContentEditable) {
       const cur = el.innerHTML.trim();
-      el.innerHTML = (cur === '' || cur === '<br>' || el.innerText.trim() === '') ? val : cur + '<br>' + val;
+      el.innerHTML = (cur === '' || cur === '<br>' || targetEl.innerText.trim() === '') ? val : cur + '<br>' + val;
     } else {
-      el.value = (el.value.trim() === '') ? val : el.value.trim() + '\n' + val;
+      el.value = (el.value.trim() === '') ? val : targetEl.value.trim() + '\n' + val;
     }
     const parent = el.previousElementSibling;
     if (parent) {
@@ -1810,7 +2077,6 @@
     return sel.value;
   }
 
-  // Kompresi Citra Tajam & Ringan (Mencegah Database Overload)
   function handleImageUpload(e) {
     const files = e.target.files;
     if (!files || files.length === 0) return;
@@ -1943,7 +2209,7 @@
     entries.forEach((e, idx) => {
       const opt = document.createElement('option');
       opt.value = idx;
-      opt.innerText = `Shift: ${(e.shiftWaktu || 'Tidak Tercatat').toUpperCase()} (${e.updatedAt ? e.updatedAt.split(',')[1] : '-'})`;
+      opt.innerText = `Shift: ${(e.shiftWaktu || 'Tidak Tersedia').toUpperCase()} (${e.updatedAt ? e.updatedAt.split(',')[1] : '-'})`;
       sel.appendChild(opt);
     });
     sel.style.display = 'inline-block';
@@ -2293,22 +2559,19 @@
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  // Pencatatan Audit Trail ke Cloud Firebase
   function catatLogAktivitas(aksi, nama, nim, wa, waktu) {
     const logItem = {
       aksi, nama, nim, wa, waktu, timestamp: Date.now()
     };
     
-    // Simpan ke node audit cloud
     if (isFirebaseReady && auditLogsRef) {
       auditLogsRef.push(logItem);
     }
 
-    // Simpan lokal cadangan
     let logs = [];
     try {
       logs = JSON.parse(localStorage.getItem('medlog_audit_logs') || '[]');
-    } catch (e) { logs = []; }
+    } catch (e) {}
     logs.unshift(logItem);
     if (logs.length > 100) logs.pop();
     try {
@@ -2344,7 +2607,7 @@
     let logs = [];
     try {
       logs = JSON.parse(localStorage.getItem('medlog_audit_logs') || '[]');
-    } catch (e) { logs = []; }
+    } catch (e) {}
     renderAuditLogsHTML(logs, container);
   }
 
@@ -2817,10 +3080,9 @@
     }
   }
 
-  // Proteksi Keamanan PIN Klinis untuk Operasi Berbahaya
   async function hapusSemuaDenganPIN() {
-    const pin = prompt("⚠️ PERINGATAN KEAMANAN: Aksi ini akan mengosongkan seluruh database rekam medis.\nMasukkan PIN Keamanan Klinis (Ketik: MEDLOG123):");
-    if (pin === "MEDLOG123") {
+    const pin = prompt("⚠️ PERINGATAN KEAMANAN: Aksi ini akan mengosongkan seluruh database rekam medis.\nMasukkan PIN Keamanan Khusus:");
+    if (pin === "882026") {
       pasienList = [];
       selectedPatientIndexesForReport.clear();
       if (isFirebaseReady && patientsRef) {
@@ -3097,7 +3359,6 @@
     });
   }
 
-  // Resume CPPT PDF
   function buatHTMLResumePasien(p, namaKoas, nimKoas, tglLaporan) {
     const entries = p.cpptEntries || [];
     const namaRS = p.rs || getNamaRS();
@@ -3275,7 +3536,7 @@
   function backupDatabase() {
     const backupObj = {
       system: 'MEDLOG_IBNU_SINA',
-      version: '7.3_Enterprise_Cardio',
+      version: '7.4_Auth_Cardio',
       timestamp: new Date().toISOString(),
       patients: pasienList,
       memory: wordMemory,
@@ -3309,7 +3570,6 @@
             localStorage.setItem('medlog_audit_logs', JSON.stringify(parsed.auditLogs));
           }
           
-          // Sinkronkan atomik ke Cloud
           for (const p of pasienList) {
             await simpanPasienKeFirebase(p);
           }
