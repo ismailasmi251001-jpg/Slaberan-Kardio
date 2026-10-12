@@ -173,21 +173,38 @@
       display: inline-flex; align-items: center; gap: 4px; padding: 2px 6px;
       border-radius: 4px; font-size: 10.5px; font-weight: 700; margin-top: 3px;
     }
+    .badge-echo {
+      background: #ecfdf5; color: #047857; border: 1px solid #a7f3d0;
+      display: inline-flex; align-items: center; gap: 4px; padding: 2px 6px;
+      border-radius: 4px; font-size: 10.5px; font-weight: 700; margin-top: 3px;
+    }
+    
+    /* Banner Peringatan Medis */
     .plan-alert-banner {
       display: none; background: #fff7ed; border: 1px solid #fdba74;
       border-left: 5px solid #ea580c; padding: 12px 16px; border-radius: 8px;
-      margin-bottom: 14px; font-size: 12.5px; line-height: 1.5;
+      margin-bottom: 12px; font-size: 12.5px; line-height: 1.5;
+    }
+    .echo-alert-banner {
+      display: none; background: #ecfdf5; border: 1px solid #6ee7b7;
+      border-left: 5px solid #059669; padding: 12px 16px; border-radius: 8px;
+      margin-bottom: 12px; font-size: 12.5px; line-height: 1.5;
     }
     .plan-chip-group { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
     .plan-item-chip {
       background: #ffffff; border: 1px solid #fed7aa; color: #9a3412;
       padding: 3px 8px; border-radius: 6px; font-size: 11px; cursor: pointer; font-weight: 600;
     }
+    .echo-item-chip {
+      background: #ffffff; border: 1px solid #a7f3d0; color: #065f46;
+      padding: 3px 8px; border-radius: 6px; font-size: 11px; cursor: pointer; font-weight: 600;
+    }
+    
     .filter-box {
       background: #fff1f2; border: 1px solid #fecdd3; padding: 10px 14px;
-      border-radius: 8px; margin-bottom: 12px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px;
+      border-radius: 8px; margin-bottom: 12px; display: flex; flex-wrap: wrap; align-items: center; gap: 10px;
     }
-    .filter-box select { margin-bottom: 0; background: #fff; max-width: 250px; font-weight: 600; }
+    .filter-box select, .filter-box input { margin-bottom: 0; background: #fff; }
     .cppt-control-bar {
       background: #f8fafc; border: 1px solid #e2e8f0; padding: 10px 14px; border-radius: 8px;
       margin-bottom: 14px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;
@@ -251,7 +268,7 @@
       #printResumeArea, #printResumeArea * { visibility: visible; }
       #printResumeArea {
         display: block !important; position: absolute; left: 0; top: 0; width: 100%;
-        background: #fff; color: #000; padding: 18px; box-sizing: border-box; font-size: 9pt; line-height: 1.3;
+        background: #fff; color: #000; padding: 18px; box-sizing: border-box; font-size: 9pt; line-height: 1.35;
       }
       .page-break { page-break-after: always; break-after: page; }
     }
@@ -378,7 +395,7 @@
           <option value="Lama">Pasien Lama</option>
           <option value="Pulang">Selesai / Pulang (Nonaktif)</option>
           <option value="Lepas Rawat">Lepas Rawat Bersama</option>
-          <option value="Meninggal">Meninggal Dunia</option>
+          <option value="Meninggal">Meninggal</option>
         </select>
       </div>
       <div>
@@ -621,7 +638,6 @@
       </div>
     </div>
 
-    <!-- Pilihan Status Generalisata Terstruktur -->
     <div style="font-size:12.5px; font-weight:700; color:#881337; margin:14px 0 6px;">Pemeriksaan Status Generalisata Fisik:</div>
     
     <div class="grid-4">
@@ -780,6 +796,16 @@
         <div><label style="font-size:11px; font-weight:600;">Segmen ST</label><input type="text" id="ekgSegmenST" placeholder="Isoelektris / STE"></div>
         <div><label style="font-size:11px; font-weight:600;">Gel T</label><input type="text" id="ekgGelT" placeholder="Normal / Inverted"></div>
       </div>
+      <div class="grid-2" style="margin-top:2px;">
+        <div><label style="font-size:11px; font-weight:600;">Q Patologis</label><input type="text" id="ekgQPatologis" placeholder="(-) / (+) di lead II, III, aVF"></div>
+        <div><label style="font-size:11px; font-weight:600;">RBBB / LBBB</label><input type="text" id="ekgBundleBranch" placeholder="(-) / RBBB / LBBB"></div>
+      </div>
+      <div style="font-size:11.5px; font-weight:700; color:#881337; margin:8px 0 4px;">Konfigurasi EKG Khusus:</div>
+      <div class="grid-3">
+        <div><label style="font-size:11px; font-weight:600;">LVH / RVH</label><input type="text" id="ekgKonfigLVH" placeholder="(-) / LVH (+) / RVH (+)"></div>
+        <div><label style="font-size:11px; font-weight:600;">PRWP</label><input type="text" id="ekgKonfigPRWP" placeholder="(-) / (+)"></div>
+        <div><label style="font-size:11px; font-weight:600;">Low Voltage</label><input type="text" id="ekgKonfigLowVolt" placeholder="(-) / (+)"></div>
+      </div>
       <div><label style="font-size:11px; font-weight:600;">Kesan EKG</label><input type="text" id="ekgKesan" placeholder="Contoh: Sinus rhythm 80 bpm, normoaxis, ST elevasi di lead II, III, aVF (STEMI Inferior)"></div>
     </div>
 
@@ -828,7 +854,7 @@
       <textarea id="penunjangLain" placeholder="Tuliskan pemeriksaan penunjang lain bila ada (Foto Thorax CTR 55%, TTE EF 45%, dll)..."></textarea>
     </div>
 
-    <!-- Upload Lampiran Foto -->
+    <!-- Upload Lampiran Foto Kualitas Tinggi -->
     <div class="img-upload-box">
       <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
         <b style="font-size:12.5px; color:#881337;">📷 Lampiran Foto / Berkas Citra Penunjang</b>
@@ -840,7 +866,7 @@
           <button type="button" class="alt" style="padding:6px 10px; font-size:11px;" onclick="document.getElementById('cameraUploadPenunjang').click()">📸 Kamera</button>
         </div>
       </div>
-      <div style="font-size:11px; color:#64748b; margin-top:4px;">Foto dikompresi otomatis untuk penyimpanan awan dan lokal. Klik pada gambar untuk memperbesar tampilan.</div>
+      <div style="font-size:11px; color:#64748b; margin-top:4px;">Foto dikompresi dengan resolusi tinggi (High-Def) agar tulisan EKG dan hasil lab tetap tajam saat diperbesar maupun dicetak PDF.</div>
       <div class="img-preview-grid" id="previewImgContainer"></div>
     </div>
 
@@ -870,7 +896,7 @@
             <select class="history-select" onchange="insertHistory('pPlan', this.value)"><option value="">↺ Histori...</option></select>
           </div>
         </div>
-        <div id="pPlan" class="rich-editor" contenteditable="true" data-placeholder="Planning medis (tidak akan masuk ke Notes sensus)..."></div>
+        <div id="pPlan" class="rich-editor" contenteditable="true" data-placeholder="Planning medis (jika ada ECHO akan muncul notifikasi khusus)..."></div>
       </div>
       <div>
         <div class="label-wrapper">
@@ -900,31 +926,47 @@
       </div>
     </div>
 
-    <!-- Banner Peringatan Cek Plan -->
+    <!-- BANNER 1: PEMBERITAHUAN PLANNING MEDIS UMUM -->
     <div id="planAlertBanner" class="plan-alert-banner">
       <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px;">
         <div>
           <span style="font-size:16px;">🔔</span> 
           <b>Pemberitahuan Planning Medis:</b> Terdapat <span id="countPlanActive" style="font-weight:800; text-decoration:underline;">0</span> pasien aktif yang memiliki Plan (P/) untuk ditindaklanjuti hari ini:
         </div>
-        <button type="button" style="background:#ea580c; padding:3px 8px; font-size:11px;" onclick="filterKePasienPlan()">🔍 Tampilkan Pasien Terkait</button>
+        <button type="button" style="background:#ea580c; padding:3px 8px; font-size:11px;" onclick="filterKePasienPlan('NEED_PLAN')">🔍 Tampilkan Pasien Terkait</button>
       </div>
       <div id="planChipContainer" class="plan-chip-group"></div>
     </div>
+
+    <!-- BANNER 2: PEMBERITAHUAN KHUSUS RENCANA ECHO -->
+    <div id="echoAlertBanner" class="echo-alert-banner">
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px;">
+        <div>
+          <span style="font-size:16px;">🫀</span> 
+          <b>Pemberitahuan Rencana Ekokardiografi (ECHO):</b> Terdapat <span id="countEchoActive" style="font-weight:800; text-decoration:underline;">0</span> pasien aktif yang direncanakan untuk tindakan <b>ECHO</b>:
+        </div>
+        <button type="button" style="background:#059669; padding:3px 8px; font-size:11px;" onclick="filterKePasienPlan('NEED_ECHO')">🔍 Tampilkan Pasien ECHO</button>
+      </div>
+      <div id="echoChipContainer" class="plan-chip-group"></div>
+    </div>
     
     <div class="filter-box">
+      <!-- Kolom Pencarian Cepat Nama / RM -->
+      <input type="text" id="cariNamaRM" placeholder="🔍 Cari Nama atau RM..." style="max-width:210px;" oninput="renderTable()">
+      
+      <select id="filterTabelStatus" class="history-select" style="max-width:160px;" onchange="renderTable()">
+        <option value="AKTIF" selected>Hanya Aktif</option>
+        <option value="SEMUA">Semua Status</option>
+        <option value="NEED_PLAN">⚠️ Butuh Cek Plan</option>
+        <option value="NEED_ECHO">🫀 Rencana ECHO</option>
+        <option value="PULANG">Hanya Pulang</option>
+        <option value="LEPAS">Lepas Rawat Bersama</option>
+        <option value="MENINGGAL">Meninggal</option>
+      </select>
       <select id="filterTabelRS" class="history-select" style="max-width:180px;" onchange="renderTable()">
         <option value="SEMUA" selected>Semua Rumah Sakit</option>
       </select>
-      <select id="filterTabelStatus" class="history-select" style="max-width:170px;" onchange="renderTable()">
-        <option value="SEMUA" selected>Semua Status</option>
-        <option value="AKTIF">Hanya Aktif</option>
-        <option value="NEED_PLAN">⚠️ Butuh Cek Plan</option>
-        <option value="PULANG">Hanya Pulang</option>
-        <option value="LEPAS">Lepas Rawat Bersama</option>
-        <option value="MENINGGAL">Meninggal Dunia</option>
-      </select>
-      <select id="filterTabelRuang" class="history-select" style="max-width:180px;" onchange="renderTable()">
+      <select id="filterTabelRuang" class="history-select" style="max-width:170px;" onchange="renderTable()">
         <option value="SEMUA">Semua Kamar/Ruang</option>
       </select>
       <select id="filterTabelDPJP" class="history-select" style="max-width:180px;" onchange="renderTable()">
@@ -937,11 +979,10 @@
         <thead>
           <tr>
             <th style="width:30px; text-align:center;"><input type="checkbox" id="chkPilihSemua" onchange="togglePilihSemuaPasien(this.checked)" title="Pilih Semua"></th>
-            <th>Rumah Sakit</th>
             <th>Ruang / Bed</th>
             <th>Status / Rawat</th>
             <th>Nama / Usia / RM</th>
-            <th>DPJP Utama & Konsul</th>
+            <th>Dokter Kardiologi & DPJP</th>
             <th>Pengisi Terakhir & CPPT</th>
             <th>Aksi</th>
           </tr>
@@ -1040,7 +1081,6 @@
   let dbRef = null;
   let isFirebaseReady = false;
 
-  // --- AUDIO SYNTHESIZER SIMPAN / UPDATE ---
   function putarSuaraBerhasil() {
     try {
       const AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -1051,8 +1091,8 @@
 
       osc.type = "sine";
       const now = ctx.currentTime;
-      osc.frequency.setValueAtTime(587.33, now); // D5
-      osc.frequency.setValueAtTime(880.00, now + 0.1); // A5
+      osc.frequency.setValueAtTime(587.33, now);
+      osc.frequency.setValueAtTime(880.00, now + 0.1);
 
       gain.gain.setValueAtTime(0, now);
       gain.gain.linearRampToValueAtTime(0.3, now + 0.05);
@@ -1087,7 +1127,6 @@
         dbRef = db.ref("medlog_pasien_koleksi");
         isFirebaseReady = true;
 
-        // Pantau status konektivitas realtime ke server Firebase
         db.ref(".info/connected").on("value", function(snap) {
           const badge = document.getElementById('cloudStatusBadge');
           if (snap.val() === true) {
@@ -1105,7 +1144,6 @@
           }
         });
 
-        // Dengarkan pembaruan data secara real-time
         dbRef.on('value', (snapshot) => {
           const cloudData = snapshot.val();
           if (cloudData !== null && cloudData !== undefined) {
@@ -1122,7 +1160,6 @@
               tx.objectStore(STORE_NAME).put({ id: "cardioIbnuSinaCollection", data: pasienList });
             }
           } else {
-            // Bila server kosong namun perangkat sudah memiliki data lokal, otomatis sinkronkan ke cloud
             if (pasienList && pasienList.length > 0) {
               savePasienListDB(pasienList);
             }
@@ -1150,7 +1187,6 @@
     }
   }
 
-  // --- BASIS DATA INDEXEDDB (OFFLINE CACHE / FALLBACK) ---
   const DB_NAME = "MedLogDatabase_IbnuSina";
   const STORE_NAME = "patients_emr_cardio";
   let dbInstance;
@@ -1636,7 +1672,6 @@
     el.innerText = teks;
   }
 
-  // --- STATUS GENERALISATA TOGGLE MANUAL ---
   function toggleManualFisik(bidang) {
     const sel = document.getElementById(`selFisik${bidang}`);
     const cust = document.getElementById(`custFisik${bidang}`);
@@ -1673,7 +1708,7 @@
     return sel.value;
   }
 
-  // --- UPLOAD & KOMPRESI CITRA TAHAN-CRASH ---
+  // --- KOMPRESI GAMBAR HIGH-DEF ---
   function handleImageUpload(e) {
     const files = e.target.files;
     if (!files || files.length === 0) return;
@@ -1684,7 +1719,7 @@
       reader.onload = function(evt) {
         const img = new Image();
         img.onload = function() {
-          const maxDim = 720;
+          const maxDim = 1400;
           let w = img.width, h = img.height;
           if (w > maxDim || h > maxDim) {
             if (w > h) { h = Math.round((h * maxDim) / w); w = maxDim; }
@@ -1693,8 +1728,10 @@
           const canvas = document.createElement('canvas');
           canvas.width = w; canvas.height = h;
           const ctx = canvas.getContext('2d');
+          ctx.imageSmoothingEnabled = true;
+          ctx.imageSmoothingQuality = 'high';
           ctx.drawImage(img, 0, 0, w, h);
-          const compressed = canvas.toDataURL('image/jpeg', 0.55);
+          const compressed = canvas.toDataURL('image/jpeg', 0.78);
 
           activeImageAttachments.push({
             data: compressed,
@@ -1702,7 +1739,7 @@
             uploadedAtDate: getVal('cpptTanggalPeriksa') || new Date().toISOString().slice(0, 10)
           });
           renderImagePreviews();
-          showToast("Foto penunjang berhasil dimuat!");
+          showToast("Foto penunjang tajam berhasil dimuat!");
         };
         img.onerror = function() {
           alert("Gagal membaca berkas gambar. Silakan coba kembali.");
@@ -1755,7 +1792,6 @@
     document.getElementById('lightboxModal').style.display = 'none';
   }
 
-  // --- SIKLUS HIDUP FORM CPPT ---
   function setTanggalOtomatis(force = false) {
     const hari = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
     const bulan = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
@@ -1898,6 +1934,11 @@
     setVal('ekgQRS', last ? last.ekgQRS : '');
     setVal('ekgSegmenST', '');
     setVal('ekgGelT', '');
+    setVal('ekgQPatologis', last ? (last.ekgQPatologis || '') : '');
+    setVal('ekgBundleBranch', last ? (last.ekgBundleBranch || '') : '');
+    setVal('ekgKonfigLVH', last ? (last.ekgKonfigLVH || '') : '');
+    setVal('ekgKonfigPRWP', last ? (last.ekgKonfigPRWP || '') : '');
+    setVal('ekgKonfigLowVolt', last ? (last.ekgKonfigLowVolt || '') : '');
     setVal('ekgKesan', '');
 
     setVal('labWBC', ''); setVal('labNeutrofil', ''); setVal('labLimfosit', ''); setVal('labMonosit', ''); setVal('labEosinofil', '');
@@ -1942,7 +1983,10 @@
 
     setVal('ekgIrama', e.ekgIrama || ''); setVal('ekgHR', e.ekgHR || ''); setVal('ekgAksis', e.ekgAksis || '');
     setVal('ekgGelP', e.ekgGelP || ''); setVal('ekgIntervalPR', e.ekgIntervalPR || ''); setVal('ekgQRS', e.ekgQRS || '');
-    setVal('ekgSegmenST', e.ekgSegmenST || ''); setVal('ekgGelT', e.ekgGelT || ''); setVal('ekgKesan', e.ekgKesan || '');
+    setVal('ekgSegmenST', e.ekgSegmenST || ''); setVal('ekgGelT', e.ekgGelT || ''); 
+    setVal('ekgQPatologis', e.ekgQPatologis || ''); setVal('ekgBundleBranch', e.ekgBundleBranch || '');
+    setVal('ekgKonfigLVH', e.ekgKonfigLVH || ''); setVal('ekgKonfigPRWP', e.ekgKonfigPRWP || ''); setVal('ekgKonfigLowVolt', e.ekgKonfigLowVolt || '');
+    setVal('ekgKesan', e.ekgKesan || '');
 
     setVal('labWBC', e.labWBC || ''); setVal('labNeutrofil', e.labNeutrofil || ''); setVal('labLimfosit', e.labLimfosit || '');
     setVal('labMonosit', e.labMonosit || ''); setVal('labEosinofil', e.labEosinofil || ''); setVal('labBasofil', e.labBasofil || '');
@@ -2015,7 +2059,10 @@
 
       ekgIrama: getVal('ekgIrama'), ekgHR: getVal('ekgHR'), ekgAksis: getVal('ekgAksis'),
       ekgGelP: getVal('ekgGelP'), ekgIntervalPR: getVal('ekgIntervalPR'), ekgQRS: getVal('ekgQRS'),
-      ekgSegmenST: getVal('ekgSegmenST'), ekgGelT: getVal('ekgGelT'), ekgKesan: getVal('ekgKesan'),
+      ekgSegmenST: getVal('ekgSegmenST'), ekgGelT: getVal('ekgGelT'), 
+      ekgQPatologis: getVal('ekgQPatologis'), ekgBundleBranch: getVal('ekgBundleBranch'),
+      ekgKonfigLVH: getVal('ekgKonfigLVH'), ekgKonfigPRWP: getVal('ekgKonfigPRWP'), ekgKonfigLowVolt: getVal('ekgKonfigLowVolt'),
+      ekgKesan: getVal('ekgKesan'),
 
       labWBC: getVal('labWBC'), labNeutrofil: getVal('labNeutrofil'), labLimfosit: getVal('labLimfosit'),
       labMonosit: getVal('labMonosit'), labEosinofil: getVal('labEosinofil'), labBasofil: getVal('labBasofil'),
@@ -2297,7 +2344,9 @@
     setVal('oNadi', ''); setVal('oRR', ''); setVal('oSuhu', ''); setVal('oSpO2', ''); setVal('oO2Via', 'RA'); setVal('oNRS', '');
 
     setVal('ekgIrama', ''); setVal('ekgHR', ''); setVal('ekgAksis', ''); setVal('ekgGelP', '');
-    setVal('ekgIntervalPR', ''); setVal('ekgQRS', ''); setVal('ekgSegmenST', ''); setVal('ekgGelT', ''); setVal('ekgKesan', '');
+    setVal('ekgIntervalPR', ''); setVal('ekgQRS', ''); setVal('ekgSegmenST', ''); setVal('ekgGelT', ''); 
+    setVal('ekgQPatologis', ''); setVal('ekgBundleBranch', ''); setVal('ekgKonfigLVH', ''); setVal('ekgKonfigPRWP', ''); setVal('ekgKonfigLowVolt', '');
+    setVal('ekgKesan', '');
 
     setVal('labWBC', ''); setVal('labNeutrofil', ''); setVal('labLimfosit', ''); setVal('labMonosit', ''); setVal('labEosinofil', '');
     setVal('labBasofil', ''); setVal('labRBC', ''); setVal('labHb', ''); setVal('labHCT', ''); setVal('labMCV', '');
@@ -2309,7 +2358,24 @@
     updateBedsideGuidance();
   }
 
-  // --- RENDERING TABEL & PERINGATAN ---
+  // Cek Rencana ECHO Khusus
+  function hasRencanaEcho(p) {
+    if (!p.cpptEntries || p.cpptEntries.length === 0) return false;
+    const latest = p.cpptEntries[0];
+    const planText = (latest.pPlan || '').toLowerCase();
+    const notesText = (p.notesJaga || '').toLowerCase();
+    return planText.includes('echo') || planText.includes('ekokardiografi') || notesText.includes('echo');
+  }
+
+  // Cek Rencana Medis Umum Apa Saja
+  function hasRencanaMedisUmum(p) {
+    if (!p.cpptEntries || p.cpptEntries.length === 0) return false;
+    const latest = p.cpptEntries[0];
+    if (!latest.pPlan) return false;
+    const clean = latest.pPlan.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+    return clean.length > 0 && clean !== '-';
+  }
+
   function getCleanPlanText(p) {
     if (!p.cpptEntries || p.cpptEntries.length === 0) return '';
     const latest = p.cpptEntries[0];
@@ -2341,7 +2407,7 @@
 
     if (statusBaru === 'Meninggal') {
       const nowStr = new Date().toLocaleDateString('id-ID') + ', ' + new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }) + ' WITA';
-      const inputKet = prompt(`Pasien ${p.nama} dinyatakan meninggal dunia.\nMasukkan tanggal & jam kematian:`, nowStr);
+      const inputKet = prompt(`Pasien ${p.nama} dinyatakan meninggal.\nMasukkan tanggal & jam kematian:`, nowStr);
       if (inputKet !== null) {
         p.status = 'Meninggal';
         p.keteranganKematian = inputKet;
@@ -2369,17 +2435,20 @@
     showToast(`Status pasien ${p.nama} berhasil diubah ke ${statusBaru}.`);
   }
 
+  // --- RENDERING TABEL & PERINGATAN BERSAMAAN ---
   function renderTable() {
     const tbody = document.querySelector('#tabelPasien tbody');
     tbody.innerHTML = '';
 
+    const cariKeyword = (document.getElementById('cariNamaRM') ? document.getElementById('cariNamaRM').value : '').toLowerCase().trim();
+    const filterStatus = document.getElementById('filterTabelStatus') ? document.getElementById('filterTabelStatus').value : 'AKTIF';
     const filterRS = document.getElementById('filterTabelRS') ? document.getElementById('filterTabelRS').value : 'SEMUA';
-    const filterStatus = document.getElementById('filterTabelStatus') ? document.getElementById('filterTabelStatus').value : 'SEMUA';
     const filterRuang = document.getElementById('filterTabelRuang') ? document.getElementById('filterTabelRuang').value : 'SEMUA';
     const filterDPJP = document.getElementById('filterTabelDPJP') ? document.getElementById('filterTabelDPJP').value : 'SEMUA';
 
     let count = 0;
     let pasienButuhCekPlan = [];
+    let pasienButuhEcho = [];
 
     pasienList.forEach(p => {
       if (!p.idPasien) p.idPasien = 'CARDIO_' + (p.rm || '') + '_' + Math.random().toString(36).substr(2, 6);
@@ -2388,11 +2457,24 @@
       const isMeninggal = (p.status === 'Meninggal');
       const isLepas = (p.status === 'Lepas Rawat');
       const rsPasien = p.rs || 'Rumah Sakit Pendidikan Ibnu Sina Y.W. UMI';
-      const planText = getCleanPlanText(p);
-      const hasPlan = (!isPulang && !isMeninggal && !isLepas && planText.length > 0 && planText !== '-');
 
-      if (hasPlan) {
+      const planText = getCleanPlanText(p);
+      const isPlanActive = (!isPulang && !isMeninggal && !isLepas && hasRencanaMedisUmum(p));
+      const isEchoPlanned = (!isPulang && !isMeninggal && !isLepas && hasRencanaEcho(p));
+
+      // Kumpulkan pasien aktif untuk banner 1 & banner 2
+      if (isPlanActive) {
         pasienButuhCekPlan.push({ idPasien: p.idPasien, nama: p.nama, ruang: p.ruang, bed: p.bed, plan: planText });
+      }
+      if (isEchoPlanned) {
+        pasienButuhEcho.push({ idPasien: p.idPasien, nama: p.nama, ruang: p.ruang, bed: p.bed });
+      }
+
+      // Filter Pencarian Teks (Nama atau RM)
+      if (cariKeyword !== '') {
+        const matchNama = (p.nama || '').toLowerCase().includes(cariKeyword);
+        const matchRM = (p.rm || '').toLowerCase().includes(cariKeyword);
+        if (!matchNama && !matchRM) return;
       }
 
       if (filterRS !== 'SEMUA' && rsPasien !== filterRS) return;
@@ -2400,7 +2482,8 @@
       if (filterStatus === 'PULANG' && !isPulang) return;
       if (filterStatus === 'LEPAS' && !isLepas) return;
       if (filterStatus === 'MENINGGAL' && !isMeninggal) return;
-      if (filterStatus === 'NEED_PLAN' && !hasPlan) return;
+      if (filterStatus === 'NEED_PLAN' && !isPlanActive) return;
+      if (filterStatus === 'NEED_ECHO' && !isEchoPlanned) return;
       if (filterRuang !== 'SEMUA' && p.ruang !== filterRuang) return;
       
       const matchUtama = p.dpjpUtama && p.dpjpUtama.toLowerCase().includes(filterDPJP.toLowerCase());
@@ -2423,7 +2506,7 @@
           <option value="Lama" ${p.status === 'Lama' ? 'selected' : ''}>Lama</option>
           <option value="Pulang" ${p.status === 'Pulang' ? 'selected' : ''}>Pulang</option>
           <option value="Lepas Rawat" ${p.status === 'Lepas Rawat' ? 'selected' : ''}>Lepas Rawat</option>
-          <option value="Meninggal" ${p.status === 'Meninggal' ? 'selected' : ''}>Meninggal ✝</option>
+          <option value="Meninggal" ${p.status === 'Meninggal' ? 'selected' : ''}>Meninggal</option>
         </select>
       `;
 
@@ -2435,19 +2518,38 @@
         rawatInfo += `<br><small style="color:#991b1b; font-weight:700;">Wafat: ${p.keteranganKematian}</small>`;
       }
 
-      let planBadgeHTML = hasPlan ? `<br><span class="badge-plan" title="${planText}">⚠️ Cek Plan: ${planText.substring(0, 30)}...</span>` : '';
+      // Tampilkan Badge Plan dan Badge ECHO di tabel
+      let badgesHTML = '';
+      if (isPlanActive) {
+        badgesHTML += `<br><span class="badge-plan" title="${planText}">⚠️ Cek Plan: ${planText.substring(0, 28)}...</span>`;
+      }
+      if (isEchoPlanned) {
+        badgesHTML += `<br><span class="badge-echo" title="Rencana Tindakan ECHO">🫀 Rencana: ECHO</span>`;
+      }
 
       const tr = document.createElement('tr');
       if (isPulang || isMeninggal || isLepas) tr.style.opacity = '0.75';
 
       const isChecked = selectedPatientIndexesForReport.has(p.idPasien) ? 'checked' : '';
 
-      let konsulDisplay = '';
-      if (p.dpjpKonsulList && p.dpjpKonsulList.length > 0) {
-        konsulDisplay = p.dpjpKonsulList.join('<br>• ');
-        konsulDisplay = '<br><small style="color:#475569;">' + (p.tipePelayanan === 'KONSUL' ? 'Konsul Kardio: ' : 'Konsul: ') + '<br>• ' + konsulDisplay + '</small>';
-      } else if (p.dpjpKonsul) {
-        konsulDisplay = `<br><small style="color:#475569;">${p.tipePelayanan === 'KONSUL' ? 'Konsul Kardio: ' : 'Konsul: '}${p.dpjpKonsul}</small>`;
+      // Tampilan Penegasan Dokter Kardiologi
+      let dokterKardioTampil = "";
+      let dokterNonKardioTampil = "";
+
+      if (p.tipePelayanan === 'KONSUL') {
+        const kardioKonsul = (p.dpjpKonsulList && p.dpjpKonsulList[0]) ? p.dpjpKonsulList[0] : (p.dpjpKonsul || "dr. Kardio");
+        dokterKardioTampil = `<b style="color:#be123c; font-size:13.5px;">🫀 ${kardioKonsul}</b>`;
+        dokterNonKardioTampil = `<br><small style="color:#475569;">DPJP Utama: ${p.dpjpUtama}</small>`;
+        if (p.dpjpKonsulList && p.dpjpKonsulList.length > 1) {
+          dokterNonKardioTampil += `<br><small style="color:#64748b;">Konsul Lain: ${p.dpjpKonsulList.slice(1).join(', ')}</small>`;
+        }
+      } else {
+        dokterKardioTampil = `<b style="color:#be123c; font-size:13.5px;">🫀 ${p.dpjpUtama}</b>`;
+        if (p.dpjpKonsulList && p.dpjpKonsulList.length > 0) {
+          dokterNonKardioTampil = `<br><small style="color:#475569;">Konsul: ${p.dpjpKonsulList.join(', ')}</small>`;
+        } else if (p.dpjpKonsul) {
+          dokterNonKardioTampil = `<br><small style="color:#475569;">Konsul: ${p.dpjpKonsul}</small>`;
+        }
       }
 
       const namaPengisi = p.terakhirDiisiOleh || latest.authorNama || '-';
@@ -2457,17 +2559,16 @@
 
       tr.innerHTML = `
         <td style="text-align:center;"><input type="checkbox" ${isChecked} onchange="togglePilihPasien('${p.idPasien}', this.checked)"></td>
-        <td><small style="font-weight:700; color:#881337;">${rsPasien}</small></td>
         <td><b>${p.ruang}</b><br><small>${p.bed || '-'}</small></td>
         <td>${statusSelectHTML}${rawatInfo}</td>
         <td>
           <b>${formatNamaLengkap(p.gelar, p.nama)}</b> (${p.usia || '-'} Thn)<br>
           <small>RM: ${p.rm}</small>
-          ${planBadgeHTML}
+          ${badgesHTML}
         </td>
         <td>
-          <b>${p.dpjpUtama}</b>
-          ${konsulDisplay}
+          ${dokterKardioTampil}
+          ${dokterNonKardioTampil}
           ${p.koasPJ ? `<br><small style="color:#059669; font-weight:600; white-space:pre-wrap;">PJ: ${p.koasPJ}</small>` : ''}
         </td>
         <td>
@@ -2490,31 +2591,57 @@
     });
 
     document.getElementById('totalBadge').innerText = count;
-    renderPlanAlertBanner(pasienButuhCekPlan);
+    renderAlertBanners(pasienButuhCekPlan, pasienButuhEcho);
   }
 
-  function renderPlanAlertBanner(list) {
-    const banner = document.getElementById('planAlertBanner');
-    const container = document.getElementById('planChipContainer');
-    const badge = document.getElementById('countPlanActive');
-    if (!banner || !container) return;
+  // Render Kedua Banner Secara Harmonis
+  function renderAlertBanners(listPlan, listEcho) {
+    // 1. Banner Plan Umum
+    const bannerPlan = document.getElementById('planAlertBanner');
+    const containerPlan = document.getElementById('planChipContainer');
+    const badgePlan = document.getElementById('countPlanActive');
+    if (bannerPlan && containerPlan) {
+      if (listPlan.length === 0) {
+        bannerPlan.style.display = 'none';
+      } else {
+        badgePlan.innerText = listPlan.length;
+        containerPlan.innerHTML = '';
+        listPlan.forEach(item => {
+          const chip = document.createElement('div');
+          chip.className = 'plan-item-chip';
+          chip.innerHTML = `<b>${item.nama}</b> (${item.ruang || '-'}): <i>${item.plan.substring(0, 32)}...</i>`;
+          chip.onclick = () => editPasien(item.idPasien);
+          containerPlan.appendChild(chip);
+        });
+        bannerPlan.style.display = 'block';
+      }
+    }
 
-    if (list.length === 0) { banner.style.display = 'none'; return; }
-    badge.innerText = list.length;
-    container.innerHTML = '';
-    list.forEach(item => {
-      const chip = document.createElement('div');
-      chip.className = 'plan-item-chip';
-      chip.innerHTML = `<b>${item.nama}</b> (${item.ruang || '-'}): <i>${item.plan.substring(0, 36)}...</i>`;
-      chip.onclick = () => editPasien(item.idPasien);
-      container.appendChild(chip);
-    });
-    banner.style.display = 'block';
+    // 2. Banner ECHO Khusus
+    const bannerEcho = document.getElementById('echoAlertBanner');
+    const containerEcho = document.getElementById('echoChipContainer');
+    const badgeEcho = document.getElementById('countEchoActive');
+    if (bannerEcho && containerEcho) {
+      if (listEcho.length === 0) {
+        bannerEcho.style.display = 'none';
+      } else {
+        badgeEcho.innerText = listEcho.length;
+        containerEcho.innerHTML = '';
+        listEcho.forEach(item => {
+          const chip = document.createElement('div');
+          chip.className = 'echo-item-chip';
+          chip.innerHTML = `🫀 <b>${item.nama}</b> (${item.ruang || '-'} / ${item.bed || '-'})`;
+          chip.onclick = () => editPasien(item.idPasien);
+          containerEcho.appendChild(chip);
+        });
+        bannerEcho.style.display = 'block';
+      }
+    }
   }
 
-  function filterKePasienPlan() {
+  function filterKePasienPlan(targetStatus) {
     const sel = document.getElementById('filterTabelStatus');
-    if (sel) { sel.value = 'NEED_PLAN'; renderTable(); }
+    if (sel) { sel.value = targetStatus; renderTable(); }
   }
 
   async function togglePulangkanPasien(idPasien) {
@@ -2564,11 +2691,11 @@
     }
   }
 
-  // --- GENERATOR WHATSAPP: SLABERAN SENSUS SHIFT & FOLLOW-UP SOAP ---
+  // --- GENERATOR FORMAT LAPORAN WHATSAPP ---
   function generateSlaberanSensus() {
     const tgl = getVal('tglLaporan') || new Date().toLocaleDateString('id-ID');
     const shift = getVal('shiftJaga') || "JAGA SIANG";
-    const mode = document.getElementById('modeSlaberanSensus').value; // 'CAPT' atau 'NON_CAPT'
+    const mode = document.getElementById('modeSlaberanSensus').value;
     const aktif = pasienList.filter(p => p.status !== 'Pulang' && p.status !== 'Meninggal' && p.status !== 'Lepas Rawat');
 
     const bangsalList = [
@@ -2598,7 +2725,7 @@
           const isBaru = (p.status === 'Baru') ? '🆕' : '';
           const usiaStr = p.usia ? `${p.usia} tahun` : '-';
 
-          // HANYA MENGAMBIL DARI KOLOM NOTES JAGA SAJA (MURNI, TANPA PLAN)
+          // Murni mengambil catatan ronde/notes jaga saja (tanpa Plan)
           const noteMurni = p.notesJaga || 'Sesuaikan nyanyian dengan CPPT terbaru dan penunjang terbaru';
           const formattedNote = noteMurni.split('\n').map(line => `\t⁃\t${line.trim()}`).join('\n');
 
@@ -2702,13 +2829,10 @@
       txt += `\n`;
 
       txt += `*S/*\n`;
-      if (p.status !== 'Baru') {
-        entries.forEach(e => {
-          if (e.sKelSekarang) {
-            const shiftName = (e.shiftWaktu || 'sekarang').toUpperCase();
-            txt += `*Keluhan ${shiftName} (${formatTanggalID(e.tglPeriksa)})*\n${htmlToWhatsAppText(e.sKelSekarang)}\n\n`;
-          }
-        });
+      // HANYA KELUHAN TERBARU & KELUHAN MASUK
+      if (p.status !== 'Baru' && cur.sKelSekarang) {
+        const shiftName = (cur.shiftWaktu || 'sekarang').toUpperCase();
+        txt += `*Keluhan ${shiftName} (${formatTanggalID(cur.tglPeriksa)})*\n${htmlToWhatsAppText(cur.sKelSekarang)}\n\n`;
       }
       txt += `*Keluhan masuk (${formatTanggalID(p.tglMasuk) || formatTanggalID(cur.tglPeriksa)})*\n${htmlToWhatsAppText(cur.sKelMasuk || '-')}\n\n`;
 
@@ -2752,10 +2876,9 @@
       // --- PEMERIKSAAN PENUNJANG (AGREGASI KRONOLOGIS SEMUA ENTRI) ---
       txt += `Pemeriksaan Penunjang\n`;
 
-      // 1. Agregasi Riwayat EKG
       let listEKG = [];
       entries.forEach(e => {
-        const hasEKGData = e.ekgIrama || e.ekgHR || e.ekgAksis || e.ekgSegmenST || e.ekgGelT || e.ekgKesan;
+        const hasEKGData = e.ekgIrama || e.ekgHR || e.ekgAksis || e.ekgSegmenST || e.ekgGelT || e.ekgKesan || e.ekgQPatologis || e.ekgBundleBranch;
         if (hasEKGData) {
           let detail = [];
           if (e.ekgIrama) detail.push(`Irama: ${e.ekgIrama}`);
@@ -2764,8 +2887,13 @@
           if (e.ekgGelP) detail.push(`P: ${e.ekgGelP} s`);
           if (e.ekgIntervalPR) detail.push(`PR: ${e.ekgIntervalPR} s`);
           if (e.ekgQRS) detail.push(`QRS: ${e.ekgQRS} s`);
+          if (e.ekgQPatologis) detail.push(`Q Patologis: ${e.ekgQPatologis}`);
+          if (e.ekgBundleBranch) detail.push(`RBBB/LBBB: ${e.ekgBundleBranch}`);
           if (e.ekgSegmenST) detail.push(`ST: ${e.ekgSegmenST}`);
           if (e.ekgGelT) detail.push(`T: ${e.ekgGelT}`);
+          if (e.ekgKonfigLVH) detail.push(`LVH/RVH: ${e.ekgKonfigLVH}`);
+          if (e.ekgKonfigPRWP) detail.push(`PRWP: ${e.ekgKonfigPRWP}`);
+          if (e.ekgKonfigLowVolt) detail.push(`Low Voltage: ${e.ekgKonfigLowVolt}`);
           if (e.ekgKesan) detail.push(`*Kesan: ${e.ekgKesan}*`);
           
           listEKG.push(`• *(${formatTanggalID(e.tglPeriksa)} - ${(e.shiftWaktu || '').toUpperCase()})*:\n  ${detail.join(' | ')}`);
@@ -2775,7 +2903,6 @@
         txt += `‎*EKG:*\n${listEKG.join('\n')}\n\n`;
       }
 
-      // 2. Agregasi Riwayat Laboratorium
       let listLab = [];
       entries.forEach(e => {
         let labItems = [];
@@ -2799,7 +2926,6 @@
         txt += `‎*Laboratorium:*\n${listLab.join('\n')}\n\n`;
       }
 
-      // 3. Agregasi Riwayat Penunjang Lain
       let listLain = [];
       entries.forEach(e => {
         if (e.penunjangLain && e.penunjangLain.trim()) {
@@ -2830,27 +2956,60 @@
     });
   }
 
-  // --- RESUME PDF CETAK ---
+  // --- RESUME CPPT PDF (RAPI KE BAWAH + LAMPIRAN GAMBAR) ---
   function buatHTMLResumePasien(p, namaKoas, nimKoas, tglLaporan) {
     const entries = p.cpptEntries || [];
     const namaRS = p.rs || getNamaRS();
 
-    let soapHTML = entries.map(e => {
+    let allAttachments = [];
+
+    let soapHTML = entries.map((e, idx) => {
       const mapVal = hitungMAP(e.oTDSis, e.oTDDia);
+      if (Array.isArray(e.lampiranFoto) && e.lampiranFoto.length > 0) {
+        e.lampiranFoto.forEach(img => allAttachments.push(img));
+      }
+
+      const ekgKonfigTeks = [
+        e.ekgKonfigLVH ? `LVH/RVH: ${e.ekgKonfigLVH}` : '',
+        e.ekgKonfigPRWP ? `PRWP: ${e.ekgKonfigPRWP}` : '',
+        e.ekgKonfigLowVolt ? `Low Volt: ${e.ekgKonfigLowVolt}` : ''
+      ].filter(Boolean).join(' | ');
+
       return `
-        <div style="margin-bottom:12px; border:1px solid #cbd5e1; border-radius:6px; padding:8px; background:#fff;">
-          <div style="background:#fff1f2; padding:4px 8px; font-weight:bold; font-size:9.5pt; color:#881337; border-bottom:1px solid #fecdd3; display:flex; justify-content:space-between;">
-            <span>📅 CATATAN CPPT: ${formatTanggalID(e.tglPeriksa)} (${e.shiftWaktu || '-'})</span>
+        <div style="margin-bottom:14px; border:1px solid #cbd5e1; border-radius:6px; background:#fff; page-break-inside:avoid;">
+          <div style="background:#fff1f2; padding:6px 10px; font-weight:bold; font-size:9.5pt; color:#881337; border-bottom:1px solid #fecdd3; display:flex; justify-content:space-between;">
+            <span>CATATAN CPPT #${entries.length - idx}: ${formatTanggalID(e.tglPeriksa)} (${e.shiftWaktu || '-'})</span>
             <span style="font-size:8pt; font-weight:normal; color:#475569;">Pembaruan: ${e.updatedAt || '-'} oleh ${e.authorNama || '-'}</span>
           </div>
-          <div style="padding-top:4px;">
-            <p style="margin:2px 0;"><b>S/</b> Keluhan: ${e.sKelSekarang || e.sKelMasuk || '-'} | RPD: (HT: ${e.sR_HT || '-'}, PJK: ${e.sR_PJK || '-'}, DM: ${e.sR_DM || '-'}, RPO: ${e.sR_RPO || '-'})</p>
-            <p style="margin:2px 0;"><b>O/</b> TD: ${e.oTDSis || '-'}/${e.oTDDia || '-'} mmHg ${mapVal ? '(MAP ' + mapVal + ')' : ''} | N: ${e.oNadi || '-'} x/m | RR: ${e.oRR || '-'} x/m | SpO2: ${e.oSpO2 || '-'}% | GCS: ${e.oGCS || '15'}</p>
-            <p style="margin:2px 0;"><b>Thorax:</b> ${e.statusThoraxAuskultasi || '-'}</p>
-            <p style="margin:2px 0;"><b>EKG:</b> ${e.ekgKesan || '-'}</p>
-            <p style="margin:2px 0;"><b>A/</b> ${e.diag || '-'}</p>
-            <p style="margin:2px 0;"><b>P/ & I/</b> P/ ${e.pPlan || '-'} | I/ ${e.pInstruksi || '-'}</p>
-          </div>
+          <table style="width:100%; border-collapse:collapse; margin:0; font-size:8.5pt;">
+            <tr>
+              <td style="width:18%; font-weight:bold; background:#f8fafc; border:1px solid #e2e8f0; padding:5px 8px; vertical-align:top;">Subjective (S/)</td>
+              <td style="border:1px solid #e2e8f0; padding:5px 8px; vertical-align:top;">
+                <div><b>Keluhan:</b> ${e.sKelSekarang || e.sKelMasuk || '-'}</div>
+                <div style="margin-top:3px; color:#475569;"><b>RPD:</b> HT: ${e.sR_HT || '-'} | Jantung: ${e.sR_PJK || '-'} | DM: ${e.sR_DM || '-'} | RPO: ${e.sR_RPO || '-'}</div>
+              </td>
+            </tr>
+            <tr>
+              <td style="font-weight:bold; background:#f8fafc; border:1px solid #e2e8f0; padding:5px 8px; vertical-align:top;">Objective (O/)</td>
+              <td style="border:1px solid #e2e8f0; padding:5px 8px; vertical-align:top;">
+                <div><b>Tanda Vital:</b> TD: ${e.oTDSis || '-'}/${e.oTDDia || '-'} mmHg ${mapVal ? '(MAP ' + mapVal + ')' : ''} | HR: ${e.oNadi || '-'} x/m | RR: ${e.oRR || '-'} x/m | SpO2: ${e.oSpO2 || '-'}% (${e.oO2Via || 'RA'}) | Suhu: ${e.oSuhu || '-'}°C | GCS: ${e.oGCS || '15'}</div>
+                <div style="margin-top:2px;"><b>Thorax:</b> ${e.statusThoraxAuskultasi || '-'}</div>
+                <div style="margin-top:2px;"><b>EKG:</b> ${e.ekgKesan || (e.ekgIrama ? e.ekgIrama + ' ' + (e.ekgHR || '') + ' bpm' : '-')} ${ekgKonfigTeks ? '(' + ekgKonfigTeks + ')' : ''}</div>
+                ${e.penunjangLain ? `<div style="margin-top:2px; color:#334155;"><b>Penunjang:</b> ${e.penunjangLain}</div>` : ''}
+              </td>
+            </tr>
+            <tr>
+              <td style="font-weight:bold; background:#f8fafc; border:1px solid #e2e8f0; padding:5px 8px; vertical-align:top;">Assessment (A/)</td>
+              <td style="border:1px solid #e2e8f0; padding:5px 8px; vertical-align:top; white-space:pre-wrap;">${e.diag || '-'}</td>
+            </tr>
+            <tr>
+              <td style="font-weight:bold; background:#f8fafc; border:1px solid #e2e8f0; padding:5px 8px; vertical-align:top;">Planning & Terapi</td>
+              <td style="border:1px solid #e2e8f0; padding:5px 8px; vertical-align:top;">
+                <div><b>P/ Plan:</b> ${e.pPlan || '-'}</div>
+                <div style="margin-top:2px;"><b>I/ Terapi:</b> ${e.pInstruksi || '-'}</div>
+              </td>
+            </tr>
+          </table>
         </div>
       `;
     }).join('');
@@ -2865,33 +3024,54 @@
       konsulDokterStr = p.dpjpKonsul || '-';
     }
 
+    let attachmentHTML = '';
+    if (allAttachments.length > 0) {
+      attachmentHTML = `
+        <div style="page-break-before:always; margin-top:16px;">
+          <h3 style="font-size:10pt; color:#881337; border-bottom:1px solid #881337; padding-bottom:4px; margin-bottom:10px;">LAMPIRAN BERKAS CITRA PENUNJANG:</h3>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+            ${allAttachments.map(att => `
+              <div style="border:1px solid #cbd5e1; border-radius:4px; padding:6px; text-align:center;">
+                <img src="${att.data}" style="max-width:100%; max-height:220px; object-fit:contain; border-radius:2px;">
+                <div style="font-size:8pt; font-weight:bold; margin-top:4px; color:#334155;">${att.label || 'Hasil Penunjang'}</div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `;
+    }
+
     return `
       <div style="text-align:center; border-bottom: 2px solid #881337; padding-bottom: 6px; margin-bottom: 10px;">
         <h2 style="margin:0; font-size:13pt; text-transform:uppercase; color:#881337;">LEMBAR CATATAN PERKEMBANGAN PASIEN TERINTEGRASI (CPPT) KARDIOLOGI</h2>
-        <p style="margin:2px 0 0 0; font-size:8.5pt;">${namaRS} | MedLog EMR | Tanggal: ${tglLaporan}</p>
+        <p style="margin:2px 0 0 0; font-size:8.5pt;">${namaRS} | MedLog EMR | Tanggal Cetak: ${tglLaporan}</p>
       </div>
 
-      <table style="width:100%; border:none; margin-bottom:6px; font-size:9pt;">
+      <table style="width:100%; border:none; margin-bottom:8px; font-size:9pt;">
         <tr>
           <td style="border:none; width:50%;"><b>Nama Pasien:</b> ${formatNamaLengkap(p.gelar, p.nama)} (${p.usia || '-'} Thn)</td>
-          <td style="border:none; width:50%;"><b>DPJP Utama:</b> ${p.dpjpUtama}</td>
+          <td style="border:none; width:50%;"><b>Dokter Kardiologi:</b> ${p.tipePelayanan === 'KONSUL' ? (p.dpjpKonsulList[0] || p.dpjpKonsul) : p.dpjpUtama}</td>
         </tr>
         <tr>
           <td style="border:none;"><b>No. Rekam Medis:</b> ${p.rm}</td>
+          <td style="border:none;"><b>DPJP Utama:</b> ${p.dpjpUtama}</td>
+        </tr>
+        <tr>
           <td style="border:none;"><b>Ruang / Bed:</b> ${p.ruang} / ${p.bed || '-'}</td>
+          <td style="border:none;"><b>DPJP Konsul Lain:</b> ${konsulDokterStr}</td>
         </tr>
         <tr>
           <td style="border:none;"><b>Tanggal Masuk RS:</b> ${formatTanggalID(p.tglMasuk) || '-'}${hariRawat ? ' (' + hariRawat + ' hari rawatan)' : ''}</td>
-          <td style="border:none;"><b>DPJP Konsul:</b> ${konsulDokterStr}</td>
+          <td style="border:none;">${p.tglKonsul ? '<b>Tanggal Konsul:</b> ' + formatTanggalID(p.tglKonsul) + (hariKonsul ? ' (' + hariKonsul + ' hari konsul)' : '') : ''}</td>
         </tr>
-        ${p.tglKonsul ? `<tr><td style="border:none;"><b>Tanggal Konsul:</b> ${formatTanggalID(p.tglKonsul)}${hariKonsul ? ' (' + hariKonsul + ' hari konsul)' : ''}</td><td style="border:none;"></td></tr>` : ''}
       </table>
 
-      <hr style="border:0; border-top:1px solid #cbd5e1; margin:4px 0 8px 0;">
-      <h3 style="margin:2px 0 6px 0; font-size:10pt; color:#881337;">DOKUMENTASI SOAP KRONOLOGIS:</h3>
+      <hr style="border:0; border-top:1px solid #cbd5e1; margin:4px 0 10px 0;">
+      <h3 style="margin:2px 0 8px 0; font-size:10pt; color:#881337;">CATATAN KRONOLOGIS PERKEMBANGAN PASIEN:</h3>
       ${soapHTML}
+      ${attachmentHTML}
 
-      <div style="margin-top:18px; display:flex; justify-content:flex-end;">
+      <div style="margin-top:20px; display:flex; justify-content:flex-end; page-break-inside:avoid;">
         <div style="text-align:center; width:220px; font-size:9pt;">
           <p style="margin:0;">Dokter Jaga / Pemeriksa,</p>
           <br><br><br>
@@ -3106,7 +3286,6 @@
     }
   }
 
-  // --- GUIDANCE & PENALARAN KLINIS PPK ---
   function updateBedsideGuidance() {
     const diag = (getTextVal('pDiag') + " " + getTextVal('sKeluhanSekarang') + " " + getTextVal('sKeluhanMasuk') + " " + getVal('ekgKesan')).toLowerCase();
     const box = document.getElementById('boxBedsideGuidance');
@@ -3139,7 +3318,6 @@
     }
   }
 
-  // --- MODAL PANDUAN PEMERIKSAAN DETAIL ---
   const PANDUAN_CARDIO = {
     gcs: {
       judul: "Glasgow Coma Scale (GCS) — Langkah, Penilaian & Interpretasi",
@@ -3308,7 +3486,7 @@
   function hideModal() { document.getElementById('modalPanduan').style.display = 'none'; }
   function closeInfo(e) { if (e.target.id === 'modalPanduan') hideModal(); }
 
-  // --- INISIALISASI HALAMAN ---
+  // --- INISIALISASI SISTEM ---
   async function jalankanSistem() {
     await initIndexedDB();
 
@@ -3324,6 +3502,11 @@
     muatOtomatisKoas();
     toggleTipePelayanan();
     toggleStatusPasien();
+
+    // Default tampilan langsung membuka hanya pasien aktif
+    const selStatus = document.getElementById('filterTabelStatus');
+    if (selStatus) selStatus.value = 'AKTIF';
+
     renderTable();
     populateAllSuggestions();
     updateFilterOptions();
