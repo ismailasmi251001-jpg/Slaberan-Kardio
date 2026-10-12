@@ -213,7 +213,7 @@
       display: inline-flex; align-items: center; gap: 6px;
     }
     .logout-btn-header {
-      background: #be123c; color: white; border: none; padding: 3px 10px; border-radius: 12px;
+      background: #be123c; color: white; border: none; padding: 4px 10px; border-radius: 12px;
       font-size: 11px; cursor: pointer; font-weight: 700; transition: background 0.2s;
     }
     .logout-btn-header:hover { background: #e11d48; }
@@ -349,6 +349,21 @@
       width: 100%; box-sizing: border-box; padding: 8.5px 10px; border: 1px solid var(--border);
       border-radius: 6px; font-size: 13px; margin-bottom: 8px; font-family: inherit; color: #0f172a; background-color: #fff;
     }
+    /* GAYA KHUSUS KOLOM IDENTITAS TERKUNCI (READONLY) */
+    input.locked-field {
+      background-color: #f1f5f9 !important;
+      color: #334155 !important;
+      font-weight: 700 !important;
+      cursor: not-allowed !important;
+      border-color: #cbd5e1 !important;
+      box-shadow: none !important;
+    }
+    input.locked-field:focus {
+      outline: none !important;
+      border-color: #cbd5e1 !important;
+      box-shadow: none !important;
+    }
+
     textarea { resize: vertical; min-height: 55px; }
     .rich-editor {
       width: 100%; box-sizing: border-box; padding: 8.5px 10px; border: 1px solid var(--border);
@@ -612,7 +627,7 @@
         </div>
         <div id="currentUserBadge" class="user-auth-badge" style="display:none;">
           <span id="currentUserNameText">Dokter</span>
-          <button type="button" class="logout-btn-header" onclick="eksekusiLogout()">Keluar</button>
+          <button type="button" class="logout-btn-header" onclick="eksekusiLogout()">Keluar (Log Out)</button>
         </div>
       </div>
     </div>
@@ -622,17 +637,17 @@
     </div>
   </div>
 
-  <!-- Identitas Dokter Muda & Pengaturan RS -->
-  <div class="card" style="margin-bottom:12px; padding:12px 16px;">
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 8px;">
-      <h3 style="margin:0; font-size:14px;">Identitas Jaga & Dokter Muda</h3>
+  <!-- Identitas Dokter Muda & Pengaturan RS (Identitas Terkunci Permanen Sesuai Akun) -->
+  <div class="card" style="margin-bottom:12px; padding:14px 16px;">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 10px; flex-wrap:wrap; gap:8px;">
       <div style="display:flex; align-items:center; gap:8px;">
-        <span style="font-size:11px; color:#64748b; font-weight:600;">Ganti Profil:</span>
-        <select id="pilihProfilKoas" class="history-select" style="max-width:170px;" onchange="gantiProfilKoas(this.value)">
-          <option value="">Profil Tersimpan...</option>
-        </select>
+        <h3 style="margin:0; font-size:14px; color:#881337;">Identitas Jaga & Dokter Muda</h3>
+        <span style="font-size:10.5px; background:#ecfdf5; color:#047857; border:1px solid #a7f3d0; padding:2px 8px; border-radius:12px; font-weight:700;">🔒 Akun Terverifikasi</span>
       </div>
+      <!-- Tombol Log Out Khusus di Bar Identitas -->
+      <button type="button" class="danger" style="padding:5px 12px; font-size:11.5px; border-radius:6px; font-weight:700;" onclick="eksekusiLogout()">🚪 Keluar (Log Out)</button>
     </div>
+    
     <div class="grid-5">
       <div>
         <div class="label-wrapper"><label for="rotasiRS">Rumah Sakit</label></div>
@@ -651,18 +666,16 @@
         </select>
       </div>
       <div>
-        <div class="label-wrapper"><label for="koasNama">Nama Dokter Muda</label></div>
-        <input type="text" id="koasNama" list="list_koasNama" placeholder="Nama lengkap dokter muda" oninput="simpanOtomatisKoas()">
-        <datalist id="list_koasNama"></datalist>
+        <div class="label-wrapper"><label for="koasNama">Nama Dokter Muda (Terkunci)</label></div>
+        <input type="text" id="koasNama" class="locked-field" placeholder="Nama Akun..." readonly title="Identitas terkunci otomatis sesuai akun login Anda">
       </div>
       <div>
-        <div class="label-wrapper"><label for="koasNim">NIM / Stambuk</label></div>
-        <input type="text" id="koasNim" list="list_koasNim" placeholder="Nomor stambuk" oninput="simpanOtomatisKoas()">
-        <datalist id="list_koasNim"></datalist>
+        <div class="label-wrapper"><label for="koasNim">NIM / Stambuk (Terkunci)</label></div>
+        <input type="text" id="koasNim" class="locked-field" placeholder="Stambuk Akun..." readonly title="Identitas terkunci otomatis sesuai akun login Anda">
       </div>
       <div>
-        <div class="label-wrapper"><label for="koasWA">📱 Nomor WA Aktif</label></div>
-        <input type="tel" id="koasWA" placeholder="Contoh: 081234567890" oninput="simpanOtomatisKoas()">
+        <div class="label-wrapper"><label for="koasWA">📱 Nomor WA Aktif (Terkunci)</label></div>
+        <input type="tel" id="koasWA" class="locked-field" placeholder="WA Akun..." readonly title="Nomor WhatsApp terkunci sesuai akun login Anda">
       </div>
     </div>
     <div style="margin-top:4px; max-width:320px;">
@@ -1591,10 +1604,22 @@
     }
   }
 
+  // --- LOGOUT BERSIH & AMAN ---
   async function eksekusiLogout() {
-    if (confirm("Keluar dari sesi MedLog?")) {
-      await auth.signOut();
-      showToast("Sesi telah keluar.");
+    if (confirm("Keluar dari sesi akun MedLog? Anda harus masuk kembali untuk mengakses data.")) {
+      try {
+        await auth.signOut();
+        // Bersihkan data formulir aktif dan kembalikan ke layar login
+        clearForm();
+        setVal('koasNama', '');
+        setVal('koasNim', '');
+        setVal('koasWA', '');
+        localStorage.removeItem('medlog_active_koas');
+        showAuthGate();
+        showToast("Anda telah keluar dari akun.");
+      } catch (err) {
+        alert("Gagal keluar: " + err.message);
+      }
     }
   }
 
@@ -1644,9 +1669,10 @@
               document.getElementById('currentUserNameText').innerText = displayName.split(' ')[0];
 
               if (uData) {
-                if (!getVal('koasNama')) setVal('koasNama', uData.nama);
-                if (!getVal('koasNim')) setVal('koasNim', uData.nim);
-                if (!getVal('koasWA')) setVal('koasWA', uData.wa);
+                // KUNCI OTOMATIS DATA PROFIL SESUAI AKUN LOGIN
+                setVal('koasNama', uData.nama);
+                setVal('koasNim', uData.nim);
+                setVal('koasWA', uData.wa);
                 simpanOtomatisKoas();
               }
             } catch (e) {
@@ -1671,6 +1697,7 @@
             });
 
           } else {
+            // Belum login / Sesi habis: kunci rapat antarmuka
             currentUserAuth = null;
             document.getElementById('currentUserBadge').style.display = 'none';
             if (patientsRef) patientsRef.off();
@@ -1982,8 +2009,6 @@
 
   function populateAllSuggestions() {
     const datalistMap = {
-      'koasNama': 'list_koasNama',
-      'koasNim': 'list_koasNim',
       'pNama': 'list_pNama',
       'pRM': 'list_pRM',
       'pBed': 'list_pBed',
@@ -2666,8 +2691,6 @@
       pInstruksi: getVal('pInstruksi')
     };
 
-    saveToMemory('koasNama', koasSekarang);
-    saveToMemory('koasNim', nimSekarang);
     saveToMemory('pNama', namaPasien);
     saveToMemory('pRM', rmPasien);
     saveToMemory('pBed', getVal('pBed'));
@@ -2724,7 +2747,7 @@
       targetPasien.bed = getVal('pBed');
       targetPasien.dpjpUtama = getDPJPUtamaValue();
       targetPasien.dpjpKonsulList = semuaDokterKonsul;
-      targetPasien.dpjpKonsul = semuaDokterKonsul.join(', '),
+      targetPasien.dpjpKonsul = semuaDokterKonsul.join(', ');
       targetPasien.koasPJ = getVal('pKoasPJ') || koasSekarang;
       targetPasien.notesJaga = getVal('pNotesJaga');
       targetPasien.terakhirDiisiOleh = koasSekarang;
@@ -3750,12 +3773,11 @@
   function backupDatabase() {
     const backupObj = {
       system: 'MEDLOG_IBNU_SINA',
-      version: '7.6_Tabs_Collapsible_Cardio',
+      version: '7.7_Locked_Identity_Cardio',
       timestamp: new Date().toISOString(),
       patients: pasienList,
       memory: wordMemory,
       activeKoas: JSON.parse(localStorage.getItem('medlog_active_koas') || '{}'),
-      koasProfiles: JSON.parse(localStorage.getItem('medlog_koas_profiles') || '[]'),
       auditLogs: JSON.parse(localStorage.getItem('medlog_audit_logs') || '[]')
     };
     const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(backupObj, null, 2));
@@ -3861,7 +3883,6 @@
     if (p.nim) document.getElementById('koasNim').value = p.nim;
     if (p.shift) document.getElementById('shiftJaga').value = p.shift;
     if (p.wa) document.getElementById('koasWA').value = p.wa;
-    muatDropdownProfilKoas();
   }
 
   function simpanOtomatisKoas() {
@@ -3871,40 +3892,6 @@
     const wa = getVal('koasWA');
     const rotasi = getNamaRS();
     localStorage.setItem('medlog_active_koas', JSON.stringify({ nama, nim, shift, wa, rotasiRS: rotasi }));
-
-    if (nama && nim) {
-      let koleksi = JSON.parse(localStorage.getItem('medlog_koas_profiles') || '[]');
-      const idx = koleksi.findIndex(k => k.nim === nim || k.nama.toLowerCase() === nama.toLowerCase());
-      if (idx === -1) koleksi.unshift({ nama, nim, wa, rotasiRS: rotasi });
-      else koleksi[idx] = { nama, nim, wa, rotasiRS: rotasi };
-      localStorage.setItem('medlog_koas_profiles', JSON.stringify(koleksi));
-      muatDropdownProfilKoas();
-    }
-  }
-
-  function muatDropdownProfilKoas() {
-    const koleksi = JSON.parse(localStorage.getItem('medlog_koas_profiles') || '[]');
-    const sel = document.getElementById('pilihProfilKoas');
-    if (!sel) return;
-    sel.innerHTML = '<option value="">Profil Tersimpan...</option>';
-    koleksi.forEach((k, idx) => {
-      const opt = document.createElement('option');
-      opt.value = idx;
-      opt.innerText = `${k.nama} (${k.rotasiRS || 'RS Ibnu Sina'})`;
-      sel.appendChild(opt);
-    });
-  }
-
-  function gantiProfilKoas(idx) {
-    if (idx === '') return;
-    const koleksi = JSON.parse(localStorage.getItem('medlog_koas_profiles') || '[]');
-    const p = koleksi[idx];
-    if (p) {
-      document.getElementById('koasNama').value = p.nama;
-      document.getElementById('koasNim').value = p.nim;
-      document.getElementById('koasWA').value = p.wa || '';
-      localStorage.setItem('medlog_active_koas', JSON.stringify(p));
-    }
   }
 
   function updateBedsideGuidance() {
@@ -3986,7 +3973,7 @@
       html: `<div class="modal-card">• CA (+/+): Anemia berat.<br>• SI (+/+): Kongesti pasif hepatik.</div>`
     },
     sg_bibir: {
-      judul: "Pemeriksaan Bibir & Sianosis",
+      judul: "Pemeriksaan Fisik Bibir & Sianosis",
       html: `<div class="modal-card">• Sianosis sentral: Hipoksemia arteri berat.</div>`
     },
     sg_leher: {
