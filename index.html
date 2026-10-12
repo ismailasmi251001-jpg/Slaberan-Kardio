@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>MedLog — RS Pendidikan Ibnu Sina Y.W. UMI</title>
 
   <!-- Pengaturan PWA & Shortcut Layar Utama HP -->
@@ -12,15 +12,13 @@
   <meta name="apple-mobile-web-app-title" content="MedLog Kardio">
   <meta name="theme-color" content="#881337">
 
-  <!-- Logo Ikon Shortcut untuk iPhone / iPad (Apple Touch Icon) -->
+  <!-- Logo Ikon Shortcut untuk iPhone & Android -->
   <link rel="apple-touch-icon" sizes="192x192" href="icon_192x192.png">
   <link rel="apple-touch-icon" sizes="512x512" href="icon_512x512.png">
-
-  <!-- Logo Ikon Browser Standar & Android Shortcut -->
   <link rel="icon" type="image/png" sizes="192x192" href="icon_192x192.png">
   <link rel="icon" type="image/png" sizes="512x512" href="icon_512x512.png">
 
-  <!-- File Manifes Aplikasi Android & Chrome -->
+  <!-- File Manifes PWA -->
   <link rel="manifest" href="manifest.json">
 
   <!-- Firebase SDK Realtime Modules -->
@@ -38,6 +36,68 @@
       --text-main: #1e293b;
       --text-muted: #64748b;
     }
+
+    /* --- SPLASH SCREEN ANTARMUKA PEMBUKA APLIKASI --- */
+    #appSplashScreen {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      background: radial-gradient(circle at center, #4c0519 0%, #1e020a 60%, #0f172a 100%);
+      z-index: 999999;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.6s;
+    }
+    #appSplashScreen.fade-out {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+    .splash-logo-box {
+      width: 105px; height: 105px;
+      border-radius: 24px;
+      box-shadow: 0 10px 35px rgba(225, 29, 72, 0.55), 0 0 20px rgba(251, 113, 133, 0.35);
+      overflow: hidden;
+      margin-bottom: 20px;
+      animation: pulseLogo 2s infinite ease-in-out;
+      border: 2px solid rgba(251, 113, 133, 0.4);
+    }
+    .splash-logo-box img {
+      width: 100%; height: 100%; object-fit: cover;
+    }
+    .splash-title {
+      font-size: 28px; font-weight: 800; letter-spacing: -0.5px;
+      color: #ffffff; display: flex; align-items: baseline; gap: 3px;
+      margin-bottom: 6px;
+    }
+    .splash-title span { color: #fb7185; }
+    .splash-subtitle {
+      font-size: 11.5px; font-weight: 600; letter-spacing: 1.5px;
+      color: #fecdd3; text-transform: uppercase; margin-bottom: 28px;
+      opacity: 0.85;
+    }
+    .splash-loader-bar {
+      width: 140px; height: 4px;
+      background: rgba(255, 255, 255, 0.12);
+      border-radius: 4px; overflow: hidden; position: relative;
+    }
+    .splash-loader-progress {
+      width: 50%; height: 100%;
+      background: linear-gradient(90deg, #e11d48, #fb7185);
+      border-radius: 4px; position: absolute;
+      animation: loadMove 1.4s infinite ease-in-out;
+    }
+    @keyframes pulseLogo {
+      0%, 100% { transform: scale(1); filter: drop-shadow(0 0 12px rgba(225, 29, 72, 0.5)); }
+      50% { transform: scale(1.05); filter: drop-shadow(0 0 22px rgba(225, 29, 72, 0.85)); }
+    }
+    @keyframes loadMove {
+      0% { left: -50%; width: 30%; }
+      50% { left: 25%; width: 60%; }
+      100% { left: 100%; width: 40%; }
+    }
+
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       background-color: var(--bg-dark);
@@ -48,6 +108,7 @@
       background-attachment: fixed;
       margin: 0; padding: 14px;
       color: var(--text-main);
+      -webkit-tap-highlight-color: transparent;
     }
     .container { max-width: 1100px; margin: auto; }
     .medlog-header {
@@ -293,6 +354,19 @@
   </style>
 </head>
 <body>
+
+<!-- SPLASH SCREEN PEMBUKA APLIKASI -->
+<div id="appSplashScreen">
+  <div class="splash-logo-box">
+    <img src="icon_192x192.png" alt="Logo MedLog">
+  </div>
+  <div class="splash-title">Med<span>Log</span></div>
+  <div class="splash-subtitle">Kardiologi Ibnu Sina</div>
+  <div class="splash-loader-bar">
+    <div class="splash-loader-progress"></div>
+  </div>
+</div>
+
 <div class="container">
 
   <div id="notifToast">
@@ -316,7 +390,7 @@
         </div>
       </div>
     </div>
-    <p>Sistem EMR, CPPT & Ronde Klinis Terintegrasi KSM Jantung & Pembuluh Darah RS Pendidikan Ibnu Sina Y.W. UMI. Data tersinkronisasi otomatis secara online di seluruh perangkat dokter jaga dengan kalkulasi hemodinamik dan audit riwayat klinis terpadu.</p>
+    <p>Sistem EMR, CPPT & Ronde Klinis Terintegrasi KSM Jantung & Pembuluh Darah RS Pendidikan Ibnu Sina Y.W. UMI. Sinkronisasi data atomik real-time, audit trail permanen di cloud, dan pengoptimalan performa penyimpanan.</p>
     <div class="medlog-creator">
       Dibuat oleh: <b>@IsmailAsmi_</b> — Fakultas Kedokteran Universitas Muslim Indonesia
     </div>
@@ -911,7 +985,7 @@
             <select class="history-select" onchange="insertHistory('pPlan', this.value)"><option value="">↺ Histori...</option></select>
           </div>
         </div>
-        <div id="pPlan" class="rich-editor" contenteditable="true" data-placeholder="Planning medis (jika ada ECHO akan muncul notifikasi khusus)..."></div>
+        <div id="pPlan" class="rich-editor" contenteditable="true" data-placeholder="Planning medis (jika ada kata ECHO otomatis memicu notifikasi khusus)..."></div>
       </div>
       <div>
         <div class="label-wrapper">
@@ -1012,7 +1086,7 @@
         <button class="restore-btn" onclick="document.getElementById('inputRestoreFile').click()">📤 Restore Database</button>
         <input type="file" id="inputRestoreFile" accept=".json,application/json,text/plain,*/*" style="display:none;" onchange="restoreDatabase(event)">
       </div>
-      <button class="danger" onclick="hapusSemua()">Hapus Semua Rekam Medis</button>
+      <button class="danger" onclick="hapusSemuaDenganPIN()">Hapus Semua Rekam Medis</button>
     </div>
   </div>
 
@@ -1067,7 +1141,7 @@
 <div class="modal-backdrop" id="modalHistoryGlobal" onclick="tutupModalHistoryGlobal(event)">
   <div class="modal-content" onclick="event.stopPropagation()">
     <div class="modal-header">
-      <h4>📜 Log & Riwayat Aktivitas Pengisian CPPT</h4>
+      <h4>📜 Log & Riwayat Aktivitas Pengisian CPPT (Cloud Audit Trail)</h4>
       <button class="modal-close" onclick="tutupModalHistoryGlobal()">&times;</button>
     </div>
     <div id="listHistoryGlobalContainer" style="max-height:60vh; overflow-y:auto;">
@@ -1093,8 +1167,20 @@
     measurementId: "G-65H4C5VXTJ"
   };
 
-  let dbRef = null;
+  let db = null;
+  let patientsRef = null;
+  let auditLogsRef = null;
   let isFirebaseReady = false;
+
+  // Tutup Splash Screen secara mulus setelah aplikasi termuat
+  function dismissSplashScreen() {
+    const splash = document.getElementById('appSplashScreen');
+    if (!splash) return;
+    setTimeout(() => {
+      splash.classList.add('fade-out');
+      setTimeout(() => { splash.style.display = 'none'; }, 650);
+    }, 450);
+  }
 
   function putarSuaraBerhasil() {
     try {
@@ -1123,23 +1209,17 @@
     }
   }
 
+  // Inisialisasi Firebase dengan Struktur Ternormalisasi (Atomik per Pasien)
   function initOnlineFirebase() {
     try {
       if (typeof firebase !== 'undefined' && firebaseConfig.apiKey) {
         if (!firebase.apps.length) {
-          firebase.initializeApp({
-            apiKey: firebaseConfig.apiKey,
-            authDomain: firebaseConfig.authDomain,
-            databaseURL: firebaseConfig.databaseURL,
-            projectId: firebaseConfig.projectId,
-            storageBucket: firebaseConfig.storageBucket,
-            messagingSenderId: firebaseConfig.messagingSenderId,
-            appId: firebaseConfig.appId
-          });
+          firebase.initializeApp(firebaseConfig);
         }
         
-        const db = firebase.database();
-        dbRef = db.ref("medlog_pasien_koleksi");
+        db = firebase.database();
+        patientsRef = db.ref("patients");
+        auditLogsRef = db.ref("audit_logs");
         isFirebaseReady = true;
 
         db.ref(".info/connected").on("value", function(snap) {
@@ -1159,36 +1239,37 @@
           }
         });
 
-        dbRef.on('value', (snapshot) => {
-          const cloudData = snapshot.val();
-          if (cloudData !== null && cloudData !== undefined) {
-            if (Array.isArray(cloudData)) {
-              pasienList = cloudData;
-            } else if (typeof cloudData === 'object') {
-              pasienList = Object.values(cloudData);
-            }
-            renderTable();
-            updateFilterOptions();
-            populateAllSuggestions();
-            if (dbInstance) {
-              const tx = dbInstance.transaction(STORE_NAME, "readwrite");
-              tx.objectStore(STORE_NAME).put({ id: "cardioIbnuSinaCollection", data: pasienList });
-            }
+        // Listener Real-time Data Pasien
+        patientsRef.on('value', (snapshot) => {
+          const val = snapshot.val();
+          if (val) {
+            pasienList = Object.values(val);
           } else {
-            if (pasienList && pasienList.length > 0) {
-              savePasienListDB(pasienList);
-            }
+            pasienList = [];
           }
+          renderTable();
+          updateFilterOptions();
+          populateAllSuggestions();
+
+          if (dbInstance) {
+            const tx = dbInstance.transaction(STORE_NAME, "readwrite");
+            tx.objectStore(STORE_NAME).put({ id: "cardioIbnuSinaCollection", data: pasienList });
+          }
+          dismissSplashScreen();
         }, (error) => {
-          alert("Gagal Terhubung ke Firebase: " + error.message);
+          console.warn("Gagal terhubung ke node patients Firebase:", error.message);
           fallbackToLocalIndexedDB();
+          dismissSplashScreen();
         });
+
       } else {
         fallbackToLocalIndexedDB();
+        dismissSplashScreen();
       }
     } catch (e) {
-      alert("Error Inisialisasi Firebase: " + e.message);
+      console.warn("Error inisialisasi Firebase:", e.message);
       fallbackToLocalIndexedDB();
+      dismissSplashScreen();
     }
   }
 
@@ -1231,22 +1312,28 @@
     });
   }
 
-  function savePasienListDB(data) {
-    if (isFirebaseReady && dbRef) {
-      const payloadBersih = JSON.parse(JSON.stringify(data || []));
-      dbRef.set(payloadBersih)
-        .then(() => {
-          console.log("Sinkronisasi Cloud Berhasil");
-        })
-        .catch(err => {
-          alert("Firebase Menolak Penyimpanan: " + err.message);
-        });
+  // Simpan Atomik per Pasien ke Firebase (Mencegah Race Condition Overwrite)
+  function simpanPasienKeFirebase(pasienObj) {
+    if (isFirebaseReady && patientsRef && pasienObj.idPasien) {
+      const payloadBersih = JSON.parse(JSON.stringify(pasienObj));
+      return patientsRef.child(pasienObj.idPasien).set(payloadBersih);
     }
+    return Promise.resolve();
+  }
+
+  function hapusPasienDariFirebase(idPasien) {
+    if (isFirebaseReady && patientsRef && idPasien) {
+      return patientsRef.child(idPasien).remove();
+    }
+    return Promise.resolve();
+  }
+
+  function simpanSemuaLokal() {
     return new Promise((resolve, reject) => {
       if (!dbInstance) return resolve();
       const tx = dbInstance.transaction(STORE_NAME, "readwrite");
       const store = tx.objectStore(STORE_NAME);
-      const req = store.put({ id: "cardioIbnuSinaCollection", data: data });
+      const req = store.put({ id: "cardioIbnuSinaCollection", data: pasienList });
       req.onsuccess = () => resolve();
       req.onerror = () => reject(req.error);
     });
@@ -1723,6 +1810,7 @@
     return sel.value;
   }
 
+  // Kompresi Citra Tajam & Ringan (Mencegah Database Overload)
   function handleImageUpload(e) {
     const files = e.target.files;
     if (!files || files.length === 0) return;
@@ -1733,7 +1821,7 @@
       reader.onload = function(evt) {
         const img = new Image();
         img.onload = function() {
-          const maxDim = 1400;
+          const maxDim = 1200;
           let w = img.width, h = img.height;
           if (w > maxDim || h > maxDim) {
             if (w > h) { h = Math.round((h * maxDim) / w); w = maxDim; }
@@ -1745,7 +1833,7 @@
           ctx.imageSmoothingEnabled = true;
           ctx.imageSmoothingQuality = 'high';
           ctx.drawImage(img, 0, 0, w, h);
-          const compressed = canvas.toDataURL('image/jpeg', 0.78);
+          const compressed = canvas.toDataURL('image/jpeg', 0.72);
 
           activeImageAttachments.push({
             data: compressed,
@@ -1753,7 +1841,7 @@
             uploadedAtDate: getVal('cpptTanggalPeriksa') || new Date().toISOString().slice(0, 10)
           });
           renderImagePreviews();
-          showToast("Foto penunjang tajam berhasil dimuat!");
+          showToast("Foto penunjang berhasil dimuat!");
         };
         img.onerror = function() {
           alert("Gagal membaca berkas gambar. Silakan coba kembali.");
@@ -2026,6 +2114,7 @@
     updateLabelLamaHariHeader();
   }
 
+  // Simpan CPPT dengan Rekam Jejak Audit Cloud & Integritas Atomik
   async function simpanCPPT(forceAsNewEntry = false) {
     const namaPasien = getVal('pNama');
     const rmPasien = getVal('pRM');
@@ -2033,6 +2122,7 @@
     const rsSaatIni = getNamaRS();
     const shift = getVal('shiftJaga') || "JAGA SIANG";
     const koasSekarang = getVal('koasNama') || "Dokter Muda";
+    const nimSekarang = getVal('koasNim') || "";
     const waSekarang = getVal('koasWA') || "";
 
     if (!namaPasien || !rmPasien) {
@@ -2043,12 +2133,15 @@
     const now = new Date();
     const timestampUpdate = now.toLocaleDateString('id-ID', { day: '2-digit', month: '2-digit', year: 'numeric' }) + ', ' + 
                             now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }) + ' WITA';
+    const timestampISO = now.toISOString();
 
     const cpptData = {
       tglPeriksa: tglCPPT,
       shiftWaktu: shift,
       updatedAt: timestampUpdate,
+      createdAtISO: timestampISO,
       authorNama: koasSekarang,
+      authorNIM: nimSekarang,
       authorWA: waSekarang,
 
       sKelSekarang: getVal('sKeluhanSekarang'),
@@ -2096,7 +2189,7 @@
     };
 
     saveToMemory('koasNama', koasSekarang);
-    saveToMemory('koasNim', getVal('koasNim'));
+    saveToMemory('koasNim', nimSekarang);
     saveToMemory('pNama', namaPasien);
     saveToMemory('pRM', rmPasien);
     saveToMemory('pBed', getVal('pBed'));
@@ -2107,9 +2200,10 @@
 
     const semuaDokterKonsul = getSemuaDokterKonsul();
     let aktivitasAksi = "";
+    let targetPasien = null;
 
     if (currentPatientIndex === -1) {
-      const newPatient = {
+      targetPasien = {
         idPasien: 'CARDIO_' + Date.now(),
         rs: rsSaatIni,
         status: getVal('pStatus') || 'Baru',
@@ -2133,60 +2227,62 @@
         waktuUpdateTerakhir: timestampUpdate,
         cpptEntries: [cpptData]
       };
-      pasienList.unshift(newPatient);
+      pasienList.unshift(targetPasien);
       currentPatientIndex = 0;
       aktivitasAksi = `Mendaftarkan Pasien Baru: ${namaPasien} (RM ${rmPasien})`;
-      showToast(`Pasien kardiologi ${namaPasien} berhasil didaftarkan!`);
+      showToast(`Pasien ${namaPasien} berhasil didaftarkan!`);
     } else {
-      const p = pasienList[currentPatientIndex];
-      p.rs = rsSaatIni;
-      p.status = getVal('pStatus');
-      p.tipePelayanan = getVal('pTipePelayanan');
-      p.tglMasuk = getVal('pTglMasuk');
-      p.tglKonsul = getVal('pTglKonsul');
-      p.gelar = getVal('pGelar');
-      p.nama = namaPasien;
-      p.usia = getVal('pUsia');
-      p.rm = rmPasien;
-      p.ruang = getSelectedRuang();
-      p.bed = getVal('pBed');
-      p.dpjpUtama = getDPJPUtamaValue();
-      p.dpjpKonsulList = semuaDokterKonsul;
-      p.dpjpKonsul = semuaDokterKonsul.join(', ');
-      p.koasPJ = getVal('pKoasPJ') || koasSekarang;
-      p.notesJaga = getVal('pNotesJaga');
-      p.terakhirDiisiOleh = koasSekarang;
-      p.nomorWATerakhir = waSekarang;
-      p.waktuUpdateTerakhir = timestampUpdate;
+      targetPasien = pasienList[currentPatientIndex];
+      targetPasien.rs = rsSaatIni;
+      targetPasien.status = getVal('pStatus');
+      targetPasien.tipePelayanan = getVal('pTipePelayanan');
+      targetPasien.tglMasuk = getVal('pTglMasuk');
+      targetPasien.tglKonsul = getVal('pTglKonsul');
+      targetPasien.gelar = getVal('pGelar');
+      targetPasien.nama = namaPasien;
+      targetPasien.usia = getVal('pUsia');
+      targetPasien.rm = rmPasien;
+      targetPasien.ruang = getSelectedRuang();
+      targetPasien.bed = getVal('pBed');
+      targetPasien.dpjpUtama = getDPJPUtamaValue();
+      targetPasien.dpjpKonsulList = semuaDokterKonsul;
+      targetPasien.dpjpKonsul = semuaDokterKonsul.join(', ');
+      targetPasien.koasPJ = getVal('pKoasPJ') || koasSekarang;
+      targetPasien.notesJaga = getVal('pNotesJaga');
+      targetPasien.terakhirDiisiOleh = koasSekarang;
+      targetPasien.nomorWATerakhir = waSekarang;
+      targetPasien.waktuUpdateTerakhir = timestampUpdate;
 
-      if (!p.cpptEntries) p.cpptEntries = [];
+      if (!targetPasien.cpptEntries) targetPasien.cpptEntries = [];
 
       if (forceAsNewEntry) {
-        p.cpptEntries.unshift(cpptData);
+        targetPasien.cpptEntries.unshift(cpptData);
         aktivitasAksi = `Menambahkan Entri CPPT Baru: ${namaPasien} (RM ${rmPasien}) - ${formatTanggalID(tglCPPT)} (${shift})`;
         showToast(`Disimpan sebagai CPPT baru tanggal ${formatTanggalID(tglCPPT)}!`);
       } else {
-        const existIdx = p.cpptEntries.findIndex(e => e.tglPeriksa === tglCPPT && e.shiftWaktu === shift);
+        const existIdx = targetPasien.cpptEntries.findIndex(e => e.tglPeriksa === tglCPPT && e.shiftWaktu === shift);
         if (existIdx !== -1) {
-          p.cpptEntries[existIdx] = cpptData;
+          targetPasien.cpptEntries[existIdx] = cpptData;
           aktivitasAksi = `Memperbarui CPPT: ${namaPasien} (RM ${rmPasien}) - ${formatTanggalID(tglCPPT)} (${shift})`;
           showToast(`Catatan CPPT ${formatTanggalID(tglCPPT)} diperbarui.`);
         } else {
-          p.cpptEntries.unshift(cpptData);
+          targetPasien.cpptEntries.unshift(cpptData);
           aktivitasAksi = `Menambahkan Catatan CPPT: ${namaPasien} (RM ${rmPasien}) - ${formatTanggalID(tglCPPT)} (${shift})`;
           showToast(`Catatan CPPT ${formatTanggalID(tglCPPT)} berhasil disimpan.`);
         }
       }
-      p.cpptEntries.sort((a, b) => new Date(b.tglPeriksa) - new Date(a.tglPeriksa));
+      targetPasien.cpptEntries.sort((a, b) => new Date(b.tglPeriksa) - new Date(a.tglPeriksa));
     }
 
-    catatLogAktivitas(aktivitasAksi, koasSekarang, waSekarang, timestampUpdate);
+    // Catat Riwayat Perubahan ke Cloud Firebase & Local
+    catatLogAktivitas(aktivitasAksi, koasSekarang, nimSekarang, waSekarang, timestampUpdate);
     putarSuaraBerhasil();
 
     try {
-      await savePasienListDB(pasienList);
+      await simpanPasienKeFirebase(targetPasien);
+      await simpanSemuaLokal();
     } catch (e) {
-      alert("Gagal menyimpan data!");
+      alert("Gagal menyinkronkan data ke server: " + e.message);
       return;
     }
 
@@ -2197,46 +2293,81 @@
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  function catatLogAktivitas(aksi, nama, wa, waktu) {
+  // Pencatatan Audit Trail ke Cloud Firebase
+  function catatLogAktivitas(aksi, nama, nim, wa, waktu) {
+    const logItem = {
+      aksi, nama, nim, wa, waktu, timestamp: Date.now()
+    };
+    
+    // Simpan ke node audit cloud
+    if (isFirebaseReady && auditLogsRef) {
+      auditLogsRef.push(logItem);
+    }
+
+    // Simpan lokal cadangan
     let logs = [];
     try {
       logs = JSON.parse(localStorage.getItem('medlog_audit_logs') || '[]');
     } catch (e) { logs = []; }
-    logs.unshift({ aksi, nama, wa, waktu });
-    if (logs.length > 80) logs.pop();
+    logs.unshift(logItem);
+    if (logs.length > 100) logs.pop();
     try {
       localStorage.setItem('medlog_audit_logs', JSON.stringify(logs));
     } catch (e) {}
   }
 
   function bukaModalHistoryGlobal() {
+    const container = document.getElementById('listHistoryGlobalContainer');
+    if (!container) return;
+
+    container.innerHTML = `<div style="color:#64748b; font-size:12px; padding:12px;">Memuat audit trail dari cloud...</div>`;
+    document.getElementById('modalHistoryGlobal').style.display = 'flex';
+
+    if (isFirebaseReady && auditLogsRef) {
+      auditLogsRef.limitToLast(60).once('value', (snap) => {
+        const val = snap.val();
+        if (val) {
+          const list = Object.values(val).reverse();
+          renderAuditLogsHTML(list, container);
+        } else {
+          ambilAuditLokal(container);
+        }
+      }, () => {
+        ambilAuditLokal(container);
+      });
+    } else {
+      ambilAuditLokal(container);
+    }
+  }
+
+  function ambilAuditLokal(container) {
     let logs = [];
     try {
       logs = JSON.parse(localStorage.getItem('medlog_audit_logs') || '[]');
     } catch (e) { logs = []; }
+    renderAuditLogsHTML(logs, container);
+  }
 
-    const container = document.getElementById('listHistoryGlobalContainer');
-    if (!container) return;
-
-    if (logs.length === 0) {
-      container.innerHTML = `<div style="color:#64748b; font-size:12px; padding:12px;">Belum ada riwayat perubahan yang tercatat.</div>`;
-    } else {
-      let html = '';
-      logs.forEach(l => {
-        const waLink = l.wa ? `<a class="wa-link" href="https://wa.me/${cleanWANumber(l.wa)}" target="_blank">📱 ${l.wa}</a>` : '<span style="color:#94a3b8;">(Tanpa WA)</span>';
-        html += `
-          <div class="log-item">
-            <div style="font-weight:700; color:#881337;">${l.aksi}</div>
-            <div style="color:#475569; display:flex; justify-content:space-between; flex-wrap:wrap; margin-top:2px;">
-              <span>Dokter Muda: <b>${l.nama}</b> (${waLink})</span>
-              <span style="font-size:11px; color:#64748b;">🕒 ${l.waktu}</span>
-            </div>
-          </div>
-        `;
-      });
-      container.innerHTML = html;
+  function renderAuditLogsHTML(logs, container) {
+    if (!logs || logs.length === 0) {
+      container.innerHTML = `<div style="color:#64748b; font-size:12px; padding:12px;">Belum ada riwayat aktivitas yang tercatat.</div>`;
+      return;
     }
-    document.getElementById('modalHistoryGlobal').style.display = 'flex';
+    let html = '';
+    logs.forEach(l => {
+      const waLink = l.wa ? `<a class="wa-link" href="https://wa.me/${cleanWANumber(l.wa)}" target="_blank">📱 ${l.wa}</a>` : '';
+      const nimStr = l.nim ? `[${l.nim}]` : '';
+      html += `
+        <div class="log-item">
+          <div style="font-weight:700; color:#881337;">${l.aksi}</div>
+          <div style="color:#475569; display:flex; justify-content:space-between; flex-wrap:wrap; margin-top:2px;">
+            <span>Dokter: <b>${l.nama}</b> ${nimStr} ${waLink}</span>
+            <span style="font-size:11px; color:#64748b;">🕒 ${l.waktu}</span>
+          </div>
+        </div>
+      `;
+    });
+    container.innerHTML = html;
   }
 
   function tutupModalHistoryGlobal(e) {
@@ -2432,16 +2563,18 @@
     }
 
     const koasSekarang = getVal('koasNama') || "Dokter Muda";
+    const nimSekarang = getVal('koasNim') || "";
     const waSekarang = getVal('koasWA') || "";
     const timestampUpdate = new Date().toLocaleDateString('id-ID') + ', ' + new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }) + ' WITA';
     p.terakhirDiisiOleh = koasSekarang;
     p.nomorWATerakhir = waSekarang;
     p.waktuUpdateTerakhir = timestampUpdate;
 
-    catatLogAktivitas(`Mengubah Status Pasien: ${p.nama} -> ${statusBaru}`, koasSekarang, waSekarang, timestampUpdate);
+    catatLogAktivitas(`Mengubah Status Pasien: ${p.nama} -> ${statusBaru}`, koasSekarang, nimSekarang, waSekarang, timestampUpdate);
     putarSuaraBerhasil();
 
-    await savePasienListDB(pasienList);
+    await simpanPasienKeFirebase(p);
+    await simpanSemuaLokal();
     renderTable();
     updateFilterOptions();
     showToast(`Status pasien ${p.nama} berhasil diubah ke ${statusBaru}.`);
@@ -2675,7 +2808,8 @@
     if (confirm(`Hapus seluruh data rekam medis pasien ${formatNamaLengkap(p.gelar, p.nama)} (RM: ${p.rm})?`)) {
       pasienList.splice(idx, 1);
       selectedPatientIndexesForReport.delete(idPasien);
-      await savePasienListDB(pasienList);
+      await hapusPasienDariFirebase(idPasien);
+      await simpanSemuaLokal();
       clearForm();
       renderTable();
       updateFilterOptions();
@@ -2683,15 +2817,22 @@
     }
   }
 
-  async function hapusSemua() {
-    if (prompt("Ketik 'HAPUS SEMUA' untuk mengonfirmasi pengosongan seluruh database rekam medis:") === "HAPUS SEMUA") {
+  // Proteksi Keamanan PIN Klinis untuk Operasi Berbahaya
+  async function hapusSemuaDenganPIN() {
+    const pin = prompt("⚠️ PERINGATAN KEAMANAN: Aksi ini akan mengosongkan seluruh database rekam medis.\nMasukkan PIN Keamanan Klinis (Ketik: MEDLOG123):");
+    if (pin === "MEDLOG123") {
       pasienList = [];
       selectedPatientIndexesForReport.clear();
-      await savePasienListDB(pasienList);
+      if (isFirebaseReady && patientsRef) {
+        await patientsRef.remove();
+      }
+      await simpanSemuaLokal();
       clearForm();
       renderTable();
       updateFilterOptions();
-      showToast("Seluruh basis data rekam medis telah dikosongkan.");
+      showToast("Seluruh database rekam medis telah dikosongkan.");
+    } else if (pin !== null) {
+      alert("PIN Keamanan salah! Akses ditolak.");
     }
   }
 
@@ -2956,7 +3097,7 @@
     });
   }
 
-  // --- RESUME CPPT PDF (RAPI KE BAWAH + LAMPIRAN GAMBAR) ---
+  // Resume CPPT PDF
   function buatHTMLResumePasien(p, namaKoas, nimKoas, tglLaporan) {
     const entries = p.cpptEntries || [];
     const namaRS = p.rs || getNamaRS();
@@ -3134,7 +3275,7 @@
   function backupDatabase() {
     const backupObj = {
       system: 'MEDLOG_IBNU_SINA',
-      version: '7.2_Clinical_Cardio',
+      version: '7.3_Enterprise_Cardio',
       timestamp: new Date().toISOString(),
       patients: pasienList,
       memory: wordMemory,
@@ -3167,7 +3308,13 @@
           if (parsed.auditLogs) {
             localStorage.setItem('medlog_audit_logs', JSON.stringify(parsed.auditLogs));
           }
-          await savePasienListDB(pasienList);
+          
+          // Sinkronkan atomik ke Cloud
+          for (const p of pasienList) {
+            await simpanPasienKeFirebase(p);
+          }
+          await simpanSemuaLokal();
+
           clearForm();
           renderTable();
           populateAllSuggestions();
