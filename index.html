@@ -97,12 +97,16 @@
       100% { left: 100%; width: 40%; }
     }
 
-    /* --- MODAL AUTENTIKASI / LOGIN GATE --- */
+    /* --- MODAL AUTENTIKASI DENGAN LATAR BELAKANG FOTO MEDIS KLINIS --- */
     #authOverlay {
       position: fixed;
       top: 0; left: 0; width: 100vw; height: 100vh;
-      background: rgba(15, 23, 42, 0.95);
+      /* Lapisan foto medis dengan dark gradient overlay */
+      background: 
+        linear-gradient(135deg, rgba(76, 5, 25, 0.86) 0%, rgba(15, 23, 42, 0.92) 100%),
+        url('https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
       backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
       z-index: 888888;
       display: flex;
       justify-content: center;
@@ -111,22 +115,32 @@
       box-sizing: border-box;
     }
     .auth-card {
-      background: #ffffff;
+      background: rgba(255, 255, 255, 0.98);
       width: 100%;
       max-width: 440px;
-      border-radius: 16px;
-      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.45);
-      border: 1px solid rgba(225, 29, 72, 0.2);
+      border-radius: 20px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 25px rgba(225, 29, 72, 0.35);
+      border: 1px solid rgba(251, 113, 133, 0.4);
       overflow: hidden;
+      animation: modalSlideUp 0.35s ease-out;
+    }
+    @keyframes modalSlideUp {
+      from { opacity: 0; transform: translateY(22px) scale(0.97); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
     }
     .auth-header {
       background: linear-gradient(135deg, #4c0519 0%, #881337 100%);
       padding: 22px 20px;
       text-align: center;
       color: #ffffff;
+      position: relative;
     }
-    .auth-header h3 { margin: 0; font-size: 20px; color: #ffffff; }
-    .auth-header p { margin: 4px 0 0; font-size: 11.5px; color: #ffe4e6; }
+    .auth-header-logo {
+      width: 52px; height: 52px; border-radius: 12px; margin-bottom: 8px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.4); border: 2px solid rgba(251, 113, 133, 0.6);
+    }
+    .auth-header h3 { margin: 0; font-size: 21px; color: #ffffff; font-weight: 800; letter-spacing: -0.5px; }
+    .auth-header p { margin: 4px 0 0; font-size: 12px; color: #ffe4e6; }
     .auth-tabs {
       display: flex;
       border-bottom: 1px solid #e2e8f0;
@@ -134,7 +148,7 @@
     }
     .auth-tab-btn {
       flex: 1;
-      padding: 11px;
+      padding: 12px;
       background: none;
       border: none;
       font-size: 13px;
@@ -143,24 +157,25 @@
       cursor: pointer;
       border-bottom: 2px solid transparent;
       border-radius: 0;
+      transition: all 0.2s;
     }
     .auth-tab-btn.active {
       color: var(--primary);
       border-bottom-color: var(--primary);
       background: #ffffff;
     }
-    .auth-body { padding: 20px; }
+    .auth-body { padding: 22px; }
     .auth-body label { font-size: 11.5px; font-weight: 700; color: #334155; margin-bottom: 4px; display: block; }
     .auth-body input { margin-bottom: 12px; }
     .token-badge-info {
       background: #fff1f2;
       border: 1px dashed #f43f5e;
       border-radius: 6px;
-      padding: 7px 10px;
+      padding: 8px 11px;
       font-size: 11px;
       color: #881337;
       margin-bottom: 12px;
-      line-height: 1.4;
+      line-height: 1.45;
     }
 
     body {
@@ -258,7 +273,6 @@
       box-shadow: 0 4px 12px rgba(225, 29, 72, 0.35);
     }
 
-    /* Bottom Bar Mobile (Navigasi Jempol Cepat) */
     @media (max-width: 768px) {
       .app-nav-tabs {
         position: fixed;
@@ -349,18 +363,13 @@
       width: 100%; box-sizing: border-box; padding: 8.5px 10px; border: 1px solid var(--border);
       border-radius: 6px; font-size: 13px; margin-bottom: 8px; font-family: inherit; color: #0f172a; background-color: #fff;
     }
-    /* GAYA KHUSUS KOLOM IDENTITAS TERKUNCI (READONLY) */
+    /* GAYA KOLOM TERKUNCI KHUSUS IDENTITAS */
     input.locked-field {
       background-color: #f1f5f9 !important;
-      color: #334155 !important;
+      color: #1e293b !important;
       font-weight: 700 !important;
       cursor: not-allowed !important;
-      border-color: #cbd5e1 !important;
-      box-shadow: none !important;
-    }
-    input.locked-field:focus {
-      outline: none !important;
-      border-color: #cbd5e1 !important;
+      border: 1.5px solid #cbd5e1 !important;
       box-shadow: none !important;
     }
 
@@ -542,13 +551,13 @@
   </div>
 </div>
 
-<!-- MODAL AUTENTIKASI LOGIN / REGISTRASI MANDIRI -->
+<!-- MODAL AUTENTIKASI LOGIN / REGISTRASI MANDIRI (DENGAN LATAR BELAKANG FOTO) -->
 <div id="authOverlay">
   <div class="auth-card">
     <div class="auth-header">
-      <div style="font-size:26px; line-height:1; margin-bottom:4px;">🫀</div>
-      <h3>Autentikasi MedLog</h3>
-      <p>Akses Terenkripsi Khusus Dokter Muda Kardiologi</p>
+      <img src="icon_192x192.png" alt="Logo MedLog" class="auth-header-logo">
+      <h3>MedLog Kardiologi</h3>
+      <p>RS Pendidikan Ibnu Sina Y.W. UMI</p>
     </div>
     <div class="auth-tabs">
       <button type="button" id="btnTabLogin" class="auth-tab-btn active" onclick="switchAuthTab('login')">Masuk (Login)</button>
@@ -580,7 +589,7 @@
       <div class="grid-2">
         <div>
           <label for="authDaftarNama">Nama Lengkap *</label>
-          <input type="text" id="authDaftarNama" placeholder="Nama lengkap">
+          <input type="text" id="authDaftarNama" placeholder="Nama lengkap dokter muda">
         </div>
         <div>
           <label for="authDaftarNIM">NIM / Stambuk *</label>
@@ -637,14 +646,14 @@
     </div>
   </div>
 
-  <!-- Identitas Dokter Muda & Pengaturan RS (Identitas Terkunci Permanen Sesuai Akun) -->
+  <!-- Identitas Dokter Muda & Pengaturan RS (Identitas Terkunci Permanen Sesuai Akun Login) -->
   <div class="card" style="margin-bottom:12px; padding:14px 16px;">
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 10px; flex-wrap:wrap; gap:8px;">
       <div style="display:flex; align-items:center; gap:8px;">
         <h3 style="margin:0; font-size:14px; color:#881337;">Identitas Jaga & Dokter Muda</h3>
         <span style="font-size:10.5px; background:#ecfdf5; color:#047857; border:1px solid #a7f3d0; padding:2px 8px; border-radius:12px; font-weight:700;">🔒 Akun Terverifikasi</span>
       </div>
-      <!-- Tombol Log Out Khusus di Bar Identitas -->
+      <!-- Tombol Log Out Cepat di Bar Identitas -->
       <button type="button" class="danger" style="padding:5px 12px; font-size:11.5px; border-radius:6px; font-weight:700;" onclick="eksekusiLogout()">🚪 Keluar (Log Out)</button>
     </div>
     
@@ -667,15 +676,15 @@
       </div>
       <div>
         <div class="label-wrapper"><label for="koasNama">Nama Dokter Muda (Terkunci)</label></div>
-        <input type="text" id="koasNama" class="locked-field" placeholder="Nama Akun..." readonly title="Identitas terkunci otomatis sesuai akun login Anda">
+        <input type="text" id="koasNama" class="locked-field" placeholder="Memuat nama akun..." readonly title="Identitas terkunci otomatis sesuai akun login">
       </div>
       <div>
         <div class="label-wrapper"><label for="koasNim">NIM / Stambuk (Terkunci)</label></div>
-        <input type="text" id="koasNim" class="locked-field" placeholder="Stambuk Akun..." readonly title="Identitas terkunci otomatis sesuai akun login Anda">
+        <input type="text" id="koasNim" class="locked-field" placeholder="Memuat stambuk..." readonly title="Identitas terkunci otomatis sesuai akun login">
       </div>
       <div>
         <div class="label-wrapper"><label for="koasWA">📱 Nomor WA Aktif (Terkunci)</label></div>
-        <input type="tel" id="koasWA" class="locked-field" placeholder="WA Akun..." readonly title="Nomor WhatsApp terkunci sesuai akun login Anda">
+        <input type="tel" id="koasWA" class="locked-field" placeholder="Memuat nomor WA..." readonly title="Nomor WhatsApp terkunci sesuai akun login">
       </div>
     </div>
     <div style="margin-top:4px; max-width:320px;">
@@ -1585,10 +1594,13 @@
       const userCred = await auth.createUserWithEmailAndPassword(email, pass);
       await userCred.user.updateProfile({ displayName: nama });
 
-      await db.ref("users/" + userCred.user.uid).set({
+      // Simpan data profil permanen di Firebase
+      const userProfilePayload = {
         nama, nim, wa, email, createdAt: new Date().toISOString()
-      });
+      };
+      await db.ref("users/" + userCred.user.uid).set(userProfilePayload);
 
+      // Simpan di local storage
       setVal('koasNama', nama);
       setVal('koasNim', nim);
       setVal('koasWA', wa);
@@ -1609,12 +1621,11 @@
     if (confirm("Keluar dari sesi akun MedLog? Anda harus masuk kembali untuk mengakses data.")) {
       try {
         await auth.signOut();
-        // Bersihkan data formulir aktif dan kembalikan ke layar login
+        // Bersihkan formulir dan kembalikan ke layar login
         clearForm();
         setVal('koasNama', '');
         setVal('koasNim', '');
         setVal('koasWA', '');
-        localStorage.removeItem('medlog_active_koas');
         showAuthGate();
         showToast("Anda telah keluar dari akun.");
       } catch (err) {
@@ -1655,28 +1666,50 @@
           }
         });
 
+        // Pantau status login dan isi identitas otomatis secara permanen
         auth.onAuthStateChanged(async (user) => {
           if (user) {
             currentUserAuth = user;
             hideAuthGate();
 
             try {
+              // Ambil data profil dari Firebase
               const userSnap = await db.ref("users/" + user.uid).once('value');
-              const uData = userSnap.val();
-              const displayName = (uData && uData.nama) ? uData.nama : (user.displayName || user.email);
+              let uData = userSnap.val();
 
-              document.getElementById('currentUserBadge').style.display = 'inline-flex';
-              document.getElementById('currentUserNameText').innerText = displayName.split(' ')[0];
+              // JIKA DATA PROFIL BELUM ADA DI DATABASE (Akun dibuat sebelum node users ada):
+              if (!uData || !uData.nama || !uData.nim) {
+                let namaInput = prompt("Data profil dokter belum tercatat lengkap di server.\nMasukkan Nama Lengkap Anda:", user.displayName || "");
+                let nimInput = prompt("Masukkan NIM / Stambuk Dokter Muda:", "");
+                let waInput = prompt("Masukkan Nomor WhatsApp Aktif (contoh: 081234567890):", "");
 
+                if (namaInput && nimInput) {
+                  uData = {
+                    nama: namaInput.trim(),
+                    nim: nimInput.trim(),
+                    wa: (waInput || "").trim(),
+                    email: user.email,
+                    updatedAt: new Date().toISOString()
+                  };
+                  await db.ref("users/" + user.uid).set(uData);
+                  await user.updateProfile({ displayName: uData.nama });
+                }
+              }
+
+              // Pasang identitas di header dan form input (terkunci readonly)
               if (uData) {
-                // KUNCI OTOMATIS DATA PROFIL SESUAI AKUN LOGIN
-                setVal('koasNama', uData.nama);
-                setVal('koasNim', uData.nim);
-                setVal('koasWA', uData.wa);
+                const namaPanggilan = (uData.nama || "Dokter").split(' ')[0];
+                document.getElementById('currentUserBadge').style.display = 'inline-flex';
+                document.getElementById('currentUserNameText').innerText = namaPanggilan;
+
+                setVal('koasNama', uData.nama || '');
+                setVal('koasNim', uData.nim || '');
+                setVal('koasWA', uData.wa || '');
                 simpanOtomatisKoas();
               }
             } catch (e) {
-              console.warn("Gagal mengambil profil detail:", e);
+              console.warn("Gagal sinkronisasi data profil dari server:", e);
+              muatOtomatisKoas();
             }
 
             patientsRef.on('value', (snapshot) => {
@@ -2054,9 +2087,9 @@
     if (!el) return;
     if (el.isContentEditable) {
       const cur = el.innerHTML.trim();
-      el.innerHTML = (cur === '' || cur === '<br>' || el.innerText.trim() === '') ? val : cur + '<br>' + val;
+      el.innerHTML = (cur === '' || cur === '<br>' || targetEl.innerText.trim() === '') ? val : cur + '<br>' + val;
     } else {
-      el.value = (el.value.trim() === '') ? val : el.value.trim() + '\n' + val;
+      el.value = (el.value.trim() === '') ? val : targetEl.value.trim() + '\n' + val;
     }
     const parent = el.previousElementSibling;
     if (parent) {
@@ -3773,7 +3806,7 @@
   function backupDatabase() {
     const backupObj = {
       system: 'MEDLOG_IBNU_SINA',
-      version: '7.7_Locked_Identity_Cardio',
+      version: '7.8_Auto_Profile_Sync_Cardio',
       timestamp: new Date().toISOString(),
       patients: pasienList,
       memory: wordMemory,
@@ -3879,10 +3912,10 @@
 
   function muatOtomatisKoas() {
     const p = JSON.parse(localStorage.getItem('medlog_active_koas') || '{}');
-    if (p.nama) document.getElementById('koasNama').value = p.nama;
-    if (p.nim) document.getElementById('koasNim').value = p.nim;
-    if (p.shift) document.getElementById('shiftJaga').value = p.shift;
-    if (p.wa) document.getElementById('koasWA').value = p.wa;
+    if (p.nama) setVal('koasNama', p.nama);
+    if (p.nim) setVal('koasNim', p.nim);
+    if (p.shift) setVal('shiftJaga', p.shift);
+    if (p.wa) setVal('koasWA', p.wa);
   }
 
   function simpanOtomatisKoas() {
