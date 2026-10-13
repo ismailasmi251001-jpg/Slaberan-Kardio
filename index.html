@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>MedLog — RS Pendidikan Ibnu Sina Y.W. UMI</title>
+  <title>MedLog &#x2014; RS Pendidikan Ibnu Sina Y.W. UMI</title>
 
   <!-- Pengaturan PWA & Shortcut Layar Utama HP -->
   <meta name="mobile-web-app-capable" content="yes">
@@ -304,7 +304,7 @@
     }
 
     .medlog-header::after {
-      content: "🫀";
+      content: "\1FAC0 ";
       position: absolute;
       right: 20px;
       bottom: -25px;
@@ -1345,7 +1345,7 @@
       </div>
       <div>
         <label for="authLoginPass">Kata Sandi</label>
-        <input type="password" id="authLoginPass" placeholder="••••••••" autocomplete="current-password">
+        <input type="password" id="authLoginPass" placeholder="&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;" autocomplete="current-password">
       </div>
       <button type="button" id="btnProsesLogin" style="width:100%; margin-top:6px;" onclick="eksekusiLogin()">Masuk ke Sistem</button>
     </div>
@@ -1353,7 +1353,7 @@
     <!-- FORM DAFTAR MANDIRI DENGAN KODE TOKEN STASE -->
     <div id="formDaftarContainer" class="auth-body" style="display:none;">
       <div class="token-badge-info">
-        🔑 <b>Registrasi Mandiri Terproteksi:</b> Masukkan <b>Kode Akses Stase</b> resmi untuk mengaktifkan akun Anda.
+        &#x1F511; <b>Registrasi Mandiri Terproteksi:</b> Masukkan <b>Kode Akses Stase</b> resmi untuk mengaktifkan akun Anda.
       </div>
       <div>
         <label for="authDaftarToken">Kode Akses Stase *</label>
@@ -1389,7 +1389,7 @@
 <div class="container" id="appMainContainer" style="display:none; opacity:0; transition:opacity 0.4s ease;">
 
   <div id="notifToast">
-    <span style="font-size: 18px;">🫀</span>
+    <span style="font-size: 18px;">&#x1FAC0;</span>
     <span id="notifText">Data berhasil disinkronisasi!</span>
   </div>
 
@@ -1401,10 +1401,11 @@
         <span class="logo-tag">Online EMR</span>
       </div>
       <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
-        <span id="cloudStatusBadge" class="cloud-status">☁️ Multi-Device Live</span>
-        <button type="button" class="backup-btn" style="padding:4px 10px; font-size:11px; border-radius:20px;" onclick="bukaModalHistoryGlobal()">📜 Log & Riwayat</button>
+        <span id="jamRealtime" class="user-auth-badge" title="Waktu server (tidak terpengaruh jam perangkat)" style="font-variant-numeric:tabular-nums;">&#x23F3; Menyinkronkan waktu...</span>
+        <span id="cloudStatusBadge" class="cloud-status">&#x2601;&#xFE0F; Multi-Device Live</span>
+        <button type="button" class="backup-btn" style="padding:4px 10px; font-size:11px; border-radius:20px;" onclick="bukaModalHistoryGlobal()">&#x1F4DC; Log & Riwayat</button>
         <div class="dept-badge">
-          <span style="font-size: 16px; line-height: 1;">🫀</span>
+          <span style="font-size: 16px; line-height: 1;">&#x1FAC0;</span>
           <span>Stase: Kardiologi & Kedokteran Vaskuler</span>
         </div>
         <div id="currentUserBadge" class="user-auth-badge" style="display:none;">
@@ -1413,9 +1414,10 @@
         </div>
       </div>
     </div>
+    <div id="jamPeringatan" style="display:none; margin:0 0 8px; font-size:11.5px; background:rgba(251,191,36,.2); border:1px solid #fcd34d; color:#fef3c7; border-radius:6px; padding:5px 10px;"></div>
     <p>Sistem EMR, CPPT & Ronde Klinis Terintegrasi KSM Jantung & Pembuluh Darah RS Pendidikan Ibnu Sina Y.W. UMI. Akses terotentikasi, basis data terproteksi, dan sinkronisasi atomik real-time multi-device.</p>
     <div class="medlog-creator">
-      Dibuat oleh: <b>@IsmailAsmi_</b> — Fakultas Kedokteran Universitas Muslim Indonesia
+      Dibuat oleh: <b>@IsmailAsmi_</b> &#x2014; Fakultas Kedokteran Universitas Muslim Indonesia
     </div>
   </div>
 
@@ -1424,9 +1426,9 @@
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 10px; flex-wrap:wrap; gap:8px;">
       <div style="display:flex; align-items:center; gap:8px;">
         <h3 style="margin:0; font-size:14px; color:#881337;">Identitas Jaga & Dokter Muda</h3>
-        <span style="font-size:10.5px; background:#ecfdf5; color:#047857; border:1px solid #a7f3d0; padding:2px 8px; border-radius:12px; font-weight:700;">🔒 Akun Terverifikasi</span>
+        <span style="font-size:10.5px; background:#ecfdf5; color:#047857; border:1px solid #a7f3d0; padding:2px 8px; border-radius:12px; font-weight:700;">&#x1F512; Akun Terverifikasi</span>
       </div>
-      <button type="button" class="danger" style="padding:5px 12px; font-size:11.5px; border-radius:6px; font-weight:700;" onclick="eksekusiLogout()">🚪 Keluar (Log Out)</button>
+      <button type="button" class="danger" style="padding:5px 12px; font-size:11.5px; border-radius:6px; font-weight:700;" onclick="eksekusiLogout()">&#x1F6AA; Keluar (Log Out)</button>
     </div>
     
     <div class="grid-5">
@@ -1455,14 +1457,14 @@
         <input type="text" id="koasNim" class="locked-field" placeholder="Memuat stambuk..." readonly title="Identitas terkunci otomatis sesuai akun login">
       </div>
       <div>
-        <div class="label-wrapper"><label for="koasWA">📱 Nomor WA Aktif (Terkunci)</label></div>
+        <div class="label-wrapper"><label for="koasWA">&#x1F4F1; Nomor WA Aktif (Terkunci)</label></div>
         <input type="tel" id="koasWA" class="locked-field" placeholder="Memuat nomor WA..." readonly title="Nomor WhatsApp terkunci sesuai akun login">
       </div>
     </div>
     <div style="margin-top:4px; max-width:320px;">
       <div class="label-wrapper">
         <label for="tglLaporan">Tanggal Laporan WhatsApp</label>
-        <span style="font-size:10px; color:#e11d48; cursor:pointer; font-weight:600;" onclick="setTanggalOtomatis(true)">↺ Set Hari Ini</span>
+        <span style="font-size:10px; color:#e11d48; cursor:pointer; font-weight:600;" onclick="setTanggalOtomatis(true)">&#x21BA; Set Hari Ini</span>
       </div>
       <input type="text" id="tglLaporan" placeholder="Otomatis mendeteksi hari ini...">
     </div>
@@ -1471,15 +1473,15 @@
   <!-- SISTEM NAVIGASI TAB UTAMA -->
   <div class="app-nav-tabs">
     <button type="button" class="tab-nav-btn active" id="tabBtnPasien" onclick="switchMainTab('tabPasien')">
-      <span class="tab-icon">📋</span>
+      <span class="tab-icon">&#x1F4CB;</span>
       <span>Daftar Pasien (<span id="tabCountPasien">0</span>)</span>
     </button>
     <button type="button" class="tab-nav-btn" id="tabBtnCPPT" onclick="switchMainTab('tabCPPT')">
-      <span class="tab-icon">✍️</span>
+      <span class="tab-icon">&#x270D;&#xFE0F;</span>
       <span id="tabLabelCPPT">Formulir CPPT</span>
     </button>
     <button type="button" class="tab-nav-btn" id="tabBtnReport" onclick="switchMainTab('tabReport')">
-      <span class="tab-icon">📱</span>
+      <span class="tab-icon">&#x1F4F1;</span>
       <span>Laporan WhatsApp</span>
     </button>
   </div>
@@ -1495,8 +1497,8 @@
           <button type="button" class="alt" style="padding:6px 12px; font-size:12px;" onclick="bukaFormPasienBaru()">+ Pasien Baru</button>
         </div>
         <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center;">
-          <button class="backup-btn" onclick="eksporDataCSV()">📊 Ekspor CSV</button>
-          <button class="backup-btn" style="background:#9f1239;" onclick="cetakSemuaResumePDF()">📑 Cetak Semua PDF</button>
+          <button class="backup-btn" onclick="eksporDataCSV()">&#x1F4CA; Ekspor CSV</button>
+          <button class="backup-btn" style="background:#9f1239;" onclick="cetakSemuaResumePDF()">&#x1F4D1; Cetak Semua PDF</button>
         </div>
       </div>
 
@@ -1504,10 +1506,10 @@
       <div id="planAlertBanner" class="plan-alert-banner">
         <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px;">
           <div>
-            <span style="font-size:16px;">🔔</span> 
+            <span style="font-size:16px;">&#x1F514;</span> 
             <b>Pemberitahuan Planning Medis:</b> Terdapat <span id="countPlanActive" style="font-weight:800; text-decoration:underline;">0</span> pasien aktif yang memiliki Plan (P/) untuk ditindaklanjuti hari ini:
           </div>
-          <button type="button" style="background:#ea580c; padding:3px 8px; font-size:11px;" onclick="filterKePasienPlan('NEED_PLAN')">🔍 Tampilkan Terkait</button>
+          <button type="button" style="background:#ea580c; padding:3px 8px; font-size:11px;" onclick="filterKePasienPlan('NEED_PLAN')">&#x1F50D; Tampilkan Terkait</button>
         </div>
         <div id="planChipContainer" class="plan-chip-group"></div>
       </div>
@@ -1516,23 +1518,23 @@
       <div id="echoAlertBanner" class="echo-alert-banner">
         <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px;">
           <div>
-            <span style="font-size:16px;">🫀</span> 
+            <span style="font-size:16px;">&#x1FAC0;</span> 
             <b>Pemberitahuan Rencana Ekokardiografi (ECHO):</b> Terdapat <span id="countEchoActive" style="font-weight:800; text-decoration:underline;">0</span> pasien aktif yang direncanakan untuk tindakan <b>ECHO</b>:
           </div>
-          <button type="button" style="background:#059669; padding:3px 8px; font-size:11px;" onclick="filterKePasienPlan('NEED_ECHO')">🔍 Tampilkan Pasien ECHO</button>
+          <button type="button" style="background:#059669; padding:3px 8px; font-size:11px;" onclick="filterKePasienPlan('NEED_ECHO')">&#x1F50D; Tampilkan Pasien ECHO</button>
         </div>
         <div id="echoChipContainer" class="plan-chip-group"></div>
       </div>
       
       <div class="filter-box">
         <!-- Kolom Pencarian Cepat Nama / RM -->
-        <input type="text" id="cariNamaRM" placeholder="🔍 Cari Nama atau RM..." style="max-width:210px;" oninput="renderTable()">
+        <input type="text" id="cariNamaRM" placeholder="&#x1F50D; Cari Nama atau RM..." style="max-width:210px;" oninput="renderTable()">
         
         <select id="filterTabelStatus" class="history-select" style="max-width:160px;" onchange="renderTable()">
           <option value="AKTIF" selected>Hanya Aktif</option>
           <option value="SEMUA">Semua Status</option>
-          <option value="NEED_PLAN">⚠️ Butuh Cek Plan</option>
-          <option value="NEED_ECHO">🫀 Rencana ECHO</option>
+          <option value="NEED_PLAN">&#x26A0;&#xFE0F; Butuh Cek Plan</option>
+          <option value="NEED_ECHO">&#x1FAC0; Rencana ECHO</option>
           <option value="PULANG">Hanya Pulang</option>
           <option value="LEPAS">Lepas Rawat Bersama</option>
           <option value="MENINGGAL">Meninggal</option>
@@ -1567,8 +1569,8 @@
 
       <div class="btn-group" style="justify-content: space-between; margin-top: 18px;">
         <div style="display:flex; gap:8px; flex-wrap:wrap;">
-          <button class="backup-btn" onclick="backupDatabase()">📥 Backup Database (.json)</button>
-          <button class="restore-btn" onclick="document.getElementById('inputRestoreFile').click()">📤 Restore Database</button>
+          <button class="backup-btn" onclick="backupDatabase()">&#x1F4E5; Backup Database (.json)</button>
+          <button class="restore-btn" onclick="document.getElementById('inputRestoreFile').click()">&#x1F4E4; Restore Database</button>
           <input type="file" id="inputRestoreFile" accept=".json,application/json,text/plain,*/*" style="display:none;" onchange="restoreDatabase(event)">
         </div>
         <button class="danger" onclick="hapusSemuaDenganPIN()">Hapus Semua Rekam Medis</button>
@@ -1589,10 +1591,11 @@
         <span id="activeModeBadge" class="cppt-chip" style="display:none;">Mode: Entri Baru</span>
       </div>
 
+      <div id="kunciTanggalNote" style="display:none; background:#fff7ed; border:1px solid #fdba74; border-left:5px solid #ea580c; padding:9px 12px; border-radius:8px; margin-bottom:10px; font-size:12px; line-height:1.5;"></div>
       <!-- CPPT Navigator Bar -->
       <div class="cppt-control-bar">
         <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
-          <label for="cpptTanggalPeriksa" style="font-size:12px; font-weight:700; color:#881337;">📅 Tanggal:</label>
+          <label for="cpptTanggalPeriksa" style="font-size:12px; font-weight:700; color:#881337;">&#x1F4C5; Tanggal:</label>
           <input type="date" id="cpptTanggalPeriksa" style="width:auto; margin-bottom:0;" onchange="onGantiTanggalCPPT()">
           <select id="selRiwayatTanggalPasien" style="width:auto; margin-bottom:0; font-size:12px; display:none;" onchange="pilihRiwayatTanggal(this.value)">
             <option value="">Pilih Catatan Tanggal Lain...</option>
@@ -1612,7 +1615,7 @@
         <div>
           <div class="label-wrapper"><label for="pStatus">Status Rawatan</label></div>
           <select id="pStatus" onchange="toggleStatusPasien()">
-            <option value="Baru">Pasien Baru (🆕)</option>
+            <option value="Baru">Pasien Baru (&#x1F195;)</option>
             <option value="Lama">Pasien Lama</option>
             <option value="Pulang">Selesai / Pulang (Nonaktif)</option>
             <option value="Lepas Rawat">Lepas Rawat Bersama</option>
@@ -1639,7 +1642,7 @@
       <div class="grid-4">
         <div>
           <div class="label-wrapper"><label for="pGelar">Gelar</label></div>
-          <select id="pGelar">
+          <select id="pGelar" onchange="setJKDariGelar()">
             <option value="">-- Tanpa Gelar --</option>
             <option value="Tn.">Tn.</option>
             <option value="Ny.">Ny.</option>
@@ -1689,9 +1692,9 @@
           <div class="label-wrapper"><label id="lblDPJPUtama" for="pDPJPUtama">DPJP Utama Kardio</label></div>
           <div id="wrapperDPJPUtamaSelect">
             <select id="pDPJPUtama" onchange="toggleCustomDPJP()">
-              <option value="dr. Wisudawan, Sp.JP., FIHA🫀" selected>dr. Wisudawan, Sp.JP., FIHA🫀</option>
-              <option value="dr. Nurhikmawati, Sp.JP., FIHA🌹">dr. Nurhikmawati, Sp.JP., FIHA🌹</option>
-              <option value="dr. Akina Maulidhany Tahir, Sp.JP., FIHA❤️">dr. Akina Maulidhany Tahir, Sp.JP., FIHA❤️</option>
+              <option value="dr. Wisudawan, Sp.JP., FIHA&#x1FAC0;" selected>dr. Wisudawan, Sp.JP., FIHA&#x1FAC0;</option>
+              <option value="dr. Nurhikmawati, Sp.JP., FIHA&#x1F339;">dr. Nurhikmawati, Sp.JP., FIHA&#x1F339;</option>
+              <option value="dr. Akina Maulidhany Tahir, Sp.JP., FIHA&#x2764;&#xFE0F;">dr. Akina Maulidhany Tahir, Sp.JP., FIHA&#x2764;&#xFE0F;</option>
               <option value="Lainnya">DPJP Lainnya...</option>
             </select>
             <input type="text" id="pDPJPUtamaLainnya" placeholder="Tulis nama DPJP" style="display:none; margin-top:4px;">
@@ -1709,9 +1712,9 @@
           <input type="text" id="pDPJPKonsul" list="list_pDPJPKonsul" placeholder="Dokter Konsul Utama (cth: dr. Ayuni Warhamni, Sp.N)...">
           <div id="wrapperDPJPKonsulSelect" style="display:none;">
             <select id="pDPJPKonsulKardio">
-              <option value="dr. Wisudawan, Sp.JP., FIHA🫀">dr. Wisudawan, Sp.JP., FIHA🫀</option>
-              <option value="dr. Nurhikmawati, Sp.JP., FIHA🌹" selected>dr. Nurhikmawati, Sp.JP., FIHA🌹</option>
-              <option value="dr. Akina Maulidhany Tahir, Sp.JP., FIHA❤️">dr. Akina Maulidhany Tahir, Sp.JP., FIHA❤️</option>
+              <option value="dr. Wisudawan, Sp.JP., FIHA&#x1FAC0;">dr. Wisudawan, Sp.JP., FIHA&#x1FAC0;</option>
+              <option value="dr. Nurhikmawati, Sp.JP., FIHA&#x1F339;" selected>dr. Nurhikmawati, Sp.JP., FIHA&#x1F339;</option>
+              <option value="dr. Akina Maulidhany Tahir, Sp.JP., FIHA&#x2764;&#xFE0F;">dr. Akina Maulidhany Tahir, Sp.JP., FIHA&#x2764;&#xFE0F;</option>
             </select>
           </div>
         </div>
@@ -1732,12 +1735,12 @@
       </div>
 
       <!-- SEKSI B: SUBJECTIVE -->
-      <div class="section-title">B. Subjective (S/) — Riwayat & Faktor Risiko Kardiovaskular</div>
+      <div class="section-title">B. Subjective (S/) &#x2014; Riwayat & Faktor Risiko Kardiovaskular</div>
       <div id="secKeluhanSekarang" style="display:none;">
         <div class="label-wrapper">
           <label id="lblKeluhanSekarang" for="sKeluhanSekarang">Keluhan Sekarang (Shift Ini)</label>
           <div class="label-actions">
-            <select class="history-select" onchange="insertHistory('sKeluhanSekarang', this.value)"><option value="">↺ Histori...</option></select>
+            <select class="history-select" onchange="insertHistory('sKeluhanSekarang', this.value)"><option value="">&#x21BA; Histori...</option></select>
           </div>
         </div>
         <div id="sKeluhanSekarang" class="rich-editor" contenteditable="true" data-placeholder="Keluhan pada visit shift ini..." oninput="updateBedsideGuidance()"></div>
@@ -1747,7 +1750,7 @@
         <div class="label-wrapper">
           <label for="sKeluhanMasuk">Keluhan Masuk RS (Onset Awal)</label>
           <div class="label-actions">
-            <select class="history-select" onchange="insertHistory('sKeluhanMasuk', this.value)"><option value="">↺ Histori...</option></select>
+            <select class="history-select" onchange="insertHistory('sKeluhanMasuk', this.value)"><option value="">&#x21BA; Histori...</option></select>
           </div>
         </div>
         <div id="sKeluhanMasuk" class="rich-editor" contenteditable="true" data-placeholder="Keluhan utama saat awal masuk RS..." oninput="updateBedsideGuidance()"></div>
@@ -1772,9 +1775,9 @@
       </div>
 
       <!-- SEKSI C: OBJECTIVE & TANDA VITAL -->
-      <div class="section-title">C. Objective (O/) — Tanda Vital</div>
+      <div class="section-title">C. Objective (O/) &#x2014; Tanda Vital</div>
       <div id="boxBedsideGuidance" class="guidance-box" style="display:none;">
-        <b>💡 Rekomendasi Penalaran Klinis & Pedoman PPK Kardiologi:</b>
+        <b>&#x1F4A1; Rekomendasi Penalaran Klinis & Pedoman PPK Kardiologi:</b>
         <div id="txtBedsideGuidance">Ketik diagnosis atau temuan untuk memunculkan panduan...</div>
       </div>
 
@@ -1789,13 +1792,13 @@
         </div>
         <div>
           <div class="label-wrapper">
-            <label for="oGCS">GCS <span class="info-btn" onclick="showInfo('gcs', event)">ⓘ</span></label>
+            <label for="oGCS">GCS <span class="info-btn" onclick="showInfo('gcs', event)">&#x24D8;</span></label>
           </div>
           <input type="text" id="oGCS" value="15" placeholder="Contoh: 15 / Composmentis">
         </div>
         <div>
           <div class="label-wrapper">
-            <label for="oNRS">Nyeri (NRS 0-10) <span class="info-btn" onclick="showInfo('nrs', event)">ⓘ</span></label>
+            <label for="oNRS">Nyeri (NRS 0-10) <span class="info-btn" onclick="showInfo('nrs', event)">&#x24D8;</span></label>
           </div>
           <input type="number" id="oNRS" min="0" max="10" placeholder="0 - 10">
         </div>
@@ -1803,30 +1806,30 @@
 
       <div class="grid-4">
         <div>
-          <div class="label-wrapper"><label for="oTDSistol">TD Sistol (mmHg) <span class="info-btn" onclick="showInfo('td', event)">ⓘ</span></label></div>
+          <div class="label-wrapper"><label for="oTDSistol">TD Sistol (mmHg) <span class="info-btn" onclick="showInfo('td', event)">&#x24D8;</span></label></div>
           <input type="number" id="oTDSistol" placeholder="120">
         </div>
         <div>
-          <div class="label-wrapper"><label for="oTDDiastol">TD Diastol (mmHg) <span class="info-btn" onclick="showInfo('td', event)">ⓘ</span></label></div>
+          <div class="label-wrapper"><label for="oTDDiastol">TD Diastol (mmHg) <span class="info-btn" onclick="showInfo('td', event)">&#x24D8;</span></label></div>
           <input type="number" id="oTDDiastol" placeholder="80">
         </div>
         <div>
-          <div class="label-wrapper"><label for="oNadi">Nadi (x/mnt)</label></div>
+          <div class="label-wrapper"><label for="oNadi">Nadi (x/mnt) <span class="info-btn" onclick="showInfo('nadi', event)">&#x24D8;</span></label></div>
           <input type="number" id="oNadi" placeholder="88">
         </div>
         <div>
-          <div class="label-wrapper"><label for="oRR">Pernapasan (x/mnt)</label></div>
+          <div class="label-wrapper"><label for="oRR">Pernapasan (x/mnt) <span class="info-btn" onclick="showInfo('rr', event)">&#x24D8;</span></label></div>
           <input type="number" id="oRR" placeholder="20">
         </div>
       </div>
 
       <div class="grid-3">
         <div>
-          <div class="label-wrapper"><label for="oSuhu">Suhu (°C)</label></div>
+          <div class="label-wrapper"><label for="oSuhu">Suhu (&#xB0;C) <span class="info-btn" onclick="showInfo('suhu', event)">&#x24D8;</span></label></div>
           <input type="text" id="oSuhu" placeholder="36.5">
         </div>
         <div>
-          <div class="label-wrapper"><label for="oSpO2">SpO2 (%)</label></div>
+          <div class="label-wrapper"><label for="oSpO2">SpO2 (%) <span class="info-btn" onclick="showInfo('spo2', event)">&#x24D8;</span></label></div>
           <input type="number" id="oSpO2" placeholder="98">
         </div>
         <div>
@@ -1841,121 +1844,31 @@
         </div>
       </div>
 
-      <!-- ACCORDION 1: STATUS GENERALISATA FISIK LENGKAP -->
-      <div class="accordion-header" onclick="toggleAccordion('accFisik')">
-        <span>🩺 Pemeriksaan Status Generalisata Fisik (Kepala, Leher, Thorax, dll)</span>
-        <span class="acc-icon">▼</span>
-      </div>
-      <div id="accFisik" class="accordion-body">
-        <div class="grid-4">
-          <div>
-            <div class="label-wrapper"><label>Kepala <span class="info-btn" onclick="showInfo('sg_kepala', event)">ⓘ</span></label></div>
-            <select id="selFisikKepala" onchange="toggleManualFisik('Kepala')">
-              <option value="Normocephal" selected>Normocephal</option>
-              <option value="Deformitas (-)">Deformitas (-)</option>
-              <option value="Lainnya">Lainnya...</option>
-            </select>
-            <input type="text" id="custFisikKepala" placeholder="Ketik manual..." style="display:none;">
-          </div>
-          <div>
-            <div class="label-wrapper"><label>Mata <span class="info-btn" onclick="showInfo('sg_mata', event)">ⓘ</span></label></div>
-            <select id="selFisikMata" onchange="toggleManualFisik('Mata')">
-              <option value="Kongjungtiva anemis (-/-) sklera ikterik (-/-)" selected>CA (-/-) SI (-/-)</option>
-              <option value="Kongjungtiva anemis (+/+) sklera ikterik (-/-)">CA (+/+) SI (-/-)</option>
-              <option value="Kongjungtiva anemis (-/-) sklera ikterik (+/+)">CA (-/-) SI (+/+)</option>
-              <option value="Lainnya">Lainnya...</option>
-            </select>
-            <input type="text" id="custFisikMata" placeholder="Ketik manual..." style="display:none;">
-          </div>
-          <div>
-            <div class="label-wrapper"><label>Bibir <span class="info-btn" onclick="showInfo('sg_bibir', event)">ⓘ</span></label></div>
-            <select id="selFisikBibir" onchange="toggleManualFisik('Bibir')">
-              <option value="bibir kering (-) lidah kotor (-), Tidak sianosis, tidak ada stomatitis" selected>Lembab, sianosis (-), stomatitis (-)</option>
-              <option value="Bibir kering (+), sianosis (+)">Bibir kering (+), sianosis (+)</option>
-              <option value="Lainnya">Lainnya...</option>
-            </select>
-            <input type="text" id="custFisikBibir" placeholder="Ketik manual..." style="display:none;">
-          </div>
-          <div>
-            <div class="label-wrapper"><label>Leher <span class="info-btn" onclick="showInfo('sg_leher', event)">ⓘ</span></label></div>
-            <select id="selFisikLeher" onchange="toggleManualFisik('Leher')">
-              <option value="tidak ada pembesaran KGB, tidak ada pembesaran kelenjar getah bening." selected>KGB (-), pembesaran tiroid (-)</option>
-              <option value="JVP R+2 cmH2O, pembesaran kelenjar tiroid (-)">JVP R+2 cmH2O</option>
-              <option value="JVP meningkat (R+3 cmH2O), hepatojugular refluks (+)">JVP R+3 cmH2O, hepatojugular (+)</option>
-              <option value="Lainnya">Lainnya...</option>
-            </select>
-            <input type="text" id="custFisikLeher" placeholder="Ketik manual..." style="display:none;">
-          </div>
-        </div>
+      <!-- ANTROPOMETRI -->
+<div style="background:#f8fafc; border:1px solid #cbd5e1; padding:10px 12px; border-radius:8px; margin:4px 0 10px;">
+  <div style="display:flex; align-items:center; gap:5px; margin-bottom:6px;">
+    <b style="font-size:12px; color:#881337;">&#x2696;&#xFE0F; Antropometri</b>
+    <span class="info-btn" onclick="showInfo('antropometri', event)">&#x24D8;</span>
+  </div>
+  <div class="grid-5">
+    <div><label style="font-size:11px; font-weight:600;">Jenis Kelamin</label>
+      <select id="aJK" onchange="hitungAntropometri()"><option value="">-- Pilih --</option><option value="L">Laki-laki</option><option value="P">Perempuan</option></select></div>
+    <div><label style="font-size:11px; font-weight:600;">Berat Badan (kg)</label><input type="number" step="0.1" id="aBB" placeholder="65" oninput="hitungAntropometri()"></div>
+    <div><label style="font-size:11px; font-weight:600;">Tinggi Badan (cm)</label><input type="number" step="0.1" id="aTB" placeholder="165" oninput="hitungAntropometri()"></div>
+    <div><label style="font-size:11px; font-weight:600;">BMI (kg/m&#xB2;)</label><input type="text" id="aBMI" class="locked-field" readonly></div>
+    <div><label style="font-size:11px; font-weight:600;">Interpretasi BMI</label><input type="text" id="aKategori" class="locked-field" readonly></div>
+  </div>
+  <div id="aDetail" style="font-size:11.5px; color:#475569;"></div>
+</div>
 
-        <div style="background:#f8fafc; border:1px solid #cbd5e1; padding:10px; border-radius:6px; margin:8px 0;">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
-            <b style="font-size:12px; color:#881337;">Thorax Terperinci:</b>
-            <span class="info-btn" onclick="showInfo('sg_thorax', event)">ⓘ</span>
-          </div>
-          <div class="grid-4">
-            <div>
-              <label style="font-size:11px; font-weight:600;">Inspeksi</label>
-              <select id="selThoraxInspeksi" onchange="toggleManualThorax('Inspeksi')">
-                <option value="Normochest, ekspansi dada simetris." selected>Normochest simetris</option>
-                <option value="Barrel chest, sela iga melebar">Barrel chest</option>
-                <option value="Lainnya">Lainnya...</option>
-              </select>
-              <input type="text" id="custThoraxInspeksi" style="display:none;">
-            </div>
-            <div>
-              <label style="font-size:11px; font-weight:600;">Palpasi</label>
-              <select id="selThoraxPalpasi" onchange="toggleManualThorax('Palpasi')">
-                <option value="Taktil fremitus kiri dan kanan sama. Thrill tidak teraba" selected>Fremitus simetris, thrill (-)</option>
-                <option value="Iktus kordis bergeser ke lateral, thrill (+)">Iktus lateral, thrill (+)</option>
-                <option value="Lainnya">Lainnya...</option>
-              </select>
-              <input type="text" id="custThoraxPalpasi" style="display:none;">
-            </div>
-            <div>
-              <label style="font-size:11px; font-weight:600;">Perkusi</label>
-              <select id="selThoraxPerkusi" onchange="toggleManualThorax('Perkusi')">
-                <option value="sonor pada kedua hemithoraks" selected>Sonor kedua hemithoraks</option>
-                <option value="Batas jantung melebar ke laterokaudal">Batas jantung melebar</option>
-                <option value="Lainnya">Lainnya...</option>
-              </select>
-              <input type="text" id="custThoraxPerkusi" style="display:none;">
-            </div>
-            <div>
-              <label style="font-size:11px; font-weight:600;">Auskultasi</label>
-              <select id="selThoraxAuskultasi" onchange="toggleManualThorax('Auskultasi')">
-                <option value="VESIKULER_REGULER" selected>Vesikuler (-/-) | BJ I/II Reg, M(-), G(-)</option>
-                <option value="RONKI_GALLOP">Ronki basah halus (+/+) | Gallop S3 (+)</option>
-                <option value="MURMUR_SISTOLIK">Vesikuler | Murmur holosistolik apeks</option>
-                <option value="AF_IRREGULER">Vesikuler | BJ I/II Ireguler total</option>
-                <option value="Lainnya">Lainnya...</option>
-              </select>
-              <input type="text" id="custThoraxAuskultasi" style="display:none;">
-            </div>
-          </div>
-        </div>
+<!-- STATUS GENERALISATA (dibangun otomatis oleh JS) -->
+<div class="accordion-header" onclick="toggleAccordion('accFisik')">
+  <span>&#x1FA7A; Pemeriksaan Status Generalisata Fisik (Kepala, Leher, Thorax, Abdomen, dll)</span>
+  <span class="acc-icon">&#x25BC;</span>
+</div>
+<div id="accFisik" class="accordion-body"><div id="fisikContainer"></div></div>
 
-        <div class="grid-2">
-          <div>
-            <div class="label-wrapper"><label>Abdomen <span class="info-btn" onclick="showInfo('sg_abdomen', event)">ⓘ</span></label></div>
-            <select id="selFisikAbdomen" onchange="toggleManualFisik('Abdomen')">
-              <option value="Inspeksi : cembung, ikut gerak nafas Auskultasi : Peristaltik kesan normal Palpasi : nyeri tekan epgastrium(-), nyeri tekan suprapubik(-), hepar dan lien tidak teraba Perkusi : Timpani" selected>Peristaltik normal, NT(-), Timpani</option>
-              <option value="Inspeksi : cembung distensi Auskultasi : Peristaltik (+) Palpasi : Hepatomegali 2 jari BAC, asites (+) Perkusi : Shifting dullness (+)">Asites (+), Hepatomegali (+)</option>
-              <option value="Lainnya">Lainnya...</option>
-            </select>
-            <input type="text" id="custFisikAbdomen" style="display:none;">
-          </div>
-          <div>
-            <div class="label-wrapper"><label>Ekstremitas <span class="info-btn" onclick="showInfo('sg_ekstremitas', event)">ⓘ</span></label></div>
-            <select id="selFisikEkstremitas" onchange="toggleManualFisik('Ekstremitas')">
-              <option value="atas : Akral hangat. CRT <2 detik, clubbing finger (-), edema (-)&#10;bawah : akral hangat, CRT <2 detik, clubbing finger (-), edema (-)" selected>Akral hangat, CRT <2d, edema (-/-)</option>
-              <option value="atas : Akral hangat. CRT <2 detik, edema (-)&#10;bawah : Akral dingin, CRT >2 detik, pitting edema (+/+) pretibial">Akral dingin, CRT >2d, edema (+/+)</option>
-              <option value="Lainnya">Lainnya...</option>
-            </select>
-            <input type="text" id="custFisikEkstremitas" style="display:none;">
-          </div>
-        </div>
-      </div>
+
 
       <!-- SEKSI D: PENUNJANG, EKG & LAB -->
       <div class="section-title">D. Pemeriksaan Penunjang (EKG, Lab & Citra)</div>
@@ -1964,8 +1877,8 @@
       <div style="background:#f8fafc; border:1px solid #cbd5e1; padding:10px 12px; border-radius:8px; margin-bottom:10px;">
         <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px; margin-bottom:8px;">
           <div style="display:flex; align-items:center; gap:5px;">
-            <b style="font-size:12px; color:#881337;">📈 Parameter EKG 12-Sadapan</b>
-            <span class="info-btn" onclick="showInfo('ekg_baca', event)">ⓘ</span>
+            <b style="font-size:12px; color:#881337;">&#x1F4C8; Parameter EKG 12-Sadapan</b>
+            <span class="info-btn" onclick="showInfo('ekg_baca', event)">&#x24D8;</span>
           </div>
           <div style="display:flex; align-items:center; gap:5px; flex-wrap:wrap;">
             <input type="date" id="ekgTanggalPeriksa" style="width:auto; margin-bottom:0; font-size:11px; padding:3px 6px;">
@@ -2001,8 +1914,8 @@
 
       <!-- BILAH LAB MANDIRI DENGAN PILIHAN TANGGAL -->
       <div class="accordion-header" onclick="toggleAccordion('accLab')">
-        <span>🧪 Panel Laboratorium Lengkap (Darah Rutin, Troponin, Ur/Cr, dll)</span>
-        <span class="acc-icon">▼</span>
+        <span>&#x1F9EA; Panel Laboratorium Lengkap (Darah Rutin, Troponin, Ur/Cr, dll) <span class="info-btn" onclick="showInfo('lab', event)">&#x24D8;</span></span>
+        <span class="acc-icon">&#x25BC;</span>
       </div>
       <div id="accLab" class="accordion-body">
         <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px; margin-bottom:8px; background:#fff; padding:6px 9px; border-radius:6px; border:1px solid #e2e8f0;">
@@ -2058,26 +1971,26 @@
 
       <div class="img-upload-box">
         <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px;">
-          <b style="font-size:12px; color:#881337;">📷 Lampiran Foto / Berkas Penunjang</b>
+          <b style="font-size:12px; color:#881337;">&#x1F4F7; Lampiran Foto / Berkas Penunjang</b>
           <div style="display:flex; gap:5px; flex-wrap:wrap;">
             <input type="file" id="fileUploadPenunjang" accept="image/*" multiple style="display:none;" onchange="handleImageUpload(event)">
-            <button type="button" class="backup-btn" style="padding:4px 8px; font-size:11px;" onclick="document.getElementById('fileUploadPenunjang').click()">📂 Galeri</button>
+            <button type="button" class="backup-btn" style="padding:4px 8px; font-size:11px;" onclick="document.getElementById('fileUploadPenunjang').click()">&#x1F4C2; Galeri</button>
             <input type="file" id="cameraUploadPenunjang" accept="image/*" capture="environment" style="display:none;" onchange="handleImageUpload(event)">
-            <button type="button" class="alt" style="padding:4px 8px; font-size:11px;" onclick="document.getElementById('cameraUploadPenunjang').click()">📸 Kamera</button>
+            <button type="button" class="alt" style="padding:4px 8px; font-size:11px;" onclick="document.getElementById('cameraUploadPenunjang').click()">&#x1F4F8; Kamera</button>
           </div>
         </div>
         <div class="img-preview-grid" id="previewImgContainer"></div>
       </div>
 
-      <div class="section-title">E. Assessment (A/) — Diagnosis Kerja Kardiologi</div>
+      <div class="section-title">E. Assessment (A/) &#x2014; Diagnosis Kerja Kardiologi</div>
       <div>
         <div class="label-wrapper">
           <label for="pDiag">Assessment / Diagnosis Klinis (Multipel via Enter)</label>
           <div class="label-actions">
-            <input type="text" id="inputICD10" list="dataICD10" class="icd-search-box" placeholder="🔍 Cari ICD-10">
+            <input type="text" id="inputICD10" list="dataICD10" class="icd-search-box" placeholder="&#x1F50D; Cari ICD-10">
             <datalist id="dataICD10"></datalist>
             <button type="button" class="icd-add-btn" onclick="tambahKodeICD('pDiag', 'inputICD10')">+ Tambah</button>
-            <select class="history-select" onchange="insertHistory('pDiag', this.value)"><option value="">↺ Histori...</option></select>
+            <select class="history-select" onchange="insertHistory('pDiag', this.value)"><option value="">&#x21BA; Histori...</option></select>
           </div>
         </div>
         <div id="pDiag" class="rich-editor" contenteditable="true" data-placeholder="Diagnosis kardiologi..." oninput="updateBedsideGuidance()"></div>
@@ -2089,10 +2002,10 @@
           <div class="label-wrapper">
             <label for="pPlan">P/ (Planning Diagnostik / Evaluasi / Cathlab)</label>
             <div class="label-actions">
-              <input type="text" id="inputICD9" list="dataICD9" class="icd-search-box" placeholder="🔍 ICD-9" style="width:110px;">
+              <input type="text" id="inputICD9" list="dataICD9" class="icd-search-box" placeholder="&#x1F50D; ICD-9" style="width:110px;">
               <datalist id="dataICD9"></datalist>
               <button type="button" class="icd-add-btn" onclick="tambahKodeICD('pPlan', 'inputICD9')">+</button>
-              <select class="history-select" onchange="insertHistory('pPlan', this.value)"><option value="">↺ Histori...</option></select>
+              <select class="history-select" onchange="insertHistory('pPlan', this.value)"><option value="">&#x21BA; Histori...</option></select>
             </div>
           </div>
           <div id="pPlan" class="rich-editor" contenteditable="true" data-placeholder="Planning medis (kata ECHO otomatis memicu alert)..."></div>
@@ -2100,15 +2013,15 @@
         <div>
           <div class="label-wrapper">
             <label for="pInstruksi">I/ (Instruksi Terapi / Terapi O-ANIMO)</label>
-            <select class="history-select" onchange="insertHistory('pInstruksi', this.value)"><option value="">↺ Histori...</option></select>
+            <select class="history-select" onchange="insertHistory('pInstruksi', this.value)"><option value="">&#x21BA; Histori...</option></select>
           </div>
           <div id="pInstruksi" class="rich-editor" contenteditable="true" data-placeholder="Instruksi pengobatan..."></div>
         </div>
       </div>
 
       <div class="btn-group">
-        <button id="btnSimpanPasien" onclick="simpanCPPT(false)">💾 Simpan CPPT</button>
-        <button id="btnSimpanBaruPasien" type="button" class="backup-btn" style="display:none;" onclick="simpanCPPT(true)">➕ Simpan Sebagai CPPT Baru</button>
+        <button id="btnSimpanPasien" onclick="simpanCPPT(false)">&#x1F4BE; Simpan CPPT</button>
+        <button id="btnSimpanBaruPasien" type="button" class="backup-btn" style="display:none;" onclick="simpanCPPT(true)">&#x2795; Simpan Sebagai CPPT Baru</button>
         <button type="button" class="alt" onclick="clearForm()">Reset Formulir</button>
       </div>
     </div>
@@ -2162,7 +2075,7 @@
 <div class="modal-backdrop" id="modalHistoryGlobal" onclick="tutupModalHistoryGlobal(event)">
   <div class="modal-content" onclick="event.stopPropagation()">
     <div class="modal-header">
-      <h4>📜 Log & Riwayat Audit Cloud</h4>
+      <h4>&#x1F4DC; Log & Riwayat Audit Cloud</h4>
       <button class="modal-close" onclick="tutupModalHistoryGlobal()">&times;</button>
     </div>
     <div id="listHistoryGlobalContainer" style="max-height:60vh; overflow-y:auto;">
@@ -2199,7 +2112,79 @@
 
   try { wordMemory = JSON.parse(localStorage.getItem('medlog_ibnusina_memory')) || {}; } catch(e){ wordMemory = {}; }
 
-  function dismissSplashScreen() {
+  // ================= WAKTU TEPERCAYA (server Firebase, bukan jam perangkat) =================
+let waktuAnchor = null;   // {server: epoch ms server, perf: performance.now() saat itu}
+const ZONA_ID = { 'Asia/Makassar': 'WITA', 'Asia/Ujung_Pandang': 'WITA', 'Asia/Jakarta': 'WIB', 'Asia/Pontianak': 'WIB', 'Asia/Jayapura': 'WIT' };
+const ZONA_RS = 'Asia/Makassar';   // tanggal & stempel rekam medis selalu WITA
+
+function nowT() {   // waktu server; berjalan dengan jam monotonik sehingga mengubah jam perangkat tidak berpengaruh
+  if (!waktuAnchor) return null;
+  return new Date(waktuAnchor.server + (performance.now() - waktuAnchor.perf));
+}
+
+function tglHariIni() {   // YYYY-MM-DD menurut WITA
+  return new Intl.DateTimeFormat('en-CA', { timeZone: ZONA_RS, year: 'numeric', month: '2-digit', day: '2-digit' }).format(nowT() || new Date());
+}
+
+function stampWITA() {
+  const t = nowT() || new Date();
+  return t.toLocaleDateString('id-ID', { timeZone: ZONA_RS }) + ', ' + t.toLocaleTimeString('id-ID', { timeZone: ZONA_RS, hour: '2-digit', minute: '2-digit' }) + ' WITA';
+}
+
+function labelZona(tz, t) {
+  if (ZONA_ID[tz]) return ZONA_ID[tz];
+  const p = new Intl.DateTimeFormat('id-ID', { timeZone: tz, timeZoneName: 'short' }).formatToParts(t).find(x => x.type === 'timeZoneName');
+  return p ? p.value : tz;
+}
+
+async function verifikasiWaktu() {
+  if (nowT()) return true;
+  alert("Waktu server belum tersinkron, sehingga data belum dapat disimpan.\nHubungkan perangkat ke internet, tunggu jam di header muncul, lalu coba lagi.");
+  return false;
+}
+
+function cekModeTanggal() {
+  const note = document.getElementById('kunciTanggalNote');
+  if (!note || !nowT()) return;
+  const hari = tglHariIni(), tgl = getVal('cpptTanggalPeriksa');
+  const terkunci = !!tgl && tgl !== hari;
+  ['btnSimpanPasien', 'btnSimpanBaruPasien'].forEach(id => { const b = document.getElementById(id); if (b) b.disabled = terkunci; });
+  note.style.display = terkunci ? 'block' : 'none';
+  if (terkunci) note.innerText = `\u{1F512} Mode lihat riwayat: CPPT tanggal ${formatTanggalID(tgl)} tidak dapat diubah. CPPT hanya bisa disimpan untuk hari ini (${formatTanggalID(hari)}, waktu server WITA).`;
+  ['cpptTanggalPeriksa', 'ekgTanggalPeriksa', 'labTanggalPeriksa', 'pTglMasuk', 'pTglKonsul'].forEach(id => { const el = document.getElementById(id); if (el) el.max = hari; });
+}
+
+function tickJam() {
+  const t = nowT(), el = document.getElementById('jamRealtime'), warn = document.getElementById('jamPeringatan');
+  if (el) {
+    if (!t) el.innerText = '\u23F3 Menyinkronkan waktu...';
+    else {
+      const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ZONA_RS;   // mengikuti zona waktu perangkat
+      const tgl = new Intl.DateTimeFormat('id-ID', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric', timeZone: tz }).format(t);
+      const jam = new Intl.DateTimeFormat('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit', hourCycle: 'h23', timeZone: tz }).format(t).replace(/\./g, ':');
+      el.innerText = `\u{1F552} ${tgl} \u00B7 ${jam} ${labelZona(tz, t)}`;
+    }
+  }
+  if (warn) {
+    const sel = t ? Math.abs(Date.now() - t.getTime()) : 0;
+    warn.style.display = sel > 120000 ? 'block' : 'none';
+    if (sel > 120000) warn.innerText = `\u26A0\uFE0F Jam perangkat berbeda \u00B1${Math.round(sel / 60000)} menit dari waktu server. MedLog memakai waktu server, bukan jam perangkat.`;
+  }
+  cekModeTanggal();
+}
+
+function setelahSinkronWaktu() {
+  setTanggalOtomatis(true);
+  tickJam();
+}
+
+let hiddenSejak = 0;
+document.addEventListener('visibilitychange', () => {   // setelah HP tidur, sambung ulang agar waktu server diukur ulang
+  if (document.hidden) { hiddenSejak = Date.now(); return; }
+  if (isFirebaseReady && db && hiddenSejak && Date.now() - hiddenSejak > 60000) { db.goOffline(); setTimeout(() => db.goOnline(), 300); }
+});
+
+function dismissSplashScreen() {
     const splash = document.getElementById('appSplashScreen');
     if (!splash) return;
     setTimeout(() => {
@@ -2290,7 +2275,7 @@
       await auth.signInWithEmailAndPassword(email, pass);
       showToast("Berhasil masuk!");
     } catch (err) {
-      showAuthGate(); alert("❌ Login Gagal: " + err.message);
+      showAuthGate(); alert("\u{274C} Login Gagal: " + err.message);
     } finally {
       btn.disabled = false; btn.innerText = "Masuk ke Sistem";
     }
@@ -2306,7 +2291,7 @@
     const btn = document.getElementById('btnProsesDaftar');
 
     if (!token || !nama || !nim || !wa || !email || !pass) { alert("Lengkapi semua kolom!"); showAuthGate(); return; }
-    if (token !== KODE_AKSES_STASE_VALID) { alert("❌ KODE STASE SALAH! Hubungi Chief Kardiologi."); showAuthGate(); return; }
+    if (token !== KODE_AKSES_STASE_VALID) { alert("\u{274C} KODE STASE SALAH! Hubungi Chief Kardiologi."); showAuthGate(); return; }
     if (pass.length < 6) { alert("Kata sandi minimal 6 karakter!"); showAuthGate(); return; }
 
     try {
@@ -2344,14 +2329,18 @@
         db = firebase.database(); auth = firebase.auth();
         patientsRef = db.ref("patients"); auditLogsRef = db.ref("audit_logs");
         isFirebaseReady = true;
+        db.ref('.info/serverTimeOffset').on('value', (so) => {
+          waktuAnchor = { server: Date.now() + (so.val() || 0), perf: performance.now() };
+          setelahSinkronWaktu();
+        });
 
         db.ref(".info/connected").on("value", function(snap) {
           const badge = document.getElementById('cloudStatusBadge');
           if (snap.val() === true) {
-            if (badge) { badge.innerText = "☁️ Multi-Device Live"; badge.style.background = "rgba(16, 185, 129, 0.2)"; badge.style.color = "#6ee7b7"; }
+            if (badge) { badge.innerText = "\u{2601}\u{FE0F} Multi-Device Live"; badge.style.background = "rgba(16, 185, 129, 0.2)"; badge.style.color = "#6ee7b7"; }
             kirimAntreanOfflineKeCloud();
           } else if (badge) {
-            badge.innerText = "⚡ Mode Offline"; badge.style.background = "rgba(217, 119, 6, 0.2)"; badge.style.color = "#fcd34d";
+            badge.innerText = "\u{26A1} Mode Offline"; badge.style.background = "rgba(217, 119, 6, 0.2)"; badge.style.color = "#fcd34d";
           }
         });
 
@@ -2403,7 +2392,7 @@
   function fallbackToLocalIndexedDB() {
     isFirebaseReady = false;
     const badge = document.getElementById('cloudStatusBadge');
-    if (badge) { badge.innerText = "💾 Penyimpanan Lokal"; badge.style.background = "rgba(225, 29, 72, 0.15)"; badge.style.color = "#fda4af"; }
+    if (badge) { badge.innerText = "\u{1F4BE} Penyimpanan Lokal"; badge.style.background = "rgba(225, 29, 72, 0.15)"; badge.style.color = "#fda4af"; }
   }
 
   const DB_NAME = "MedLogDatabase_IbnuSina", STORE_NAME = "patients_emr_cardio", QUEUE_STORE = "offline_sync_queue";
@@ -2461,6 +2450,7 @@
   function simpanPasienKeFirebase(p) {
     if (isFirebaseReady && patientsRef && p.idPasien && currentUserAuth) {
       const payload = JSON.parse(JSON.stringify(p));
+      payload.serverStamp = firebase.database.ServerValue.TIMESTAMP;
       return patientsRef.child(p.idPasien).set(payload).catch(() => simpanAntreanOffline(payload));
     }
     return simpanAntreanOffline(p);
@@ -2664,7 +2654,7 @@
       if (!parent) return;
       const sel = parent.querySelector('.history-select');
       if (sel && wordMemory[id]) {
-        sel.innerHTML = '<option value="">↺ Histori...</option>';
+        sel.innerHTML = '<option value="">\u{21BA} Histori...</option>';
         wordMemory[id].forEach(txt => {
           const opt = document.createElement('option');
           opt.value = txt;
@@ -2751,7 +2741,7 @@
     row.className = 'konsul-item-row';
     row.innerHTML = `
       <input type="text" class="input-dokter-konsul-ekstra" list="list_pDPJPKonsul" value="${val}" placeholder="Dokter Konsul Tambahan..." style="margin-bottom:0;">
-      <button type="button" class="konsul-remove-btn" onclick="this.parentElement.remove()" title="Hapus dokter ini">✕</button>
+      <button type="button" class="konsul-remove-btn" onclick="this.parentElement.remove()" title="Hapus dokter ini">\u{2715}</button>
     `;
     container.appendChild(row);
   }
@@ -2783,7 +2773,7 @@
     }
     const tipe = document.getElementById('pTipePelayanan').value;
     if (tipe === 'KONSUL') {
-      document.getElementById('pDPJPKonsulKardio').value = list[0] || 'dr. Nurhikmawati, Sp.JP., FIHA🌹';
+      document.getElementById('pDPJPKonsulKardio').value = list[0] || 'dr. Nurhikmawati, Sp.JP., FIHA\u{1F339}';
     } else {
       document.getElementById('pDPJPKonsul').value = list[0] || '';
     }
@@ -2855,8 +2845,8 @@
     if (!tglAwalStr) return null;
     const awal = new Date(tglAwalStr + 'T00:00:00');
     if (isNaN(awal.getTime())) return null;
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
+    const [ty, tm, td] = tglHariIni().split('-').map(Number);
+    const today = new Date(ty, tm - 1, td);
     const diffTime = today.getTime() - awal.getTime();
     const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24)) + 1;
     return diffDays > 0 ? diffDays : 1;
@@ -2902,46 +2892,230 @@
     const hrKonsul = (getVal('pTglKonsul') || p.tglKonsul) ? hitungHariRawat(getVal('pTglKonsul') || p.tglKonsul) : null;
 
     let teks = '';
-    if (hrRawat) teks += `— Rawat Hari ke-${hrRawat}`;
+    if (hrRawat) teks += `\u{2014} Rawat Hari ke-${hrRawat}`;
     if (hrKonsul) teks += ` (Konsul Hari ke-${hrKonsul})`;
     el.innerText = teks;
   }
 
-  function toggleManualFisik(bidang) {
-    const sel = document.getElementById(`selFisik${bidang}`);
-    const cust = document.getElementById(`custFisik${bidang}`);
-    if (!sel || !cust) return;
-    cust.style.display = (sel.value === 'Lainnya') ? 'block' : 'none';
-  }
+  // ================= STATUS GENERALISATA (dibangun dinamis) =================
+const FISIK_GRUP = [
+  { cls: 'grid-4', fields: ['Kepala', 'Mata', 'Bibir', 'Leher'] },
+  { judul: 'Thorax Terperinci:', info: 'sg_thorax', box: true, cls: 'grid-3', fields: ['ThoraxInspeksi', 'ThoraxPalpasi', 'ThoraxPerkusi', 'ThoraxAuskParu', 'ThoraxAuskJantung'] },
+  { judul: 'Abdomen Terperinci:', info: 'sg_abdomen', box: true, cls: 'grid-4', fields: ['AbdInspeksi', 'AbdAuskultasi', 'AbdPalpasi', 'AbdPerkusi'] },
+  { cls: 'grid-2', fields: ['Ekstremitas'] }
+];
 
-  function toggleManualThorax(sub) {
-    const sel = document.getElementById(`selThorax${sub}`);
-    const cust = document.getElementById(`custThorax${sub}`);
-    if (!sel || !cust) return;
-    cust.style.display = (sel.value === 'Lainnya') ? 'block' : 'none';
-  }
+// opsi: [nilai yang disimpan/dilaporkan, label di dropdown (opsional)]
+const FISIK_FIELD = {
+  Kepala: { label: 'Kepala', info: 'sg_kepala', opts: [['Normocephal'], ['Normocephal, deformitas (-), massa (-)']] },
+  Mata: { label: 'Mata', info: 'sg_mata', opts: [
+    ['Konjungtiva anemis (-/-) sklera ikterik (-/-)', 'CA (-/-) SI (-/-)'],
+    ['Konjungtiva anemis (+/+) sklera ikterik (-/-)', 'CA (+/+) SI (-/-)'],
+    ['Konjungtiva anemis (-/-) sklera ikterik (+/+)', 'CA (-/-) SI (+/+)'],
+    ['Konjungtiva anemis (+/+) sklera ikterik (+/+)', 'CA (+/+) SI (+/+)']] },
+  Bibir: { label: 'Bibir', info: 'sg_bibir', opts: [
+    ['Bibir kering (-), lidah kotor (-), tidak sianosis, tidak ada stomatitis', 'Lembab, sianosis (-), stomatitis (-)'],
+    ['Bibir kering (+), sianosis (-)', 'Bibir kering (+)'],
+    ['Sianosis sentral (+)', 'Sianosis sentral (+)']] },
+  Leher: { label: 'Leher', info: 'sg_leher', opts: [
+    ['Tidak ada pembesaran KGB, pembesaran tiroid (-), JVP tidak meningkat', 'KGB (-), tiroid (-), JVP normal'],
+    ['JVP R+2 cmH2O, pembesaran kelenjar tiroid (-)', 'JVP R+2 cmH2O'],
+    ['JVP meningkat (R+3 cmH2O), hepatojugular refluks (+)', 'JVP R+3 cmH2O, hepatojugular (+)'],
+    ['Pembesaran KGB (+)']] },
+  ThoraxInspeksi: { label: 'Inspeksi', opts: [
+    ['Normochest, ekspansi dada simetris', 'Normochest simetris'],
+    ['Barrel chest, sela iga melebar', 'Barrel chest'],
+    ['Retraksi interkostal (+), otot bantu napas (+)', 'Retraksi / otot bantu napas (+)'],
+    ['Iktus kordis tampak', 'Iktus kordis tampak'],
+    ['Sikatrik sternotomi (+)']] },
+  ThoraxPalpasi: { label: 'Palpasi', opts: [
+    ['Fremitus taktil kiri dan kanan sama, iktus kordis ICS V linea midklavikula kiri, thrill (-)', 'Fremitus simetris, thrill (-)'],
+    ['Iktus kordis bergeser ke lateral, thrill (+)', 'Iktus lateral, thrill (+)'],
+    ['Heave parasternal (+)'],
+    ['Fremitus taktil menurun', 'Fremitus menurun'],
+    ['Nyeri tekan dinding dada (+)', 'Nyeri tekan dada (+)']] },
+  ThoraxPerkusi: { label: 'Perkusi', opts: [
+    ['Sonor pada kedua hemitoraks', 'Sonor kedua hemitoraks'],
+    ['Batas jantung melebar ke laterokaudal', 'Batas jantung melebar'],
+    ['Redup pada basal paru', 'Redup basal paru'],
+    ['Hipersonor']] },
+  ThoraxAuskParu: { label: 'Auskultasi Paru', opts: [
+    ['Vesikuler (+/+), ronki (-/-), wheezing (-/-)', 'Vesikuler, ronki (-/-)'],
+    ['Vesikuler (+/+), ronki basah halus basal (+/+), wheezing (-/-)', 'Ronki basah halus basal (+/+)'],
+    ['Ronki basah kasar (+/+)'],
+    ['Vesikuler (+/+), ronki (-/-), wheezing (+/+)', 'Wheezing (+/+)'],
+    ['Vesikuler menurun pada basal paru', 'Vesikuler menurun basal']] },
+  ThoraxAuskJantung: { label: 'Auskultasi Jantung', opts: [
+    ['BJ I/II reguler, murmur (-), gallop (-)', 'BJ I/II reg, M(-), G(-)'],
+    ['BJ I/II reguler, murmur (-), gallop S3 (+)', 'Gallop S3 (+)'],
+    ['BJ I/II reguler, murmur sistolik (+) di apeks, gallop (-)', 'Murmur sistolik apeks (MR)'],
+    ['BJ I/II reguler, murmur sistolik ejeksi (+) di ICS II parasternal kanan', 'Murmur sistolik ICS II kanan (AS)'],
+    ['BJ I/II reguler, murmur diastolik (+) di apeks, opening snap (+)', 'Murmur diastolik apeks (MS)'],
+    ['BJ I/II ireguler total, murmur (-), gallop (-)', 'BJ ireguler total (AF)'],
+    ['Friction rub perikard (+)', 'Friction rub (+)']] },
+  AbdInspeksi: { label: 'Inspeksi', opts: [
+    ['Datar, ikut gerak napas'], ['Cembung, ikut gerak napas', 'Cembung'], ['Cembung distensi, bulging flank (+)', 'Distensi, bulging flank']] },
+  AbdAuskultasi: { label: 'Auskultasi', opts: [
+    ['Peristaltik (+) kesan normal', 'Peristaltik normal'], ['Peristaltik menurun', 'Peristaltik menurun'], ['Peristaltik meningkat', 'Peristaltik meningkat']] },
+  AbdPalpasi: { label: 'Palpasi', opts: [
+    ['Supel, nyeri tekan epigastrium (-), nyeri tekan suprapubik (-), hepar dan lien tidak teraba', 'Supel, NT (-), hepar/lien tidak teraba'],
+    ['Nyeri tekan epigastrium (+)', 'NT epigastrium (+)'],
+    ['Hepatomegali 2 jari BAC, nyeri tekan (+)', 'Hepatomegali, NT (+)'],
+    ['Hepatomegali 2 jari BAC, nyeri tekan (-)', 'Hepatomegali, NT (-)'],
+    ['Undulasi (+), hepar dan lien sulit dinilai', 'Undulasi (+)']] },
+  AbdPerkusi: { label: 'Perkusi', opts: [
+    ['Timpani'], ['Pekak beralih (shifting dullness) (+)', 'Shifting dullness (+)'], ['Pekak hepar membesar']] },
+  Ekstremitas: { label: 'Ekstremitas', info: 'sg_ekstremitas', opts: [
+    ['atas : akral hangat, CRT <2 detik, clubbing finger (-), edema (-)\nbawah : akral hangat, CRT <2 detik, clubbing finger (-), edema (-)', 'Akral hangat, CRT <2d, edema (-/-)'],
+    ['atas : akral hangat, CRT <2 detik, edema (-)\nbawah : akral hangat, CRT <2 detik, pitting edema (+/+) pretibial', 'Akral hangat, edema (+/+)'],
+    ['atas : akral hangat, CRT <2 detik, edema (-)\nbawah : akral dingin, CRT >2 detik, pitting edema (+/+) pretibial', 'Akral dingin, CRT >2d, edema (+/+)'],
+    ['atas : akral dingin, CRT >2 detik\nbawah : akral dingin, CRT >2 detik, edema (-)', 'Akral dingin, CRT >2d, edema (-)']] }
+};
 
-  function getFisikVal(bidang) {
-    const sel = document.getElementById(`selFisik${bidang}`);
-    const cust = document.getElementById(`custFisik${bidang}`);
-    if (!sel) return '';
-    if (sel.value === 'Lainnya') return cust.value.trim();
-    return sel.value;
-  }
+const FISIK_MAP = {
+  Kepala: 'statusFisikKepala', Mata: 'statusFisikMata', Bibir: 'statusFisikBibir', Leher: 'statusFisikLeher',
+  ThoraxInspeksi: 'statusThoraxInspeksi', ThoraxPalpasi: 'statusThoraxPalpasi', ThoraxPerkusi: 'statusThoraxPerkusi',
+  ThoraxAuskParu: 'statusThoraxAuskParu', ThoraxAuskJantung: 'statusThoraxAuskJantung',
+  AbdInspeksi: 'statusAbdInspeksi', AbdAuskultasi: 'statusAbdAuskultasi', AbdPalpasi: 'statusAbdPalpasi', AbdPerkusi: 'statusAbdPerkusi',
+  Ekstremitas: 'statusFisikEkstremitas'
+};
 
-  function getThoraxVal(sub) {
-    const sel = document.getElementById(`selThorax${sub}`);
-    const cust = document.getElementById(`custThorax${sub}`);
-    if (!sel) return '';
-    if (sel.value === 'Lainnya') return cust.value.trim();
-    if (sub === 'Auskultasi') {
-      if (sel.value === 'VESIKULER_REGULER') return "Bunyi paru : vesikuler, ronki (-/-), wheezing (-/-)\nBunyi Jantung : I/II Reguler, Murmur (-), Gallop (-)";
-      if (sel.value === 'RONKI_GALLOP') return "Bunyi paru : ronki basah halus (+/+), wheezing (-/-)\nBunyi Jantung : I/II Reguler, Murmur (-), Gallop (+)";
-      if (sel.value === 'MURMUR_SISTOLIK') return "Bunyi paru : vesikuler (+/+)\nBunyi Jantung : I/II Reguler, Murmur (+) sistolik di apeks, Gallop (-)";
-      if (sel.value === 'AF_IRREGULER') return "Bunyi paru : vesikuler (+/+)\nBunyi Jantung : I/II Ireguler total (AF response), Murmur (-), Gallop (-)";
+function bangunFormFisik() {
+  const c = document.getElementById('fisikContainer');
+  if (!c) return;
+  c.innerHTML = FISIK_GRUP.map(g => {
+    const kolom = g.fields.map(k => {
+      const f = FISIK_FIELD[k];
+      const info = (!g.box && f.info) ? ` <span class="info-btn" onclick="showInfo('${f.info}', event)">\u{24D8}</span>` : '';
+      const opsi = f.opts.map((o, i) => `<option value="${i}">${o[1] || o[0]}</option>`).join('');
+      return `<div>
+        <div class="label-wrapper"><label for="selF_${k}" style="font-size:${g.box ? 11 : 12}px;">${f.label}${info}</label></div>
+        <select id="selF_${k}" onchange="tampilkanFisikLain('${k}', true)">${opsi}<option value="Lainnya">Lainnya...</option></select>
+        <textarea id="custF_${k}" rows="2" placeholder="Ketik manual (Enter = baris baru)..." style="display:none;"></textarea>
+      </div>`;
+    }).join('');
+    const isi = `<div class="${g.cls}">${kolom}</div>`;
+    if (!g.box) return isi;
+    return `<div style="background:#f8fafc; border:1px solid #cbd5e1; padding:10px; border-radius:6px; margin:8px 0;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+        <b style="font-size:12px; color:#881337;">${g.judul}</b>
+        <span class="info-btn" onclick="showInfo('${g.info}', event)">\u{24D8}</span>
+      </div>${isi}</div>`;
+  }).join('');
+}
+
+function tampilkanFisikLain(k, fokus) {
+  const s = document.getElementById('selF_' + k), t = document.getElementById('custF_' + k);
+  if (!s || !t) return;
+  const lain = (s.value === 'Lainnya');
+  t.style.display = lain ? 'block' : 'none';
+  if (lain && fokus) t.focus();
+}
+
+function getFisik(k) {
+  const s = document.getElementById('selF_' + k), t = document.getElementById('custF_' + k);
+  if (!s) return '';
+  if (s.value === 'Lainnya') return t.value.trim();
+  return FISIK_FIELD[k].opts[parseInt(s.value, 10)][0];
+}
+
+function setFisik(k, val) {
+  const s = document.getElementById('selF_' + k), t = document.getElementById('custF_' + k);
+  if (!s) return;
+  const idx = val ? FISIK_FIELD[k].opts.findIndex(o => o[0] === val) : -1;
+  if (!val) { s.value = '0'; t.value = ''; }
+  else if (idx >= 0) { s.value = String(idx); t.value = ''; }
+  else { s.value = 'Lainnya'; t.value = val; }
+  tampilkanFisikLain(k, false);
+}
+
+function resetFisik() { Object.keys(FISIK_MAP).forEach(k => setFisik(k, '')); }
+
+function muatStatusFisik(e) { Object.keys(FISIK_MAP).forEach(k => setFisik(k, e[FISIK_MAP[k]] || '')); }
+
+function bangunStatusFisik() {
+  const r = {};
+  Object.keys(FISIK_MAP).forEach(k => { r[FISIK_MAP[k]] = getFisik(k); });
+  r.statusThoraxAuskultasi = `Bunyi paru : ${r.statusThoraxAuskParu}\nBunyi Jantung : ${r.statusThoraxAuskJantung}`;
+  r.statusFisikAbdomen = `Inspeksi : ${r.statusAbdInspeksi}\nAuskultasi : ${r.statusAbdAuskultasi}\nPalpasi : ${r.statusAbdPalpasi}\nPerkusi : ${r.statusAbdPerkusi}`;
+  return r;
+}
+
+// ================= ANTROPOMETRI =================
+function hitungAntropometri() {
+  const bb = parseFloat(getVal('aBB')), tb = parseFloat(getVal('aTB')), jk = getVal('aJK');
+  const el = document.getElementById('aDetail');
+  if (!(bb > 0) || !(tb > 0)) { setVal('aBMI', ''); setVal('aKategori', ''); if (el) el.innerText = ''; return null; }
+  const bmi = bb / Math.pow(tb / 100, 2);
+  // Klasifikasi Asia-Pasifik
+  const kat = bmi < 18.5 ? 'Berat badan kurang' : bmi < 23 ? 'Normal' : bmi < 25 ? 'Berat badan lebih (berisiko)' : bmi < 30 ? 'Obesitas I' : 'Obesitas II';
+  let detail = `BSA ${Math.sqrt(bb * tb / 3600).toFixed(2)} m\u{B2}`;
+  if (jk) {
+    const bbi = (jk === 'L' ? 50 : 45.5) + 0.9 * (tb - 152.4); // Devine
+    if (bbi > 0) {
+      const pct = Math.round(bb / bbi * 100);
+      const ket = pct < 90 ? 'di bawah ideal' : pct <= 110 ? 'ideal' : pct <= 120 ? 'di atas ideal' : 'jauh di atas ideal';
+      detail = `BBI ${bbi.toFixed(1)} kg (${pct}% BBI, ${ket}) | ` + detail;
     }
-    return sel.value;
   }
+  setVal('aBMI', bmi.toFixed(1)); setVal('aKategori', kat);
+  if (el) el.innerText = detail + (jk ? '' : ' \u{2014} pilih jenis kelamin untuk BBI');
+  return { bmi: bmi.toFixed(1), kat, detail };
+}
+
+function ambilAntro() {
+  const h = hitungAntropometri();
+  return { antroJK: getVal('aJK'), antroBB: getVal('aBB'), antroTB: getVal('aTB'),
+           antroBMI: h ? h.bmi : '', antroKat: h ? h.kat : '', antroDetail: h ? h.detail : '' };
+}
+
+function setJKDariGelar() {
+  const g = getVal('pGelar');
+  const jk = g === 'Tn.' ? 'L' : (g === 'Ny.' || g === 'Nn.') ? 'P' : '';
+  if (jk) { setVal('aJK', jk); hitungAntropometri(); }
+}
+
+function resetAntro() { setVal('aJK', ''); setVal('aBB', ''); setVal('aTB', ''); hitungAntropometri(); }
+
+function muatAntro(e) {
+  setVal('aJK', e.antroJK || ''); setVal('aBB', e.antroBB || ''); setVal('aTB', e.antroTB || '');
+  if (!getVal('aJK')) setJKDariGelar();
+  hitungAntropometri();
+}
+
+function isiAntroDariSebelumnya(last) {   // TB & jenis kelamin dibawa, BB diisi ulang tiap pengukuran
+  resetAntro();
+  if (last) { setVal('aJK', last.antroJK || ''); setVal('aTB', last.antroTB || ''); }
+  if (!getVal('aJK')) setJKDariGelar();
+  hitungAntropometri();
+}
+
+function teksAntro(e) {
+  if (!e || !e.antroBB || !e.antroTB) return '';
+  return `BB: ${e.antroBB} kg | TB: ${e.antroTB} cm | BMI: ${e.antroBMI} kg/m\u{B2} (${e.antroKat})${e.antroDetail ? ' | ' + e.antroDetail : ''}`;
+}
+
+function cariAntro(p) { return (p.cpptEntries || []).find(e => e.antroBB && e.antroTB) || null; }
+
+// ================= TOTAL PASIEN PER DPJP (Slaberan Sensus) =================
+function ringkasanTotalDPJP(aktif) {
+  const grup = [
+    { kunci: 'nurhikmawati', nama: 'dr. Nurhikmawati, M.Kes., Sp.JP(K)., FIHA., FAPSC.', ikon: '\u{1F339}' },
+    { kunci: 'wisudawan', nama: 'Dr. dr. Wisudawan, M.Kes., Sp.JP., FIHA', ikon: '\u{1FAC0}' },
+    { kunci: 'akina', nama: 'dr. Akina Maulidhany Tahir, Sp.JP., FIHA', ikon: '\u{2764}\u{FE0F}' }
+  ];
+  const hit = grup.map(() => 0); let lain = 0;
+  aktif.forEach(p => {
+    const dpjp = ((p.tipePelayanan === 'KONSUL') ? (p.dpjpKonsulList?.[0] || p.dpjpKonsul || '') : (p.dpjpUtama || '')).toLowerCase();
+    const i = grup.findIndex(g => dpjp.includes(g.kunci));
+    if (i >= 0) hit[i]++; else lain++;
+  });
+  let t = `Total: ${aktif.length}\n`;
+  grup.forEach((g, i) => { t += `${g.nama} ${g.ikon} : ${hit[i]}\n`; });
+  if (lain) t += `DPJP lainnya : ${lain}\n`;
+  return t + '\n';
+}
+
 
   function handleImageUpload(e) {
     const files = e.target.files;
@@ -2970,7 +3144,7 @@
           activeImageAttachments.push({
             data: compressed,
             label: "Pemeriksaan Penunjang",
-            uploadedAtDate: getVal('cpptTanggalPeriksa') || new Date().toISOString().slice(0, 10)
+            uploadedAtDate: getVal('cpptTanggalPeriksa') || tglHariIni()
           });
           renderImagePreviews();
           showToast("Foto penunjang berhasil dimuat!");
@@ -3025,14 +3199,12 @@
   function setTanggalOtomatis(force = false) {
     const hari = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
     const bulan = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
-    const now = new Date();
+    const [y, m, d] = tglHariIni().split('-').map(Number);
     const tglInput = document.getElementById('tglLaporan');
-    if (force || !tglInput.value) {
-      tglInput.value = `${hari[now.getDay()]}, ${now.getDate()} ${bulan[now.getMonth()]} ${now.getFullYear()}`;
-    }
+    if (force || !tglInput.value) tglInput.value = `${hari[new Date(y, m - 1, d).getDay()]}, ${d} ${bulan[m - 1]} ${y}`;
     const tglPeriksa = document.getElementById('cpptTanggalPeriksa');
-    if (!tglPeriksa.value) {
-      tglPeriksa.value = now.toISOString().slice(0, 10);
+    if (!tglPeriksa.value || (force && currentPatientIndex === -1)) {
+      tglPeriksa.value = tglHariIni();
       currentActiveCPPTDate = tglPeriksa.value;
     }
   }
@@ -3102,7 +3274,7 @@
       sel.value = tglTerakhir;
       loadEKGToForm(ekgEntries[0]);
     } else {
-      setVal('ekgTanggalPeriksa', tglAktif || new Date().toISOString().slice(0, 10));
+      setVal('ekgTanggalPeriksa', tglAktif || tglHariIni());
       clearFormEKG();
     }
   }
@@ -3135,7 +3307,7 @@
       sel.value = tglTerakhir;
       loadLabToForm(labEntries[0]);
     } else {
-      setVal('labTanggalPeriksa', tglAktif || new Date().toISOString().slice(0, 10));
+      setVal('labTanggalPeriksa', tglAktif || tglHariIni());
       clearFormLab();
     }
   }
@@ -3161,7 +3333,7 @@
   }
 
   function tambahHasilBaruEKG() {
-    const today = new Date().toISOString().slice(0, 10);
+    const today = tglHariIni();
     setVal('ekgTanggalPeriksa', today);
     clearFormEKG();
     document.getElementById('selRiwayatTanggalEKG').value = '';
@@ -3169,7 +3341,7 @@
   }
 
   function tambahHasilBaruLab() {
-    const today = new Date().toISOString().slice(0, 10);
+    const today = tglHariIni();
     setVal('labTanggalPeriksa', today);
     clearFormLab();
     document.getElementById('selRiwayatTanggalLab').value = '';
@@ -3239,7 +3411,7 @@
     dates.forEach(t => {
       const o = document.createElement('option');
       o.value = t;
-      o.innerText = `📅 ${formatTanggalID(t)}`;
+      o.innerText = `\u{1F4C5} ${formatTanggalID(t)}`;
       sel.appendChild(o);
     });
     sel.style.display = 'inline-block';
@@ -3254,7 +3426,7 @@
 
   function tambahTanggalBaruUntukPasienIni() {
     if (currentPatientIndex === -1) return;
-    const today = new Date().toISOString().slice(0, 10);
+    const today = tglHariIni();
     setVal('cpptTanggalPeriksa', today);
     currentActiveCPPTDate = today;
     autoCarryPreviousData(pasienList[currentPatientIndex]);
@@ -3294,6 +3466,8 @@
     setVal('oO2Via', 'RA');
     setVal('oNRS', '');
 
+    resetFisik();
+    isiAntroDariSebelumnya(last);
     setVal('pDiag', last ? last.diag : '');
     setVal('pPlan', last ? last.pPlan : '');
     setVal('pInstruksi', last ? last.pInstruksi : '');
@@ -3325,6 +3499,8 @@
     setVal('oSpO2', e.oSpO2 || '');
     setVal('oO2Via', e.oO2Via || 'RA');
     setVal('oNRS', e.oNRS || '');
+    muatStatusFisik(e);
+    muatAntro(e);
 
     setVal('penunjangLain', e.penunjangLain || '');
     if (Array.isArray(e.lampiranFoto)) {
@@ -3346,9 +3522,19 @@
   }
 
   async function simpanCPPT(forceAsNewEntry = false) {
+    if (!(await verifikasiWaktu())) return;
+    const hariIni = tglHariIni(), tglInput = getVal('cpptTanggalPeriksa') || hariIni;
+    if (tglInput !== hariIni) {
+      alert(`CPPT hanya dapat disimpan untuk tanggal hari ini (${formatTanggalID(hariIni)}, waktu server WITA).\nTanggal ${formatTanggalID(tglInput)} hanya dapat dilihat sebagai riwayat.`);
+      return;
+    }
+    if (['ekgTanggalPeriksa', 'labTanggalPeriksa', 'pTglMasuk', 'pTglKonsul'].some(id => getVal(id) && getVal(id) > hariIni)) {
+      alert("Tanggal pemeriksaan/masuk/konsul tidak boleh melebihi hari ini.");
+      return;
+    }
     const namaPasien = getVal('pNama');
     const rmPasien = getVal('pRM');
-    const tglCPPT = getVal('cpptTanggalPeriksa') || new Date().toISOString().slice(0, 10);
+    const tglCPPT = getVal('cpptTanggalPeriksa') || tglHariIni();
     const rsSaatIni = getNamaRS();
     const shift = getVal('shiftJaga') || "JAGA SIANG";
     const koasSekarang = getVal('koasNama') || "Dokter Muda";
@@ -3360,8 +3546,8 @@
       return;
     }
 
-    const now = new Date();
-    const tsUpdate = now.toLocaleDateString('id-ID') + ', ' + now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }) + ' WITA';
+    const now = nowT() || new Date();
+    const tsUpdate = stampWITA();
 
     const cpptData = {
       tglPeriksa: tglCPPT,
@@ -3393,16 +3579,8 @@
       oSpO2: getVal('oSpO2'),
       oO2Via: getVal('oO2Via'),
       oNRS: getVal('oNRS'),
-      statusFisikKepala: getFisikVal('Kepala'),
-      statusFisikMata: getFisikVal('Mata'),
-      statusFisikBibir: getFisikVal('Bibir'),
-      statusFisikLeher: getFisikVal('Leher'),
-      statusThoraxInspeksi: getThoraxVal('Inspeksi'),
-      statusThoraxPalpasi: getThoraxVal('Palpasi'),
-      statusThoraxPerkusi: getThoraxVal('Perkusi'),
-      statusThoraxAuskultasi: getThoraxVal('Auskultasi'),
-      statusFisikAbdomen: getFisikVal('Abdomen'),
-      statusFisikEkstremitas: getFisikVal('Ekstremitas'),
+      ...ambilAntro(),
+      ...bangunStatusFisik(),
       ekgTanggal: getVal('ekgTanggalPeriksa') || tglCPPT,
       ekgIrama: getVal('ekgIrama'),
       ekgHR: getVal('ekgHR'),
@@ -3595,13 +3773,13 @@
     }
     let h = '';
     logs.forEach(l => {
-      const wa = l.wa ? `<a class="wa-link" href="https://wa.me/${cleanWANumber(l.wa)}" target="_blank">📱 ${l.wa}</a>` : '';
+      const wa = l.wa ? `<a class="wa-link" href="https://wa.me/${cleanWANumber(l.wa)}" target="_blank">\u{1F4F1} ${l.wa}</a>` : '';
       h += `
         <div class="log-item">
           <div style="font-weight:700; color:#881337;">${l.aksi}</div>
           <div style="color:#475569; display:flex; justify-content:space-between; flex-wrap:wrap; margin-top:2px;">
             <span>Dokter: <b>${l.nama}</b> [${l.nim || '-'}] ${wa}</span>
-            <span style="font-size:10.5px; color:#64748b;">🕒 ${l.waktu}</span>
+            <span style="font-size:10.5px; color:#64748b;">\u{1F552} ${l.waktu}</span>
           </div>
         </div>
       `;
@@ -3629,7 +3807,7 @@
 
     document.getElementById('formTitle').innerText = `Rekam Medis: ${p.nama} (${p.rm})`;
     document.getElementById('tabLabelCPPT').innerText = `CPPT (${p.nama.split(' ')[0]})`;
-    document.getElementById('btnSimpanPasien').innerText = `🔄 Perbarui CPPT`;
+    document.getElementById('btnSimpanPasien').innerText = `\u{1F504} Perbarui CPPT`;
     document.getElementById('btnSimpanBaruPasien').style.display = 'inline-block';
 
     setVal('pStatus', p.status || 'Lama');
@@ -3650,7 +3828,7 @@
     if (p.tipePelayanan === 'KONSUL') {
       setVal('pDPJPUtamaNonKardio', p.dpjpUtama || '');
     } else {
-      const predefined = ["dr. Wisudawan, Sp.JP., FIHA🫀", "dr. Nurhikmawati, Sp.JP., FIHA🌹", "dr. Akina Maulidhany Tahir, Sp.JP., FIHA❤️"];
+      const predefined = ["dr. Wisudawan, Sp.JP., FIHA\u{1FAC0}", "dr. Nurhikmawati, Sp.JP., FIHA\u{1F339}", "dr. Akina Maulidhany Tahir, Sp.JP., FIHA\u{2764}\u{FE0F}"];
       if (predefined.includes(p.dpjpUtama)) {
         setVal('pDPJPUtama', p.dpjpUtama);
         document.getElementById('pDPJPUtamaLainnya').style.display = 'none';
@@ -3701,7 +3879,7 @@
     document.getElementById('formTitle').innerText = "Formulir CPPT Kardiologi";
     document.getElementById('tabLabelCPPT').innerText = "Formulir CPPT";
     document.getElementById('txtLamaHariHeader').innerText = '';
-    document.getElementById('btnSimpanPasien').innerText = "💾 Simpan CPPT";
+    document.getElementById('btnSimpanPasien').innerText = "\u{1F4BE} Simpan CPPT";
     document.getElementById('btnSimpanBaruPasien').style.display = 'none';
     document.getElementById('activeModeBadge').style.display = 'none';
     document.getElementById('selRiwayatTanggalPasien').style.display = 'none';
@@ -3714,7 +3892,7 @@
     toggleTipePelayanan();
     toggleStatusPasien();
 
-    const today = new Date().toISOString().slice(0, 10);
+    const today = tglHariIni();
     setVal('ekgTanggalPeriksa', today);
     setVal('labTanggalPeriksa', today);
     if (document.getElementById('selRiwayatTanggalEKG')) document.getElementById('selRiwayatTanggalEKG').innerHTML = '<option value="">Pilih Riwayat EKG...</option>';
@@ -3759,6 +3937,8 @@
     setVal('oO2Via', 'RA');
     setVal('oNRS', '');
     setVal('penunjangLain', '');
+    resetFisik();
+    resetAntro();
     setVal('pDiag', '');
     setVal('pPlan', '');
     setVal('pInstruksi', '');
@@ -3800,11 +3980,12 @@
   }
 
   async function ubahStatusPasienLangsung(id, statusBaru) {
+    if (!(await verifikasiWaktu())) { renderTable(); return; }
     const idx = pasienList.findIndex(p => p.idPasien === id);
     if (idx === -1) return;
     const p = pasienList[idx];
     if (statusBaru === 'Meninggal') {
-      const nowStr = new Date().toLocaleDateString('id-ID') + ', ' + new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }) + ' WITA';
+      const nowStr = stampWITA();
       const inputKet = prompt(`Waktu kematian:`, nowStr);
       if (inputKet !== null) {
         p.status = 'Meninggal';
@@ -3817,7 +3998,7 @@
       p.status = statusBaru;
     }
 
-    const ts = new Date().toLocaleDateString('id-ID') + ', ' + new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }) + ' WITA';
+    const ts = stampWITA();
     p.terakhirDiisiOleh = getVal('koasNama') || "Dokter Muda";
     p.nomorWATerakhir = getVal('koasWA') || "";
     p.waktuUpdateTerakhir = ts;
@@ -3881,8 +4062,8 @@
       if (hrKonsul) rInfo += `<br><small style="color:#9333ea; font-weight:600;">Konsul Hr-${hrKonsul}</small>`;
 
       let badges = '';
-      if (isPlan) badges += `<br><span class="badge-plan">⚠️ Cek Plan: ${planTxt.substring(0, 24)}...</span>`;
-      if (isEcho) badges += `<br><span class="badge-echo">🫀 Rencana ECHO</span>`;
+      if (isPlan) badges += `<br><span class="badge-plan">\u{26A0}\u{FE0F} Cek Plan: ${planTxt.substring(0, 24)}...</span>`;
+      if (isEcho) badges += `<br><span class="badge-echo">\u{1FAC0} Rencana ECHO</span>`;
 
       const tr = document.createElement('tr');
       if (isPulang || isMeninggal || isLepas) tr.style.opacity = '0.75';
@@ -3891,14 +4072,14 @@
       let docKardio = (p.tipePelayanan === 'KONSUL') ? (p.dpjpKonsulList?.[0] || p.dpjpKonsul || 'dr. Sp.JP') : p.dpjpUtama;
       let docNon = (p.tipePelayanan === 'KONSUL') ? `<br><small style="color:#475569;">DPJP Utama: ${p.dpjpUtama}</small>` : '';
 
-      const waBtn = p.nomorWATerakhir ? `<br><a class="wa-link" href="https://wa.me/${cleanWANumber(p.nomorWATerakhir)}" target="_blank">📱 ${p.nomorWATerakhir}</a>` : '';
+      const waBtn = p.nomorWATerakhir ? `<br><a class="wa-link" href="https://wa.me/${cleanWANumber(p.nomorWATerakhir)}" target="_blank">\u{1F4F1} ${p.nomorWATerakhir}</a>` : '';
 
       tr.innerHTML = `
         <td style="text-align:center;"><input type="checkbox" ${isChecked} onchange="togglePilihPasien('${p.idPasien}', this.checked)"></td>
         <td><b>${p.ruang}</b><br><small>${p.bed || '-'}</small></td>
         <td>
           <select class="status-select-inline ${stClass}" onchange="ubahStatusPasienLangsung('${p.idPasien}', this.value)">
-            <option value="Baru" ${p.status === 'Baru'?'selected':''}>Baru (🆕)</option>
+            <option value="Baru" ${p.status === 'Baru'?'selected':''}>Baru (\u{1F195})</option>
             <option value="Lama" ${p.status === 'Lama'?'selected':''}>Lama</option>
             <option value="Pulang" ${p.status === 'Pulang'?'selected':''}>Pulang</option>
             <option value="Lepas Rawat" ${p.status === 'Lepas Rawat'?'selected':''}>Lepas Rawat</option>
@@ -3906,8 +4087,8 @@
           </select>${rInfo}
         </td>
         <td><b>${formatNamaLengkap(p.gelar, p.nama)}</b> (${p.usia || '-'} Thn)<br><small>RM: ${p.rm}</small>${badges}</td>
-        <td><b style="color:#be123c;">🫀 ${docKardio}</b>${docNon}</td>
-        <td><b>${p.terakhirDiisiOleh || '-'}</b>${waBtn}<br><span class="cppt-chip">${entries.length} CPPT</span></td>
+        <td><b style="color:#be123c;">\u{1FAC0} ${docKardio}</b>${docNon}</td>
+        <td><b>${p.terakhirDiisiOleh || '-'}</b>${waBtn}<br><small style="color:#64748b;">\u{1F552} ${p.waktuUpdateTerakhir || '-'}</small><br><small style="color:#64748b;">\u{1F4C5} CPPT: ${entries[0] ? formatTanggalID(entries[0].tglPeriksa) : '-'}</small><br><span class="cppt-chip">${entries.length} CPPT</span></td>
         <td>
           <div style="display:flex; gap:3px; flex-wrap:wrap;">
             <button type="button" style="padding:4px 8px;" onclick="editPasien('${p.idPasien}')">Buka</button>
@@ -3946,7 +4127,7 @@
       eList.forEach(i => {
         let chip = document.createElement('div');
         chip.className = 'echo-item-chip';
-        chip.innerHTML = `🫀 <b>${i.nama}</b> (${i.ruang || '-'})`;
+        chip.innerHTML = `\u{1FAC0} <b>${i.nama}</b> (${i.ruang || '-'})`;
         chip.onclick = () => editPasien(i.idPasien);
         ce.appendChild(chip);
       });
@@ -3974,7 +4155,7 @@
   }
 
   async function hapusSemuaDenganPIN() {
-    const pin = prompt("⚠️ PERINGATAN: Aksi ini menghapus seluruh database!\nMasukkan PIN Keamanan:");
+    const pin = prompt("\u{26A0}\u{FE0F} PERINGATAN: Aksi ini menghapus seluruh database!\nMasukkan PIN Keamanan:");
     if (pin === "882026") {
       pasienList = [];
       selectedPatientIndexesForReport.clear();
@@ -4007,9 +4188,9 @@
 
     bangsal.forEach(b => {
       const match = aktif.filter(p => p.ruang.toLowerCase() === b.toLowerCase());
-      res += `*🏥${b.toUpperCase()} : ${match.length} 🏥*\n\n`;
+      res += `*\u{1F3E5}${b.toUpperCase()} : ${match.length} \u{1F3E5}*\n\n`;
       match.forEach((p, idx) => {
-        const isB = (p.status === 'Baru') ? '🆕' : '';
+        const isB = (p.status === 'Baru') ? '\u{1F195}' : '';
         res += `*${idx + 1}. ${formatNamaLengkap(p.gelar, p.nama)}/${p.rm}/${p.usia || '-'} Thn/${p.bed || p.ruang}*\n`;
         if (p.tipePelayanan === 'KONSUL') {
           res += `Tanggal konsul : ${formatTanggalID(p.tglKonsul) || '-'}\nDPJP Utama : ${p.dpjpUtama}\nDPJP CO : ${p.dpjpKonsulList?.[0] || p.dpjpKonsul || '-'} ${isB}\n`;
@@ -4017,13 +4198,14 @@
           res += `Tanggal masuk : ${formatTanggalID(p.tglMasuk) || '-'}\nDPJP Utama : ${p.dpjpUtama} ${isB}\n`;
         }
         if (mode === 'CAPT') {
-          res += `Notes :\n\t⁃\t${(p.notesJaga || 'Sesuai CPPT').replace(/\n/g, '\n\t⁃\t')}\n${p.koasPJ || getVal('koasNama') || 'Dokter Muda'}\n\n`;
+          res += `Notes :\n\t\u{2043}\t${(p.notesJaga || 'Sesuai CPPT').replace(/\n/g, '\n\t\u{2043}\t')}\n${p.koasPJ || getVal('koasNama') || 'Dokter Muda'}\n\n`;
         } else {
           res += `\n`;
         }
       });
       res += `________________________________________\n`;
     });
+    res += '\n' + ringkasanTotalDPJP(aktif);
     document.getElementById('outputArea').innerText = res.trim();
   }
 
@@ -4063,7 +4245,7 @@
       } else {
         out += `DPJP Utama : ${p.dpjpUtama}\n${p.dpjpKonsul ? 'DPJP Konsul : ' + p.dpjpKonsul + '\n' : ''}`;
       }
-      if (p.status === 'Baru') out += `🆕 (Pasien Baru)\n`;
+      if (p.status === 'Baru') out += `\u{1F195} (Pasien Baru)\n`;
       out += `\n`;
 
       // S/ MEMPERTAHANKAN KETERANGAN SHIFT
@@ -4077,7 +4259,9 @@
       out += `*RPD:*\nHT: ${cur.sR_HT || '-'} | Jantung: ${cur.sR_PJK || '-'} | DM: ${cur.sR_DM || '-'} | RPO: ${cur.sR_RPO || '-'}\nMerokok: ${cur.sR_Rokok || '-'} | Alergi: ${cur.sR_Alergi || '-'}\n\n`;
 
       out += `*O/ Tanda Vital:*\nKU: ${cur.oKU || 'Sakit Sedang'} | GCS: ${cur.oGCS || '15'} | NRS: ${cur.oNRS || '0'}\n`;
-      out += `TD: ${cur.oTDSis || '-'}/${cur.oTDDia || '-'} mmHg ${mapVal ? '(MAP ' + mapVal + ')' : ''} | HR: ${cur.oNadi || '-'} x/m | RR: ${cur.oRR || '-'} x/m | SpO2: ${cur.oSpO2 || '-'}% (${cur.oO2Via || 'RA'}) | S: ${cur.oSuhu || '-'}°C\n\n`;
+      out += `TD: ${cur.oTDSis || '-'}/${cur.oTDDia || '-'} mmHg ${mapVal ? '(MAP ' + mapVal + ')' : ''} | HR: ${cur.oNadi || '-'} x/m | RR: ${cur.oRR || '-'} x/m | SpO2: ${cur.oSpO2 || '-'}% (${cur.oO2Via || 'RA'}) | S: ${cur.oSuhu || '-'}\u{B0}C\n\n`;
+      const antro = cariAntro(p);
+      if (antro) out += `*Antropometri${antro.tglPeriksa !== cur.tglPeriksa ? ' (' + formatTanggalID(antro.tglPeriksa) + ')' : ''}:* ${teksAntro(antro)}\n\n`;
       out += `Thorax: ${cur.statusThoraxAuskultasi || 'Vesikuler, ronki (-/-), BJ I/II Reg'}\n\n`;
 
       out += `*Pemeriksaan Penunjang:*\n`;
@@ -4091,7 +4275,7 @@
           if (e.ekgHR) det.push(`HR: ${e.ekgHR} bpm`);
           if (e.ekgSegmenST) det.push(`ST: ${e.ekgSegmenST}`);
           if (e.ekgKesan) det.push(`*Kesan: ${e.ekgKesan}*`);
-          listEKG.push(`• *(${formatTanggalID(e.ekgTanggal || e.tglPeriksa)})*:\n  ${det.join(' | ')}`);
+          listEKG.push(`\u{2022} *(${formatTanggalID(e.ekgTanggal || e.tglPeriksa)})*:\n  ${det.join(' | ')}`);
         }
       });
       if (listEKG.length) out += `*EKG:*\n${listEKG.join('\n')}\n\n`;
@@ -4106,7 +4290,7 @@
         if (e.labTroponin) items.push(`Troponin: ${e.labTroponin}`);
         if (e.labGDS) items.push(`GDS: ${e.labGDS}`);
         if (e.labUrCr) items.push(`Ur/Cr: ${e.labUrCr}`);
-        if (items.length) listLab.push(`• *(${formatTanggalID(e.labTanggal || e.tglPeriksa)})*:\n  ${items.join(' | ')}`);
+        if (items.length) listLab.push(`\u{2022} *(${formatTanggalID(e.labTanggal || e.tglPeriksa)})*:\n  ${items.join(' | ')}`);
       });
       if (listLab.length) out += `*Laboratorium:*\n${listLab.join('\n')}\n\n`;
 
@@ -4115,7 +4299,7 @@
       out += `*A/*\n${htmlToWhatsAppText(cur.diag || '-')}\n\n`;
       out += `*I/ Terapi:*\n${htmlToWhatsAppText(cur.pInstruksi || '-')}\n\n`;
       out += `*P/ Plan:*\n${htmlToWhatsAppText(cur.pPlan || '-')}\n\n`;
-      out += `Tabe dok, mohon arahan dan bimbingannya dok🙏🏻\n--------------------------------------------------\n\n`;
+      out += `Tabe dok, mohon arahan dan bimbingannya dok\u{1F64F}\u{1F3FB}\n--------------------------------------------------\n\n`;
     });
     document.getElementById('outputArea').innerText = out.trim();
   }
@@ -4139,7 +4323,7 @@
           </tr>
           <tr>
             <td style="font-weight:bold; background:#f8fafc; padding:4px 6px;">O/</td>
-            <td style="padding:4px 6px;">TD: ${e.oTDSis || '-'}/${e.oTDDia || '-'} mmHg | HR: ${e.oNadi || '-'} | SpO2: ${e.oSpO2 || '-'}% | EKG: ${e.ekgKesan || '-'} (${formatTanggalID(e.ekgTanggal || e.tglPeriksa)})</td>
+            <td style="padding:4px 6px;">TD: ${e.oTDSis || '-'}/${e.oTDDia || '-'} mmHg | HR: ${e.oNadi || '-'} | SpO2: ${e.oSpO2 || '-'}%${teksAntro(e) ? '<br>Antropometri: ' + teksAntro(e) : ''}<br>EKG: ${e.ekgKesan || '-'} (${formatTanggalID(e.ekgTanggal || e.tglPeriksa)})</td>
           </tr>
           <tr>
             <td style="font-weight:bold; background:#f8fafc; padding:4px 6px;">A/</td>
@@ -4155,7 +4339,7 @@
 
     return `
       <div style="text-align:center; border-bottom: 2px solid #881337; padding-bottom: 5px; margin-bottom: 8px;">
-        <h2 style="margin:0; font-size:12pt; color:#881337;">CPPT KARDIOLOGI — ${p.rs || getNamaRS()}</h2>
+        <h2 style="margin:0; font-size:12pt; color:#881337;">CPPT KARDIOLOGI \u{2014} ${p.rs || getNamaRS()}</h2>
         <p style="margin:2px 0 0; font-size:8pt;">Tanggal Cetak: ${tglLaporan}</p>
       </div>
       <table style="width:100%; border:none; margin-bottom:6px; font-size:8.5pt;">
@@ -4208,7 +4392,7 @@
     const blob = new Blob([csv.map(r => r.map(c => `"${c}"`).join(",")).join("\n")], { type: 'text/csv;charset=utf-8;' });
     const a = document.createElement("a");
     a.href = URL.createObjectURL(blob);
-    a.download = `MedLog_Export_${new Date().toISOString().slice(0, 10)}.csv`;
+    a.download = `MedLog_Export_${tglHariIni()}.csv`;
     a.click();
   }
 
@@ -4220,7 +4404,7 @@
     };
     const a = document.createElement('a');
     a.href = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(obj, null, 2));
-    a.download = `backup_medlog_${new Date().toISOString().slice(0, 10)}.json`;
+    a.download = `backup_medlog_${tglHariIni()}.json`;
     a.click();
   }
 
@@ -4345,52 +4529,93 @@
     }
   }
 
-  const PANDUAN_CARDIO = {
-    gcs: {
-      judul: "GCS (Glasgow Coma Scale)",
-      html: "<div class='modal-card'>• Eye (1-4) | Verbal (1-5/X) | Motorik (1-6)<br>• Skor 15: Composmentis | Skor 3-8: Koma (Evaluasi ETT)</div>"
-    },
-    td: {
-      judul: "Tekanan Darah & MAP",
-      html: "<div class='modal-card'>• MAP = [(2 × Diastol) + Sistol] / 3.<br>• Target MAP ≥ 65 mmHg dipertahankan untuk perfusi organ vital.<br>• Kontraindikasi Nitrat: TDS < 90 mmHg.</div>"
-    },
-    sg_kepala: {
-      judul: "Kepala",
-      html: "<div class='modal-card'>Normocephal: Bentuk simetris tanpa kelainan.</div>"
-    },
-    sg_mata: {
-      judul: "Mata",
-      html: "<div class='modal-card'>• CA (+/+): Anemia berat.<br>• SI (+/+): Kongesti hepatik kronis gagal jantung.</div>"
-    },
-    sg_bibir: {
-      judul: "Bibir & Mukosa",
-      html: "<div class='modal-card'>Sianosis sentral: Hipoksemia arteri berat.</div>"
-    },
-    sg_leher: {
-      judul: "JVP & Leher",
-      html: "<div class='modal-card'>JVP > 5+2 cmH2O: Peningkatan tekanan atrium kanan / gagal jantung kanan.</div>"
-    },
-    sg_thorax: {
-      judul: "Thorax",
-      html: "<div class='modal-card'>• Gallop S3: Gagal jantung sistolik.<br>• Ronki basah halus basal: Edema paru (ALO).</div>"
-    },
-    sg_abdomen: {
-      judul: "Abdomen",
-      html: "<div class='modal-card'>Hepatomegali & asites: Kongesti pasif vena sistemik.</div>"
-    },
-    sg_ekstremitas: {
-      judul: "Ekstremitas",
-      html: "<div class='modal-card'>Akral dingin & CRT > 2d: Syok kardiogenik / hipoperfusi. Edema (+/+): Retensi cairan.</div>"
-    },
-    ekg_baca: {
-      judul: "8 Langkah Cepat EKG",
-      html: "<div class='modal-card'>1. Irama (Sinus/AF)<br>2. Rate (300/kotak besar)<br>3. Axis (Lead I & aVF)<br>4. Gel P<br>5. PR interval (0.12-0.20s)<br>6. Kompleks QRS & LVH<br>7. ST segmen (STE/STD)<br>8. Gel T</div>"
-    },
-    nrs: {
-      judul: "Skala Nyeri NRS",
-      html: "<div class='modal-card'>0: Bebas nyeri | 1-3: Ringan | 4-6: Sedang (ISDN SL) | 7-10: Berat (Evaluasi Morfin IV).</div>"
-    }
-  };
+  const K = (j, h, c = '') => `<div class="modal-card ${c}"><div class="modal-card-title">${j}</div>${h}</div>`;
+
+const PANDUAN_CARDIO = {
+  gcs: { judul: "GCS (Glasgow Coma Scale)", html:
+    K("Komponen skor", "<b>Eye (E):</b> 4 spontan \u{B7} 3 terhadap suara \u{B7} 2 terhadap nyeri \u{B7} 1 tidak ada<br><b>Verbal (V):</b> 5 orientasi baik \u{B7} 4 bingung \u{B7} 3 kata tidak tepat \u{B7} 2 suara tidak jelas \u{B7} 1 tidak ada<br><b>Motorik (M):</b> 6 menurut perintah \u{B7} 5 melokalisasi nyeri \u{B7} 4 withdrawal \u{B7} 3 fleksi abnormal \u{B7} 2 ekstensi abnormal \u{B7} 1 tidak ada<br>Penulisan: E4V5M6 = 15.") +
+    K("Interpretasi", "15 composmentis \u{B7} 13-14 cedera/penurunan ringan \u{B7} 9-12 sedang \u{B7} \u{2264}8 berat (pertimbangkan proteksi jalan napas/ETT).", "highlight") +
+    K("Relevansi kardiologi", "Penurunan kesadaran: syok kardiogenik/hipoperfusi otak, aritmia (VT/VF, blok AV total, sinkop), stroke kardioemboli (AF, trombus LV, endokarditis), hipoksia pada edema paru, pasca henti jantung (ROSC).", "warn") },
+
+  nrs: { judul: "Skala Nyeri NRS (0-10)", html:
+    K("Interpretasi", "0 bebas nyeri \u{B7} 1-3 ringan \u{B7} 4-6 sedang \u{B7} 7-10 berat.", "highlight") +
+    K("Karakter nyeri dada angina", "Retrosternal, menekan/berat, menjalar ke lengan kiri/rahang/punggung, dicetuskan aktivitas, membaik dengan istirahat/nitrat. Nyeri &gt;20 menit saat istirahat \u{2192} curigai ACS (EKG \u{2264}10 menit, troponin).") +
+    K("Tata laksana & kewaspadaan", "Nitrat SL/ISDN untuk nyeri iskemik. Kontraindikasi: TDS &lt;90 mmHg, infark ventrikel kanan, PDE-5 inhibitor 24-48 jam. Morfin IV titrasi hanya bila nyeri refrakter (dapat menunda absorpsi antiplatelet oral dan menekan napas). Bedakan dari diseksi aorta (nyeri sobek, selisih TD kedua lengan), emboli paru, perikarditis (pleuritik, membaik condong ke depan).", "warn") },
+
+  td: { judul: "Tekanan Darah & MAP", html:
+    K("Klasifikasi TD (ESC/ESH 2018, dipakai PERHI 2019)", "Optimal &lt;120/&lt;80 \u{B7} Normal 120-129/80-84 \u{B7} Normal-tinggi 130-139/85-89<br>HT derajat 1: 140-159/90-99 \u{B7} Derajat 2: 160-179/100-109 \u{B7} Derajat 3: \u{2265}180/\u{2265}110<br>Hipertensi sistolik terisolasi: \u{2265}140/&lt;90") +
+    K("MAP & tekanan nadi", "MAP = [Sistol + (2 \u{D7} Diastol)] / 3. Target MAP \u{2265}65 mmHg untuk perfusi organ vital.<br>Tekanan nadi (sistol-diastol): lebar &gt;60 \u{2192} regurgitasi aorta, hipertiroid, anemia, arteri kaku; sempit &lt;25% sistol \u{2192} low output, tamponade, stenosis aorta berat.", "highlight") +
+    K("Kondisi darurat", "\u{2022} Krisis hipertensi \u{2265}180/110: <b>emergensi</b> bila ada kerusakan organ target (edema paru, ACS, diseksi aorta, ensefalopati, AKI) \u{2192} turunkan TD terkontrol dengan obat IV; <b>urgensi</b> tanpa kerusakan organ \u{2192} obat oral bertahap.<br>\u{2022} TDS &lt;90 / MAP &lt;65 + hipoperfusi (akral dingin, oliguria, laktat &gt;2) = syok kardiogenik \u{2192} cari penyebab (MI, tamponade, emboli paru, aritmia), pertimbangkan inotrop/vasopresor.<br>\u{2022} Pengukuran: duduk tenang 5 menit, manset sesuai, sejajar jantung. Bandingkan kedua lengan bila curiga diseksi (selisih &gt;20 mmHg). Pada AF ulangi beberapa kali.", "warn") },
+
+  nadi: { judul: "Nadi / Laju Jantung", html:
+    K("Interpretasi", "Normal 60-100 x/mnt.<br><b>Bradikardia &lt;60:</b> sick sinus, blok AV, efek beta-blocker/CCB non-DHP/digoksin/amiodaron, hipotiroid, hiperkalemia, infark inferior.<br><b>Takikardia &gt;100:</b> nyeri, demam, anemia, hipovolemia, hipoksia, tirotoksikosis, gagal jantung/syok, atau aritmia (AF/flutter respons cepat, SVT, VT).", "highlight") +
+    K("Karakter nadi", "\u{2022} Ireguler total tanpa pola = AF (defisit nadi: nadi perifer &lt; HR auskultasi).<br>\u{2022} Pulsus alternans: kekuatan selang-seling \u{2192} disfungsi LV berat.<br>\u{2022} Pulsus paradoksus (TD turun &gt;10 mmHg saat inspirasi): tamponade, PPOK berat.<br>\u{2022} Collapsing/water-hammer: regurgitasi aorta. Parvus et tardus: stenosis aorta berat.") +
+    K("Waspada", "Takikardia QRS lebar (\u{2265}0,12 s) dianggap VT sampai terbukti lain. Tidak stabil (hipotensi, nyeri dada, edema paru, penurunan kesadaran) \u{2192} kardioversi sinkron. Bradikardia simtomatik \u{2192} atropin IV (0,5-1 mg) atau pacu sementara.", "warn") },
+
+  rr: { judul: "Frekuensi Napas", html:
+    K("Interpretasi", "Normal dewasa 12-20 x/mnt. Takipnea &gt;20: edema paru/gagal jantung, emboli paru, ACS, nyeri, anemia, asidosis, sepsis. &gt;30 x/mnt dengan retraksi/otot bantu napas = distres napas berat \u{2192} pertimbangkan CPAP/NIV.<br>Cheyne-Stokes: gagal jantung lanjut. Bradipnea &lt;12: depresi napas (opioid).", "highlight") +
+    K("Skrining cepat", "qSOFA \u{2265}2 (RR \u{2265}22, TDS \u{2264}100, GCS &lt;15) \u{2192} curiga sepsis (endokarditis infektif, pneumonia).") },
+
+  suhu: { judul: "Suhu Tubuh", html:
+    K("Interpretasi", "36,5-37,5 \u{B0}C normal \u{B7} \u{2265}37,5 subfebris \u{B7} \u{2265}38 demam \u{B7} &lt;35 hipotermia.", "highlight") +
+    K("Relevansi kardiologi", "\u{2022} Demam + murmur baru/emboli: endokarditis infektif (kultur darah \u{2265}3 set sebelum antibiotik, kriteria Duke).<br>\u{2022} Demam + nyeri dada pleuritik posisional + friction rub: perikarditis.<br>\u{2022} Demam ringan hari 2-4 pasca-MI: nekrosis miokard; &gt;1 minggu \u{2192} pikirkan Dressler/infeksi.<br>\u{2022} Demam memperburuk takikardia dan gagal jantung. Hipotermia pasca-ROSC: target temperature management.") },
+
+  spo2: { judul: "SpO2 & Terapi Oksigen", html:
+    K("Interpretasi", "Normal 95-100%. 90-94% hipoksemia ringan \u{B7} &lt;90% hipoksemia bermakna (indikasi oksigen) \u{B7} &lt;85% sianosis sentral. Pada PPOK target 88-92%.", "highlight") +
+    K("Pilihan oksigen", "RA (21%) \u{B7} Nasal kanul 1-6 lpm (FiO\u{2082} \u{B1}24-44%) \u{B7} Simple mask 5-10 lpm \u{B7} NRM 10-15 lpm (FiO\u{2082} hingga \u{B1}60-90%) \u{B7} CPAP/NIV untuk edema paru kardiogenik \u{B7} Ventilator/ETT bila gagal napas.") +
+    K("Catatan", "Pada ACS tanpa hipoksemia (SpO\u{2082} \u{2265}90%) oksigen rutin tidak dianjurkan; berikan bila &lt;90%. Pembacaan dapat keliru pada syok/akral dingin, AF, anemia berat, kuku bercat.", "warn") },
+
+  antropometri: { judul: "Antropometri & BMI", html:
+    K("BMI = BB(kg) / TB(m)\u{B2}", "Klasifikasi Asia-Pasifik: &lt;18,5 berat badan kurang \u{B7} 18,5-22,9 normal \u{B7} 23-24,9 berat badan lebih (berisiko) \u{B7} 25-29,9 obesitas I \u{B7} \u{2265}30 obesitas II. Cut-off sama untuk laki-laki dan perempuan.", "highlight") +
+    K("Penilaian menurut jenis kelamin", "Berat badan ideal (Devine): laki-laki 50 kg + 0,9 kg tiap cm di atas 152,4 cm; perempuan 45,5 kg + 0,9 kg tiap cm di atas 152,4 cm. Ditampilkan sebagai % BB aktual terhadap BBI: &lt;90% di bawah ideal \u{B7} 90-110% ideal \u{B7} 110-120% di atas ideal \u{B7} &gt;120% jauh di atas ideal.<br>BSA (Mosteller) = \u{221A}(BB\u{D7}TB/3600) m\u{B2} \u{2014} dipakai untuk indeksasi ekokardiografi dan sebagian dosis obat.") +
+    K("Relevansi kardiologi", "Obesitas: faktor risiko PJK, HT, DM, AF, HFpEF, sleep apnea. Pada gagal jantung, BB naik &gt;2 kg dalam 3 hari = retensi cairan; pantau BB kering sebagai target diuresis. Dosis enoksaparin (1 mg/kgBB), heparin, kontras dan inotrop memakai BB aktual.", "warn") },
+
+  sg_kepala: { judul: "Kepala", html:
+    K("Normal", "Normocephal, simetris, tanpa deformitas atau massa.") +
+    K("Temuan bermakna", "\u{2022} Sianosis sentral (bibir/lidah): hipoksemia/PJB sianotik.<br>\u{2022} Xantelasma, arkus kornea (&lt;45 th): dislipidemia, risiko PJK.<br>\u{2022} Malar flush: stenosis mitral.<br>\u{2022} Head bobbing (Musset): regurgitasi aorta berat.<br>\u{2022} Edema periorbital: kongesti, sindrom nefrotik, hipotiroid.", "highlight") },
+
+  sg_mata: { judul: "Mata", html:
+    K("Konjungtiva anemis (CA)", "Anemia memperberat iskemia dan gagal jantung \u{2192} cek Hb, cari sumber perdarahan (terutama pada pasien dengan antiplatelet/antikoagulan).", "highlight") +
+    K("Sklera ikterik (SI)", "Kongesti hepar pada gagal jantung kanan, hemolisis (katup prostetik), hepatotoksisitas obat (amiodaron, statin).") +
+    K("Temuan lain", "Petekie konjungtiva/Roth spot: endokarditis infektif \u{B7} Xantelasma: dislipidemia \u{B7} Funduskopi: retinopati hipertensi menandakan kerusakan organ target.") },
+
+  sg_bibir: { judul: "Bibir & Mukosa", html:
+    K("Interpretasi", "\u{2022} <b>Sianosis sentral</b> (bibir, lidah, mukosa): deoksihemoglobin &gt;5 g/dL, umumnya SpO\u{2082} &lt;85% \u{2192} PJB sianotik, edema paru, PPOK.<br>\u{2022} Sianosis perifer: hipoperfusi/syok, vasokonstriksi.<br>\u{2022} Bibir/mukosa kering: dehidrasi, diuresis berlebihan (cek elektrolit).<br>\u{2022} Stomatitis angularis/lidah licin: defisiensi besi/B12.<br>\u{2022} Higiene gigi buruk: risiko endokarditis infektif.", "highlight") },
+
+  sg_leher: { judul: "JVP & Leher", html:
+    K("JVP (Jugular Venous Pressure)", "Posisi 45\u{B0}, ukur tinggi kolom vena jugularis interna di atas sudut sternum, ditambah 5 cmH\u{2082}O. Normal \u{2264} 5+2 cmH\u{2082}O (ditulis R+2).<br>JVP meningkat (R+3 atau lebih): gagal jantung kanan/kongestif, overload cairan, tamponade, perikarditis konstriktif, hipertensi pulmonal, emboli paru, infark RV.", "highlight") +
+    K("Tanda khas", "\u{2022} Hepatojugular refluks (+): tekan abdomen kanan atas 10 detik, JVP naik &gt;3 cm bertahan \u{2192} kongesti.<br>\u{2022} Kussmaul sign (JVP naik saat inspirasi): perikarditis konstriktif, infark RV, kardiomiopati restriktif.<br>\u{2022} Gelombang v besar: regurgitasi trikuspid \u{B7} Cannon a: disosiasi AV.<br>\u{2022} Bruit karotis: aterosklerosis, risiko stroke. Pembesaran tiroid: tirotoksikosis (penyebab AF). KGB: infeksi/keganasan.") },
+
+  sg_thorax: { judul: "Thorax (Inspeksi, Palpasi, Perkusi, Auskultasi)", html:
+    K("Inspeksi", "Normochest simetris. Barrel chest (PPOK/kor pulmonale) \u{B7} retraksi dan otot bantu napas (distres) \u{B7} iktus kordis tampak kuat (LVH/volume overload) \u{B7} sikatrik sternotomi (riwayat CABG/operasi katup) \u{B7} tonjolan infraklavikula (pacemaker/ICD).") +
+    K("Palpasi", "Iktus kordis normal di ICS V, 1-2 cm medial linea midklavikula kiri, diameter &lt;2-3 cm. Bergeser lateral/inferior = kardiomegali (dilatasi LV). Heave parasternal = hipertrofi RV. Thrill = murmur keras (\u{2265}grade IV). Fremitus menurun = efusi pleura/pneumotoraks.") +
+    K("Perkusi", "Sonor normal. Redup basal = efusi pleura/konsolidasi (efusi gagal jantung biasanya bilateral atau kanan dominan). Hipersonor = emfisema/pneumotoraks. Batas jantung melebar = kardiomegali/efusi perikard.") +
+    K("Auskultasi paru", "Vesikuler normal. Ronki basah halus basal bilateral = kongesti/edema paru kardiogenik \u{B7} ronki basah kasar = sekret/pneumonia \u{B7} wheezing = bronkospasme atau 'asma kardiak' \u{B7} vesikuler menurun basal = efusi pleura \u{B7} ronki asimetris \u{2192} pikirkan pneumonia, bukan murni kongesti.", "highlight") +
+    K("Auskultasi jantung", "\u{2022} S1 (apeks), S2 (basis; split fisiologis saat inspirasi; P2 keras = hipertensi pulmonal).<br>\u{2022} S3 gallop: gagal jantung sistolik/volume overload \u{B7} S4: LVH, iskemia, tidak ada pada AF.<br>\u{2022} <b>Murmur</b> (Levine 1-6): holosistolik apeks menjalar ke aksila = MR \u{B7} sistolik ejeksi ICS II kanan menjalar ke karotis = AS \u{B7} diastolik rumble apeks + opening snap = MS \u{B7} diastolik decrescendo tepi sternal kiri = AR \u{B7} continuous machinery = PDA \u{B7} friction rub = perikarditis \u{B7} klik midsistolik = MVP.<br>\u{2022} Irama ireguler total = AF.", "warn") },
+
+  sg_abdomen: { judul: "Abdomen (Inspeksi, Auskultasi, Palpasi, Perkusi)", html:
+    K("Inspeksi", "Datar/cembung simetris, ikut gerak napas. Distensi dengan bulging flank = asites \u{B7} vena kolateral = hipertensi portal \u{B7} sikatrik operasi.") +
+    K("Auskultasi", "Peristaltik normal \u{B1}5-30 x/mnt. Menurun/hilang = ileus (hipokalemia, iskemia mesenterika); meningkat = obstruksi/diare. Bruit abdomen/renal = stenosis arteri renalis (HT refrakter) atau aneurisma.") +
+    K("Palpasi", "Supel, nyeri tekan (-), hepar-lien tidak teraba. Hepatomegali nyeri tekan = kongesti hepar (gagal jantung kanan). Nyeri tekan epigastrium dapat menyerupai iskemia inferior. Massa pulsatil = aneurisma aorta abdomen.", "highlight") +
+    K("Perkusi", "Timpani normal. Pekak beralih/shifting dullness (+) = asites (\u{B1}\u{2265}1,5 L). Pekak hepar membesar = hepatomegali.") },
+
+  sg_ekstremitas: { judul: "Ekstremitas & Perfusi", html:
+    K("Profil hemodinamik", "Akral hangat + CRT &lt;2 detik = perfusi baik (warm). Akral dingin, CRT &gt;2 detik, sianosis, pulsasi lemah = hipoperfusi (cold).<br><b>Warm-Wet</b> (paling sering \u{2192} diuretik) \u{B7} <b>Cold-Wet</b> (inotrop \u{B1} vasodilator/diuretik) \u{B7} <b>Warm-Dry</b> \u{B7} <b>Cold-Dry</b> (cairan/inotrop).", "highlight") +
+    K("Edema", "Pitting derajat 1 (2 mm, hilang cepat) sampai 4 (8 mm, &gt;2 menit). Bilateral simetris: gagal jantung kanan, hipoalbumin, CKD, obat (amlodipin). Unilateral: DVT (skor Wells), limfedema, selulitis.") +
+    K("Tanda lain", "Clubbing finger: PJB sianotik, endokarditis infektif. Splinter hemorrhage, Osler node, Janeway lesion: endokarditis. Pulsasi dorsalis pedis/tibialis hilang dan ABI &lt;0,9: PAD.", "warn") },
+
+  ekg_baca: { judul: "8 Langkah Membaca EKG", html:
+    K("Langkah 1-3", "1. <b>Irama:</b> sinus (P positif di II, negatif di aVR, tiap P diikuti QRS) \u{B7} AF (tanpa P, RR ireguler) \u{B7} flutter (gelombang gergaji).<br>2. <b>Laju:</b> 300 \u{F7} jumlah kotak besar antar R-R (atau 1500 \u{F7} kotak kecil); bila ireguler hitung QRS dalam 6 detik \u{D7} 10.<br>3. <b>Axis:</b> I(+) aVF(+) normal \u{B7} I(+) aVF(\u{2212}) LAD (LAH, infark inferior, LBBB) \u{B7} I(\u{2212}) aVF(+) RAD (RVH, infark lateral, emboli paru).") +
+    K("Langkah 4-6", "4. <b>Gel P:</b> &lt;0,12 s dan &lt;2,5 mm. P tinggi runcing = RAE \u{B7} P lebar/bifasik V1 = LAE.<br>5. <b>PR</b> 0,12-0,20 s: &gt;0,20 = AV blok 1 \u{B7} memanjang progresif lalu drop = Wenckebach (Mobitz I) \u{B7} drop mendadak = Mobitz II \u{B7} disosiasi P-QRS = blok total \u{B7} &lt;0,12 + delta wave = WPW.<br>6. <b>QRS</b> &lt;0,12 s; \u{2265}0,12 = BBB (RBBB: rSR' di V1; LBBB: R lebar di V5-V6). Q patologis: lebar \u{2265}0,04 s atau dalam \u{2265}25% R. <b>LVH:</b> Sokolow-Lyon S V1 + R V5/V6 \u{2265}35 mm; Cornell R aVL + S V3 &gt;28 mm (laki-laki) / &gt;20 mm (perempuan). Low voltage &lt;5 mm di sadapan ekstremitas: efusi perikard, emfisema, obesitas.") +
+    K("Langkah 7-8 (iskemia)", "7. <b>Segmen ST \u{2014} STEMI:</b> elevasi titik J \u{2265}1 mm di \u{2265}2 sadapan berdekatan; khusus V2-V3: laki-laki \u{2265}40 th \u{2265}2 mm, laki-laki &lt;40 th \u{2265}2,5 mm, perempuan \u{2265}1,5 mm.<br>Lokasi: V1-V4 anterior (LAD) \u{B7} II, III, aVF inferior (RCA/LCx; rekam V3R-V4R untuk infark RV) \u{B7} I, aVL, V5-V6 lateral (LCx) \u{B7} depresi V1-V3 + R tinggi = posterior (rekam V7-V9). Depresi ST difus + elevasi aVR = left main/3VD. Depresi ST/inversi T = NSTE-ACS/iskemia.<br>8. <b>Gel T:</b> hiperakut = STEMI sangat awal \u{B7} inversi dalam simetris V2-V3 (Wellens) = stenosis LAD kritis \u{B7} T tinggi runcing = hiperkalemia \u{B7} mendatar + U menonjol = hipokalemia.", "warn") +
+    K("Interval QT", "QTc (Bazett) normal: laki-laki &lt;450 ms, perempuan &lt;460 ms. &gt;500 ms atau naik &gt;60 ms = risiko torsades de pointes (cek K, Mg, Ca; hentikan obat pemanjang QT).", "highlight") },
+
+  lab: { judul: "Laboratorium \u{2014} Nilai Rujukan & Interpretasi", html:
+    K("Nilai rujukan umum", "<b>Hb:</b> L 13-17, P 12-15 g/dL \u{B7} <b>WBC:</b> 4-10 ribu \u{B7} <b>PLT:</b> 150-400 ribu \u{B7} <b>HCT:</b> L 40-50%, P 36-46% \u{B7} <b>GDS:</b> &lt;200 mg/dL \u{B7} <b>Ureum:</b> 15-40 mg/dL \u{B7} <b>Kreatinin:</b> L 0,7-1,3, P 0,6-1,1 mg/dL.<br>Gunakan nilai rujukan laboratorium RS bila berbeda.") +
+    K("Biomarker jantung", "\u{2022} <b>Troponin I/T (hs):</b> dianggap naik bila &gt; persentil 99 batas rujukan assay. Infark miokard = kenaikan dan/atau penurunan dinamis + bukti iskemia klinis/EKG. Ulang 1-3 jam (protokol 0/1 atau 0/2 jam). Penyebab non-ACS: miokarditis, emboli paru, gagal jantung, CKD, sepsis.<br>\u{2022} <b>CK-MB:</b> naik 4-6 jam, puncak 12-24 jam, normal 48-72 jam; berguna untuk re-infark, kurang spesifik dibanding troponin.", "highlight") +
+    K("Interpretasi penting", "\u{2022} Leukositosis + neutrofilia: infeksi (endokarditis, pneumonia) atau stres pasca-MI. Trombositopenia &lt;100 ribu pada heparin hari 5-10 \u{2192} curiga HIT.<br>\u{2022} Anemia memperburuk iskemia dan gagal jantung.<br>\u{2022} Ur/Cr naik: sindrom kardiorenal, risiko nefropati kontras (CAG/PCI); sesuaikan dosis enoksaparin, DOAC, metformin.<br>\u{2022} Hiperglikemia akut pada ACS: kontrol glukosa. Jaga K 4,0-5,0 dan Mg \u{2265}2 pada aritmia.", "warn") }
+};
+
 
   function showInfo(k, e) {
     if (e) e.stopPropagation();
@@ -4410,6 +4635,8 @@
   }
 
   async function jalankanSistem() {
+    bangunFormFisik();
+    tickJam(); setInterval(tickJam, 1000);
     inisialisasiServiceWorker();
     await initIndexedDB();
     const d = await getPasienListDB();
