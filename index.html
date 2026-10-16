@@ -25,6 +25,7 @@
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-messaging-compat.js"></script>
 
   <style>
     :root {
@@ -1308,6 +1309,7 @@
         break-after: page;
       }
     }
+  body.privasi #appMainContainer { filter: blur(16px); }
   </style>
 </head>
 <body>
@@ -1381,6 +1383,7 @@
         <label for="authDaftarPass">Kata Sandi Baru (Min. 6 Karakter) *</label>
         <input type="password" id="authDaftarPass" placeholder="Minimal 6 karakter" autocomplete="new-password">
       </div>
+      <label style="display:flex; gap:8px; align-items:flex-start; font-size:11px; font-weight:500; margin:6px 0 8px;"><input type="checkbox" id="authSetuju" style="width:auto; margin:2px 0 0;"><span>Saya akan menjaga kerahasiaan data pasien, tidak membagikan akun atau tangkapan layar, dan memakai aplikasi ini hanya untuk keperluan pendidikan klinis.</span></label>
       <button type="button" id="btnProsesDaftar" class="alt" style="width:100%; margin-top:4px;" onclick="eksekusiDaftarMandiri()">Daftarkan Akun Saya</button>
     </div>
   </div>
@@ -1479,6 +1482,10 @@
     <button type="button" class="tab-nav-btn" id="tabBtnCPPT" onclick="switchMainTab('tabCPPT')">
       <span class="tab-icon">&#x270D;&#xFE0F;</span>
       <span id="tabLabelCPPT">Formulir CPPT</span>
+    </button>
+    <button type="button" class="tab-nav-btn" id="tabBtnJaga" onclick="switchMainTab('tabJaga')">
+      <span class="tab-icon">&#x1F4C5;</span>
+      <span>Jaga & Tugas</span>
     </button>
     <button type="button" class="tab-nav-btn" id="tabBtnReport" onclick="switchMainTab('tabReport')">
       <span class="tab-icon">&#x1F4F1;</span>
@@ -1767,11 +1774,12 @@
         <div><label style="font-size:11px; font-weight:600;">Riwayat Asam Urat</label><input type="text" id="sR_Uric" placeholder="(+) / disangkal"></div>
         <div><label style="font-size:11px; font-weight:600;">Riwayat Keluhan Serupa</label><input type="text" id="sR_KelSerupa" placeholder="(+) serangan ke-2 / disangkal"></div>
       </div>
-      <div class="grid-4">
+      <div class="grid-5">
         <div><label style="font-size:11px; font-weight:600;">Riwayat Merokok</label><input type="text" id="sR_Rokok" placeholder="(+) 1 bks/hari / disangkal"></div>
         <div><label style="font-size:11px; font-weight:600;">Riwayat Minum Alkohol</label><input type="text" id="sR_Alkohol" placeholder="Disangkal / (+)"></div>
         <div><label style="font-size:11px; font-weight:600;">Riwayat Penyakit Keluarga</label><input type="text" id="sR_Keluarga" placeholder="PJK (+) ayah / stroke (-)"></div>
-        <div><label style="font-size:11px; font-weight:600;">Riwayat Alergi & Operasi</label><input type="text" id="sR_Alergi" placeholder="Alergi obat (-), Riw operasi (-)"></div>
+        <div><label style="font-size:11px; font-weight:600;">Riwayat Alergi</label><input type="text" id="sR_Alergi" placeholder="Alergi obat (-), seafood"></div>
+        <div><label style="font-size:11px; font-weight:600;">Riwayat Operasi</label><input type="text" id="sR_Operasi" placeholder="Tidak ada / (+) apendektomi"></div>
       </div>
 
       <!-- SEKSI C: OBJECTIVE & TANDA VITAL -->
@@ -1794,7 +1802,8 @@
           <div class="label-wrapper">
             <label for="oGCS">GCS <span class="info-btn" onclick="showInfo('gcs', event)">&#x24D8;</span></label>
           </div>
-          <input type="text" id="oGCS" value="15" placeholder="Contoh: 15 / Composmentis">
+          <input type="text" id="oGCS" value="15" class="locked-field" readonly title="Terhitung otomatis dari E / M / V">
+          <input type="hidden" id="oGCSDetail"><input type="hidden" id="oGCSKes">
         </div>
         <div>
           <div class="label-wrapper">
@@ -1802,6 +1811,12 @@
           </div>
           <input type="number" id="oNRS" min="0" max="10" placeholder="0 - 10">
         </div>
+      </div>
+
+      <div style="background:#f8fafc; border:1px solid #cbd5e1; padding:10px 12px; border-radius:8px; margin-bottom:10px;">
+        <div style="display:flex; align-items:center; gap:5px; margin-bottom:6px;"><b style="font-size:12px; color:#881337;">&#x1F9E0; Glasgow Coma Scale (E / M / V)</b><span class="info-btn" onclick="showInfo('gcs', event)">&#x24D8;</span></div>
+        <div id="gcsContainer" class="grid-3"></div>
+        <div id="gcsHasil" style="font-size:12px; font-weight:700; margin-top:2px;"></div>
       </div>
 
       <div class="grid-4">
@@ -1965,8 +1980,8 @@
       </div>
 
       <div style="margin-top:6px;">
-        <div class="label-wrapper"><label for="penunjangLain">Pemeriksaan Penunjang Lain (ECHO, Rontgen, dll)</label></div>
-        <textarea id="penunjangLain" placeholder="Foto Thorax, TTE EF %, dll..."></textarea>
+        <div class="label-wrapper"><label for="penunjangLain">Pemeriksaan Penunjang Lain (ECHO, Rontgen, USG, dll)</label></div>
+        <textarea id="penunjangLain" placeholder="Tulis judul + tanggal sendiri, mis. *Pemeriksaan X-Ray Thorax (12/10/2026)*, lalu hasil per baris. Baris berawalan * dicetak apa adanya; baris lain otomatis diberi tanda &#x2043;"></textarea>
       </div>
 
       <div class="img-upload-box">
@@ -2024,6 +2039,53 @@
         <button id="btnSimpanBaruPasien" type="button" class="backup-btn" style="display:none;" onclick="simpanCPPT(true)">&#x2795; Simpan Sebagai CPPT Baru</button>
         <button type="button" class="alt" onclick="clearForm()">Reset Formulir</button>
       </div>
+    </div>
+  </div>
+
+  <div id="tabJaga" class="tab-view-content">
+    <div class="card">
+      <h3>&#x1F514; Pengingat & Notifikasi</h3>
+      <div id="notifStatus" style="font-size:12.5px; line-height:1.5; margin-bottom:8px;"></div>
+      <div class="btn-group" style="margin-top:0;">
+        <button type="button" onclick="aktifkanNotifikasi()">&#x1F514; Aktifkan Notifikasi</button>
+        <button type="button" class="alt" onclick="tampilNotif('Tes MedLog', 'Notifikasi berfungsi.', 'tes')">Kirim Tes</button>
+      </div>
+    </div>
+    <div class="card">
+      <h3>&#x1F4C5; Jadwal Jaga</h3>
+      <div id="jagaHariIni" class="guidance-box" style="margin-top:0;"></div>
+      <div class="grid-4">
+        <div><label style="font-size:11px; font-weight:600;">Tanggal</label><input type="date" id="jTanggal"></div>
+        <div><label style="font-size:11px; font-weight:600;">Shift</label><select id="jShift"><option value="JAGA PAGI">JAGA PAGI (08.00)</option><option value="JAGA SIANG">JAGA SIANG (14.00)</option><option value="JAGA MALAM">JAGA MALAM (20.00)</option></select></div>
+        <div><label style="font-size:11px; font-weight:600;">Ruang / Catatan</label><input type="text" id="jRuang" placeholder="IGD / ICCU / bangsal"></div>
+        <div id="jKoasWrap" style="display:none;"><label style="font-size:11px; font-weight:600;">Untuk koas (chief)</label><select id="jKoas"></select></div>
+      </div>
+      <div class="btn-group" style="margin-top:4px;">
+        <button type="button" onclick="tambahJadwal()">+ Tambah Jadwal</button>
+        <button type="button" class="backup-btn" onclick="eksporJadwalICS()">&#x1F4C6; Ekspor ke Kalender (alarm)</button>
+      </div>
+      <div id="listJadwal" style="overflow-x:auto;"></div>
+    </div>
+    <div class="card">
+      <h3>&#x2705; Tugas Bangsal</h3>
+      <div class="grid-4">
+        <div><label style="font-size:11px; font-weight:600;">Tugas</label><input type="text" id="tJudul" placeholder="Ambil lab, konfirmasi ECHO..."></div>
+        <div><label style="font-size:11px; font-weight:600;">Pasien</label><select id="tPasien"></select></div>
+        <div><label style="font-size:11px; font-weight:600;">Batas waktu (WITA)</label><input type="datetime-local" id="tDue"></div>
+        <div><label style="font-size:11px; font-weight:600;">Untuk</label><select id="tUntuk"><option value="ME">Saya</option><option value="SEMUA">Seluruh tim</option></select></div>
+      </div>
+      <div class="btn-group" style="margin-top:4px;">
+        <button type="button" onclick="tambahTugas()">+ Tambah Tugas</button>
+        <button type="button" class="alt" onclick="buatHandover()">&#x1F4CB; Buat Serah Terima</button>
+      </div>
+      <div id="listTugas" style="overflow-x:auto;"></div>
+      <div class="output-area" id="handoverOutput" style="margin-top:10px; display:none;"></div>
+      <div class="btn-group"><button type="button" class="alt" style="display:none;" id="btnSalinHandover" onclick="salinDari('handoverOutput')">Salin Serah Terima</button></div>
+    </div>
+    <div class="card" id="panelChief" style="display:none;">
+      <h3>&#x1F451; Panel Chief Koas</h3>
+      <div style="font-size:12px; color:#475569; margin-bottom:6px;">Ubah peran atau nonaktifkan akun koas. Akun nonaktif otomatis ditolak oleh server (Firebase Rules).</div>
+      <div id="listAkun" style="overflow-x:auto;"></div>
     </div>
   </div>
 
@@ -2184,6 +2246,295 @@ document.addEventListener('visibilitychange', () => {   // setelah HP tidur, sam
   if (isFirebaseReady && db && hiddenSejak && Date.now() - hiddenSejak > 60000) { db.goOffline(); setTimeout(() => db.goOnline(), 300); }
 });
 
+// ================= GLASGOW COMA SCALE (E / M / V) =================
+const GCS_OPSI = {
+  E: [[4, 'Spontan (membuka mata sendiri)'], [3, 'Terhadap suara (membuka mata saat dipanggil)'], [2, 'Terhadap nyeri (membuka mata saat dirangsang nyeri)'], [1, 'Tidak ada (tidak membuka mata)']],
+  M: [[6, 'Mengikuti perintah'], [5, 'Melokalisasi nyeri (tangan menuju sumber nyeri)'], [4, 'Withdrawal (menarik anggota gerak dari nyeri)'], [3, 'Fleksi abnormal (dekortikasi)'], [2, 'Ekstensi abnormal (deserebrasi)'], [1, 'Tidak ada gerakan']],
+  V: [[5, 'Orientasi baik (waktu, tempat, orang)'], [4, 'Bingung (bicara jelas, disorientasi)'], [3, 'Kata-kata tidak tepat (tidak nyambung)'], [2, 'Suara tidak jelas (mengerang)'], [1, 'Tidak ada suara'], ['T', 'Terintubasi/trakeostomi (V tidak dapat dinilai)']]
+};
+
+function gcsDerajat(n) { return n >= 15 ? 'normal' : n >= 13 ? 'ringan' : n >= 9 ? 'sedang' : 'berat'; }
+
+function bangunFormGCS() {
+  const c = document.getElementById('gcsContainer');
+  if (!c) return;
+  const judul = { E: 'Eye (E) - Buka mata', M: 'Motorik (M)', V: 'Verbal (V)' };
+  c.innerHTML = ['E', 'M', 'V'].map(k => `<div><div class="label-wrapper"><label for="gcs${k}" style="font-size:11px;">${judul[k]}</label></div>` +
+    `<select id="gcs${k}" onchange="hitungGCS()">${GCS_OPSI[k].map(o => `<option value="${o[0]}">${o[0]} - ${o[1]}</option>`).join('')}</select></div>`).join('');
+  hitungGCS();
+}
+
+function hitungGCS() {
+  const e = getVal('gcsE'), m = getVal('gcsM'), v = getVal('gcsV');
+  if (!e || !m || !v) return;
+  const intub = (v === 'T');
+  const total = parseInt(e, 10) + parseInt(m, 10) + (intub ? 0 : parseInt(v, 10));
+  const totalTxt = intub ? total + 'T' : String(total);
+  const detail = 'E' + e + 'M' + m + 'V' + v;
+  const kes = intub ? '' : teksKesadaran(total);
+  setVal('oGCS', totalTxt); setVal('oGCSDetail', detail); setVal('oGCSKes', kes);
+  const el = document.getElementById('gcsHasil');
+  if (!el) return;
+  const tafsir = intub ? 'V tidak dapat dinilai (terintubasi)'
+    : total >= 15 ? 'normal, tidak ada penurunan kesadaran'
+    : 'penurunan kesadaran ' + gcsDerajat(total) + (total <= 8 ? ' - pertimbangkan proteksi jalan napas' : '');
+  el.style.color = intub ? '#475569' : total >= 15 ? '#047857' : total >= 9 ? '#b45309' : '#b91c1c';
+  el.innerText = `GCS ${totalTxt} (${detail})${kes ? ' - ' + kes : ''} | ${tafsir}`;
+}
+
+function resetGCS() { setVal('gcsE', '4'); setVal('gcsM', '6'); setVal('gcsV', '5'); hitungGCS(); }
+
+function muatGCS(e) {
+  let E = e.oGCSE, M = e.oGCSM, V = e.oGCSV;
+  if (!E) {   // entri lama: baca dari teks rincian bila ada
+    const m = /E(\d)M(\d)V(\d|T)/i.exec(e.oGCSDetail || '');
+    if (m) { E = m[1]; M = m[2]; V = m[3].toUpperCase(); }
+  }
+  setVal('gcsE', E || '4'); setVal('gcsM', M || '6'); setVal('gcsV', V || '5');
+  hitungGCS();
+}
+
+// ================= JADWAL JAGA, TUGAS BANGSAL, PENGINGAT, PRIVASI =================
+const VAPID_KEY = '';   // isi dengan Web Push certificate key (Firebase Console > Project settings > Cloud Messaging)
+const JAGA_MULAI = { 'JAGA PAGI': '08:00', 'JAGA SIANG': '14:00', 'JAGA MALAM': '20:00' };
+const JAGA_DURASI_JAM = { 'JAGA PAGI': 6, 'JAGA SIANG': 6, 'JAGA MALAM': 12 };
+let peranUser = 'koas', jadwalList = [], tugasList = [], akunList = [], refJadwal = null, refTugas = null, swReg = null, terakhirAktif = performance.now();
+
+const esc = x => String(x == null ? '' : x).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const epochWITA = (tgl, jam) => Date.parse(`${tgl}T${jam}:00+08:00`);
+const epochJaga = j => epochWITA(j.tgl, JAGA_MULAI[j.shift] || '08:00');
+const fmtWITA = ms => new Intl.DateTimeFormat('id-ID', { timeZone: ZONA_RS, day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' }).format(new Date(ms)).replace(/\./g, ':') + ' WITA';
+const tglSebelum = tgl => new Intl.DateTimeFormat('en-CA', { timeZone: ZONA_RS }).format(new Date(epochWITA(tgl, '12:00') - 864e5));
+const aktifPasien = p => !['Pulang', 'Meninggal', 'Lepas Rawat'].includes(p.status);
+const daftarDari = v => v ? Object.entries(v).map(([id, x]) => Object.assign({ id }, x)) : [];
+
+function mulaiListenerJaga() {
+  if (!isFirebaseReady || refJadwal) return;
+  refJadwal = db.ref('jadwal'); refTugas = db.ref('tugas');
+  refJadwal.on('value', s => { jadwalList = daftarDari(s.val()); renderJaga(); cekPengingat(); });
+  refTugas.on('value', s => { tugasList = daftarDari(s.val()); renderTugas(); cekPengingat(); });
+  const chief = peranUser === 'chief';
+  document.getElementById('panelChief').style.display = chief ? 'block' : 'none';
+  document.getElementById('jKoasWrap').style.display = chief ? 'block' : 'none';
+  if (chief) muatDaftarAkun();
+  perbaruiStatusNotif();
+}
+
+function hentikanListenerJaga() {
+  if (refJadwal) refJadwal.off();
+  if (refTugas) refTugas.off();
+  refJadwal = refTugas = null; jadwalList = []; tugasList = [];
+}
+
+function bukaTabJaga() {
+  if (!getVal('jTanggal')) setVal('jTanggal', tglHariIni());
+  isiPilihanPasienTugas(); renderJaga(); renderTugas(); perbaruiStatusNotif();
+}
+
+// ---------- Notifikasi ----------
+function tandaiNotif(k) {   // true bila baru pertama kali
+  let m = {};
+  try { m = JSON.parse(localStorage.getItem('medlog_notif') || '{}'); } catch (e) {}
+  if (m[k]) return false;
+  m[k] = Date.now();
+  const kunci = Object.keys(m);
+  if (kunci.length > 300) kunci.sort((a, b) => m[a] - m[b]).slice(0, 100).forEach(x => delete m[x]);
+  try { localStorage.setItem('medlog_notif', JSON.stringify(m)); } catch (e) {}
+  return true;
+}
+
+function tampilNotif(judul, isi, tag) {
+  showToast('\u{1F514} ' + judul + ': ' + isi);
+  if (navigator.vibrate) navigator.vibrate([200, 100, 200]);
+  if ('Notification' in window && Notification.permission === 'granted') {
+    const opsi = { body: isi, tag: tag, icon: 'icon_192x192.png', badge: 'icon_192x192.png', requireInteraction: true };
+    if (swReg) swReg.showNotification(judul, opsi);
+    else { try { new Notification(judul, opsi); } catch (e) {} }
+  }
+}
+
+async function aktifkanNotifikasi() {
+  if (!('Notification' in window)) { alert('Browser ini tidak mendukung notifikasi. Di iPhone, pasang MedLog ke Layar Utama (Share > Add to Home Screen) lalu buka dari ikon tersebut.'); return; }
+  const izin = await Notification.requestPermission();
+  if (izin === 'granted') await daftarPush();
+  perbaruiStatusNotif();
+}
+
+async function daftarPush() {
+  if (!VAPID_KEY || !swReg || !currentUserAuth || !firebase.messaging) return;
+  try {
+    const token = await firebase.messaging().getToken({ vapidKey: VAPID_KEY, serviceWorkerRegistration: swReg });
+    if (token) await db.ref('fcmTokens/' + currentUserAuth.uid + '/' + token.slice(-24).replace(/[^A-Za-z0-9_-]/g, '_')).set({ token: token, serverStamp: firebase.database.ServerValue.TIMESTAMP });
+  } catch (e) {}
+}
+
+function perbaruiStatusNotif() {
+  const el = document.getElementById('notifStatus');
+  if (!el) return;
+  const izin = ('Notification' in window) ? Notification.permission : 'tidak didukung';
+  const push = VAPID_KEY ? 'Push saat aplikasi tertutup: aktif bila server pengingat (Cloud Function) sudah dipasang.' : 'Push saat aplikasi tertutup: belum dikonfigurasi (VAPID key kosong).';
+  el.innerHTML = `Izin notifikasi: <b>${esc(izin)}</b>. Pengingat tugas dan jadwal jaga berjalan selama MedLog terbuka. ${push}<br>Tanpa server: pakai <b>Ekspor ke Kalender</b> agar alarm jaga berbunyi dari kalender HP walau MedLog tertutup.`;
+}
+
+function cekPengingat() {
+  const t = nowT();
+  if (!t || !currentUserAuth) return;
+  const now = t.getTime(), uid = currentUserAuth.uid, JENDELA = 6 * 36e5;
+  const picu = (waktu, kunci, judul, isi) => { if (now >= waktu && now < waktu + JENDELA && tandaiNotif(kunci)) tampilNotif(judul, isi, kunci); };
+  tugasList.filter(x => !x.selesai && x.due && (!x.untuk || x.untuk === uid)).forEach(x => {
+    const isi = x.judul + (x.pasienNama ? ' - ' + x.pasienNama : '');
+    picu(x.due - 15 * 6e4, 'tg15' + x.id, 'Tugas 15 menit lagi', isi);
+    picu(x.due, 'tg0' + x.id, 'Tugas jatuh tempo', isi);
+  });
+  jadwalList.filter(j => j.uid === uid).forEach(j => {
+    const m = epochJaga(j), isi = j.shift + (j.ruang ? ' - ' + j.ruang : '') + ' (mulai ' + fmtWITA(m) + ')';
+    picu(epochWITA(tglSebelum(j.tgl), '18:00'), 'jg1d' + j.id, 'Besok Anda jaga', isi);
+    picu(m - 36e5, 'jg1h' + j.id, 'Jaga 1 jam lagi', isi);
+    picu(m, 'jg0' + j.id, 'Jaga dimulai', isi);
+  });
+}
+
+// ---------- Jadwal jaga ----------
+async function tambahJadwal() {
+  if (!(await verifikasiWaktu())) return;
+  const tgl = getVal('jTanggal'), shift = getVal('jShift');
+  if (!tgl) { alert('Pilih tanggal jaga.'); return; }
+  if (tgl < tglHariIni()) { alert('Tanggal jaga tidak boleh sebelum hari ini.'); return; }
+  let uid = currentUserAuth.uid, nama = getVal('koasNama');
+  if (peranUser === 'chief' && getVal('jKoas')) { const p = getVal('jKoas').split('|'); uid = p[0]; nama = p[1]; }
+  if (jadwalList.some(j => j.uid === uid && j.tgl === tgl && j.shift === shift)) { alert('Jadwal yang sama sudah ada.'); return; }
+  const id = db.ref('jadwal').push().key;
+  await db.ref('jadwal/' + id).set({ uid: uid, nama: nama, tgl: tgl, shift: shift, ruang: getVal('jRuang'), dibuatOleh: currentUserAuth.uid, serverStamp: firebase.database.ServerValue.TIMESTAMP });
+  setVal('jRuang', ''); showToast('Jadwal jaga ditambahkan.');
+}
+
+async function hapusJadwal(id) {
+  if (confirm('Hapus jadwal jaga ini?')) await db.ref('jadwal/' + id).remove();
+}
+
+function renderJaga() {
+  const el = document.getElementById('listJadwal');
+  if (!el || !nowT()) return;
+  const hari = tglHariIni(), uid = currentUserAuth && currentUserAuth.uid;
+  const ke = jadwalList.filter(j => j.tgl >= hari).sort((a, b) => epochJaga(a) - epochJaga(b));
+  const ini = ke.filter(j => j.tgl === hari);
+  document.getElementById('jagaHariIni').innerHTML = '<b>Jaga hari ini:</b> ' + (ini.length ? ini.map(j => `${esc(j.shift.replace('JAGA ', ''))}: ${esc(j.nama)}`).join(' &middot; ') : 'belum ada jadwal.');
+  el.innerHTML = ke.length ? '<table><thead><tr><th>Tanggal</th><th>Shift</th><th>Koas</th><th>Ruang</th><th></th></tr></thead><tbody>' + ke.map(j =>
+    `<tr${j.uid === uid ? ' style="background:#fff1f2;"' : ''}><td>${esc(formatTanggalID(j.tgl))}</td><td>${esc(j.shift)}</td><td>${esc(j.nama)}</td><td>${esc(j.ruang || '-')}</td>` +
+    `<td>${(j.uid === uid || peranUser === 'chief') ? `<button type="button" class="danger" style="padding:3px 8px;" onclick="hapusJadwal('${esc(j.id)}')">Hapus</button>` : ''}</td></tr>`).join('') + '</tbody></table>' : '<div style="font-size:12px; color:#64748b; margin-top:8px;">Belum ada jadwal mendatang.</div>';
+}
+
+function eksporJadwalICS() {
+  const hari = tglHariIni(), saya = jadwalList.filter(j => j.uid === currentUserAuth.uid && j.tgl >= hari);
+  if (!saya.length) { alert('Belum ada jadwal jaga Anda yang akan datang.'); return; }
+  const f = ms => new Date(ms).toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '');
+  const L = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//MedLog//Jadwal Jaga//ID'];
+  saya.forEach(j => {
+    const m = epochJaga(j);
+    L.push('BEGIN:VEVENT', 'UID:jaga-' + j.id + '@medlog', 'DTSTAMP:' + f(Date.now()), 'DTSTART:' + f(m), 'DTEND:' + f(m + (JAGA_DURASI_JAM[j.shift] || 6) * 36e5),
+      'SUMMARY:' + j.shift + ' Kardiologi' + (j.ruang ? ' - ' + j.ruang : ''),
+      'BEGIN:VALARM', 'ACTION:DISPLAY', 'DESCRIPTION:Jaga 1 jam lagi', 'TRIGGER:-PT60M', 'END:VALARM',
+      'BEGIN:VALARM', 'ACTION:DISPLAY', 'DESCRIPTION:Besok jaga', 'TRIGGER:-P1D', 'END:VALARM', 'END:VEVENT');
+  });
+  L.push('END:VCALENDAR');
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([L.join('\r\n')], { type: 'text/calendar;charset=utf-8' }));
+  a.download = 'jadwal_jaga_medlog.ics'; a.click();
+}
+
+// ---------- Tugas bangsal & serah terima ----------
+function isiPilihanPasienTugas() {
+  const sel = document.getElementById('tPasien');
+  if (!sel) return;
+  const lama = sel.value;
+  sel.innerHTML = '<option value="">- Tanpa pasien -</option>' + pasienList.filter(aktifPasien).map(p => `<option value="${esc(p.idPasien)}">${esc(p.nama)} (${esc(p.ruang)})</option>`).join('');
+  sel.value = lama;
+}
+
+async function tambahTugas() {
+  if (!(await verifikasiWaktu())) return;
+  const judul = getVal('tJudul');
+  if (!judul) { alert('Tulis tugasnya dulu.'); return; }
+  const p = pasienList.find(x => x.idPasien === getVal('tPasien'));
+  const saya = getVal('tUntuk') === 'ME';
+  const id = db.ref('tugas').push().key;
+  await db.ref('tugas/' + id).set({
+    judul: judul, due: getVal('tDue') ? Date.parse(getVal('tDue') + ':00+08:00') : 0,
+    pasienId: p ? p.idPasien : '', pasienNama: p ? p.nama : '',
+    untuk: saya ? currentUserAuth.uid : '', untukNama: saya ? getVal('koasNama') : 'Tim',
+    dibuatOleh: currentUserAuth.uid, dibuatNama: getVal('koasNama'), selesai: false,
+    serverStamp: firebase.database.ServerValue.TIMESTAMP
+  });
+  setVal('tJudul', ''); setVal('tDue', ''); showToast('Tugas ditambahkan.');
+}
+
+async function selesaiTugas(id, ya) {
+  await db.ref('tugas/' + id).update({ selesai: ya, selesaiOleh: ya ? getVal('koasNama') : '' });
+}
+
+async function hapusTugas(id) {
+  if (confirm('Hapus tugas ini?')) await db.ref('tugas/' + id).remove();
+}
+
+function renderTugas() {
+  const el = document.getElementById('listTugas');
+  if (!el) return;
+  const uid = currentUserAuth && currentUserAuth.uid;
+  const urut = tugasList.filter(x => !x.untuk || x.untuk === uid || peranUser === 'chief').sort((a, b) => (a.selesai - b.selesai) || ((a.due || 9e15) - (b.due || 9e15)));
+  el.innerHTML = urut.length ? '<table><thead><tr><th></th><th>Tugas</th><th>Pasien</th><th>Batas</th><th>Untuk</th><th></th></tr></thead><tbody>' + urut.map(x =>
+    `<tr style="${x.selesai ? 'opacity:.55; text-decoration:line-through;' : ''}"><td><input type="checkbox" ${x.selesai ? 'checked' : ''} onchange="selesaiTugas('${esc(x.id)}', this.checked)"></td>` +
+    `<td>${esc(x.judul)}</td><td>${esc(x.pasienNama || '-')}</td><td>${x.due ? esc(fmtWITA(x.due)) : '-'}</td><td>${esc(x.untukNama || 'Tim')}</td>` +
+    `<td><button type="button" class="danger" style="padding:3px 8px;" onclick="hapusTugas('${esc(x.id)}')">Hapus</button></td></tr>`).join('') + '</tbody></table>' : '<div style="font-size:12px; color:#64748b; margin-top:8px;">Belum ada tugas.</div>';
+}
+
+function buatHandover() {
+  const aktif = pasienList.filter(aktifPasien);
+  let o = `*SERAH TERIMA ${getVal('shiftJaga')} (${getVal('tglLaporan')})*\nDari: ${getVal('koasNama')}\nTotal pasien aktif: ${aktif.length}\n\n`;
+  aktif.forEach((p, i) => {
+    const c = (p.cpptEntries || [])[0] || {}, tg = tugasList.filter(x => !x.selesai && x.pasienId === p.idPasien);
+    o += `*${i + 1}. ${formatNamaLengkap(p.gelar, p.nama)} /${p.rm} /${lokasiPasien(p)}/ ${p.usia || '-'} Thn*\n` +
+      `A: ${htmlToWhatsAppText(c.diag).replace(/\n/g, '; ') || '-'}\nP: ${htmlToWhatsAppText(c.pPlan).replace(/\n/g, '; ') || '-'}\n` +
+      `Tugas tertunda: ${tg.length ? tg.map(x => x.judul + (x.due ? ' (' + fmtWITA(x.due) + ')' : '')).join('; ') : '-'}\n\n`;
+  });
+  const out = document.getElementById('handoverOutput');
+  out.innerText = o.trim(); out.style.display = 'block';
+  document.getElementById('btnSalinHandover').style.display = 'inline-block';
+}
+
+function salinDari(id) {
+  navigator.clipboard.writeText(document.getElementById(id).innerText).then(() => showToast('Disalin!'));
+}
+
+// ---------- Panel chief ----------
+async function muatDaftarAkun() {
+  if (peranUser !== 'chief') return;
+  try {
+    const s = await db.ref('users').once('value');
+    akunList = daftarDari(s.val()).sort((a, b) => (a.nama || '').localeCompare(b.nama || ''));
+  } catch (e) { return; }
+  const me = currentUserAuth.uid;
+  document.getElementById('listAkun').innerHTML = '<table><thead><tr><th>Nama / NIM</th><th>Peran</th><th>Status</th></tr></thead><tbody>' + akunList.map(u =>
+    `<tr><td><b>${esc(u.nama)}</b><br><small>${esc(u.nim || '-')}</small></td>` +
+    `<td><select ${u.id === me ? 'disabled' : ''} onchange="ubahAkun('${esc(u.id)}', 'role', this.value)"><option value="koas" ${u.role !== 'chief' ? 'selected' : ''}>Koas</option><option value="chief" ${u.role === 'chief' ? 'selected' : ''}>Chief</option></select></td>` +
+    `<td><select ${u.id === me ? 'disabled' : ''} onchange="ubahAkun('${esc(u.id)}', 'aktif', this.value === '1')"><option value="1" ${u.aktif !== false ? 'selected' : ''}>Aktif</option><option value="0" ${u.aktif === false ? 'selected' : ''}>Nonaktif</option></select></td></tr>`).join('') + '</tbody></table>';
+  document.getElementById('jKoas').innerHTML = '<option value="">- Saya sendiri -</option>' + akunList.filter(u => u.aktif !== false).map(u => `<option value="${esc(u.id)}|${esc(u.nama)}">${esc(u.nama)}</option>`).join('');
+}
+
+async function ubahAkun(uid, field, nilai) {
+  try { await db.ref('users/' + uid + '/' + field).set(nilai); showToast('Akun diperbarui.'); }
+  catch (e) { alert('Gagal memperbarui akun (hanya chief yang diizinkan oleh server).'); }
+  muatDaftarAkun();
+}
+
+// ---------- Privasi: sesi otomatis berakhir & layar disamarkan ----------
+['click', 'keydown', 'touchstart', 'mousemove'].forEach(ev => document.addEventListener(ev, () => { terakhirAktif = performance.now(); }, { passive: true }));
+setInterval(() => {
+  if (currentUserAuth && auth && performance.now() - terakhirAktif > 20 * 6e4) {
+    auth.signOut(); alert('Sesi berakhir karena tidak ada aktivitas selama 20 menit. Silakan masuk kembali.');
+  }
+}, 30000);
+document.addEventListener('visibilitychange', () => document.body.classList.toggle('privasi', document.hidden));
+
 function dismissSplashScreen() {
     const splash = document.getElementById('appSplashScreen');
     if (!splash) return;
@@ -2213,7 +2564,7 @@ function dismissSplashScreen() {
   }
 
   function switchMainTab(targetTabId) {
-    ['tabPasien', 'tabCPPT', 'tabReport'].forEach(id => {
+    ['tabPasien', 'tabCPPT', 'tabReport', 'tabJaga'].forEach(id => {
       const el = document.getElementById(id);
       if (el) el.classList.remove('active');
     });
@@ -2223,6 +2574,8 @@ function dismissSplashScreen() {
     document.getElementById('tabBtnPasien').classList.toggle('active', targetTabId === 'tabPasien');
     document.getElementById('tabBtnCPPT').classList.toggle('active', targetTabId === 'tabCPPT');
     document.getElementById('tabBtnReport').classList.toggle('active', targetTabId === 'tabReport');
+    document.getElementById('tabBtnJaga').classList.toggle('active', targetTabId === 'tabJaga');
+    if (targetTabId === 'tabJaga') bukaTabJaga();
     window.scrollTo({ top: 100, behavior: 'smooth' });
   }
 
@@ -2291,6 +2644,7 @@ function dismissSplashScreen() {
     const btn = document.getElementById('btnProsesDaftar');
 
     if (!token || !nama || !nim || !wa || !email || !pass) { alert("Lengkapi semua kolom!"); showAuthGate(); return; }
+    if (!document.getElementById('authSetuju').checked) { alert("Centang pernyataan menjaga kerahasiaan data pasien."); showAuthGate(); return; }
     if (token !== KODE_AKSES_STASE_VALID) { alert("\u{274C} KODE STASE SALAH! Hubungi Chief Kardiologi."); showAuthGate(); return; }
     if (pass.length < 6) { alert("Kata sandi minimal 6 karakter!"); showAuthGate(); return; }
 
@@ -2362,6 +2716,8 @@ function dismissSplashScreen() {
                 }
               }
               if (uData) {
+                peranUser = uData.role || 'koas';
+                if (uData.aktif === false) { alert('Akun Anda dinonaktifkan oleh chief koas.'); await auth.signOut(); return; }
                 document.getElementById('currentUserBadge').style.display = 'inline-flex';
                 document.getElementById('currentUserNameText').innerText = (uData.nama || "Dokter").split(' ')[0];
                 setVal('koasNama', uData.nama || ''); setVal('koasNim', uData.nim || ''); setVal('koasWA', uData.wa || '');
@@ -2369,6 +2725,7 @@ function dismissSplashScreen() {
               }
             } catch (e) { muatOtomatisKoas(); }
 
+            mulaiListenerJaga();
             patientsRef.on('value', (s) => {
               const val = s.val();
               pasienList = val ? Object.values(val) : [];
@@ -2382,6 +2739,7 @@ function dismissSplashScreen() {
             currentUserAuth = null;
             document.getElementById('currentUserBadge').style.display = 'none';
             if (patientsRef) patientsRef.off();
+            hentikanListenerJaga();
             showAuthGate();
           }
         });
@@ -2471,19 +2829,8 @@ function dismissSplashScreen() {
   }
 
   function inisialisasiServiceWorker() {
-    if ('serviceWorker' in navigator) {
-      const swCode = `
-        self.addEventListener('install', (e) => self.skipWaiting());
-        self.addEventListener('activate', (e) => clients.claim());
-        self.addEventListener('fetch', (e) => {
-          if (e.request.method !== 'GET') e.respondWith(fetch(e.request).catch(() => caches.match(e.request)));
-        });
-      `;
-      try {
-        const blob = new Blob([swCode], { type: 'application/javascript' });
-        navigator.serviceWorker.register(URL.createObjectURL(blob)).catch(()=>{});
-      } catch (e) {}
-    }
+    if (!('serviceWorker' in navigator)) return;
+    navigator.serviceWorker.register('firebase-messaging-sw.js').then(r => { swReg = r; }).catch(() => {});
   }
 
   function getVal(id) {
@@ -3042,13 +3389,16 @@ function bangunStatusFisik() {
 }
 
 // ================= ANTROPOMETRI =================
+function katBMI(b) {   // klasifikasi WHO
+  return b < 18.5 ? 'Berat badan kurang' : b < 25 ? 'Normal' : b < 30 ? 'Berat badan lebih' : b < 35 ? 'Obesitas I' : b < 40 ? 'Obesitas II' : 'Obesitas III';
+}
+
 function hitungAntropometri() {
   const bb = parseFloat(getVal('aBB')), tb = parseFloat(getVal('aTB')), jk = getVal('aJK');
   const el = document.getElementById('aDetail');
   if (!(bb > 0) || !(tb > 0)) { setVal('aBMI', ''); setVal('aKategori', ''); if (el) el.innerText = ''; return null; }
   const bmi = bb / Math.pow(tb / 100, 2);
-  // Klasifikasi Asia-Pasifik
-  const kat = bmi < 18.5 ? 'Berat badan kurang' : bmi < 23 ? 'Normal' : bmi < 25 ? 'Berat badan lebih (berisiko)' : bmi < 30 ? 'Obesitas I' : 'Obesitas II';
+    const kat = katBMI(bmi);
   let detail = `BSA ${Math.sqrt(bb * tb / 3600).toFixed(2)} m\u{B2}`;
   if (jk) {
     const bbi = (jk === 'L' ? 50 : 45.5) + 0.9 * (tb - 152.4); // Devine
@@ -3453,10 +3803,11 @@ function ringkasanTotalDPJP(aktif) {
     setVal('sR_Alkohol', last ? last.sR_Alkohol : '');
     setVal('sR_Keluarga', last ? last.sR_Keluarga : '');
     setVal('sR_Alergi', last ? last.sR_Alergi : '');
+    setVal('sR_Operasi', last ? last.sR_Operasi : '');
 
     setVal('sKeluhanSekarang', '');
     setVal('oKU', 'Sakit Sedang');
-    setVal('oGCS', '15');
+    resetGCS();
     setVal('oTDSistol', '');
     setVal('oTDDiastol', '');
     setVal('oNadi', '');
@@ -3488,9 +3839,10 @@ function ringkasanTotalDPJP(aktif) {
     setVal('sR_Alkohol', e.sR_Alkohol || '');
     setVal('sR_Keluarga', e.sR_Keluarga || '');
     setVal('sR_Alergi', e.sR_Alergi || '');
+    setVal('sR_Operasi', e.sR_Operasi || '');
 
     setVal('oKU', e.oKU || 'Sakit Sedang');
-    setVal('oGCS', e.oGCS || '15');
+    muatGCS(e);
     setVal('oTDSistol', e.oTDSis || '');
     setVal('oTDDiastol', e.oTDDia || '');
     setVal('oNadi', e.oNadi || '');
@@ -3569,8 +3921,11 @@ function ringkasanTotalDPJP(aktif) {
       sR_Alkohol: getVal('sR_Alkohol'),
       sR_Keluarga: getVal('sR_Keluarga'),
       sR_Alergi: getVal('sR_Alergi'),
+      sR_Operasi: getVal('sR_Operasi'),
       oKU: getVal('oKU'),
       oGCS: getVal('oGCS'),
+      oGCSDetail: getVal('oGCSDetail'),
+      oGCSE: getVal('gcsE'), oGCSM: getVal('gcsM'), oGCSV: getVal('gcsV'), oGCSKes: getVal('oGCSKes'),
       oTDSis: getVal('oTDSistol'),
       oTDDia: getVal('oTDDiastol'),
       oNadi: getVal('oNadi'),
@@ -3925,9 +4280,10 @@ function ringkasanTotalDPJP(aktif) {
     setVal('sR_Alkohol', '');
     setVal('sR_Keluarga', '');
     setVal('sR_Alergi', '');
+    setVal('sR_Operasi', '');
 
     setVal('oKU', 'Sakit Sedang');
-    setVal('oGCS', '15');
+    resetGCS();
     setVal('oTDSistol', '');
     setVal('oTDDiastol', '');
     setVal('oNadi', '');
@@ -4210,6 +4566,141 @@ function ringkasanTotalDPJP(aktif) {
   }
 
   // --- GENERATOR SOAP DENGAN FORMAT TANGGAL MURNI PADA PENUNJANG ---
+  const LAB_FIELD = [
+    ['WBC', 'labWBC', ''], ['NEUTROFIL', 'labNeutrofil', '%'], ['LYMPOSIT', 'labLimfosit', '%'], ['MONOSIT', 'labMonosit', '%'],
+    ['EOSINOFIL', 'labEosinofil', '%'], ['BASOFIL', 'labBasofil', '%'], ['RBC', 'labRBC', ''], ['HGB', 'labHb', 'g/dL'],
+    ['HCT', 'labHCT', '%'], ['MCV', 'labMCV', 'fL'], ['MCH', 'labMCH', 'pg'], ['MCHC', 'labMCHC', 'g/dL'],
+    ['RDW-CV', 'labRDWCV', '%'], ['RDW-SD', 'labRDWSD', 'fL'], ['PLT', 'labPLT', ''], ['PCT', 'labPCT', '%'],
+    ['MPV', 'labMPV', 'fL'], ['PDW', 'labPDW', '%'], ['P-LCR', 'labPLCR', '%'], ['IPF', 'labIPF', '%'],
+    ['GDS', 'labGDS', 'mg/dL'], ['TROPONIN', 'labTroponin', ''], ['CK-MB', 'labCKMB', ''], ['UREUM/CR', 'labUrCr', '']
+  ];
+
+  function teksKesadaran(g) {
+    const n = parseInt(g, 10);
+    return n >= 14 ? 'Composmentis' : n >= 12 ? 'Apatis' : n >= 10 ? 'Delirium' : n >= 7 ? 'Somnolen' : n >= 5 ? 'Sopor' : n === 4 ? 'Semi-koma' : 'Koma';
+  }
+
+  function teksViaO2(v) {
+    v = v || 'RA';
+    if (v.startsWith('RA')) return 'Room Air';
+    if (v.startsWith('NK')) return v.replace('NK', 'Nasal Kanul');
+    if (v.startsWith('NRM')) return v.replace('NRM', 'Non-Rebreathing Mask (NRM)');
+    return v;
+  }
+
+  function lokasiPasien(p) {   // contoh: "Al araf 515"
+    const m = (p.ruang || '').match(/\(([^)]+)\)/);
+    let ruang = m ? m[1] : (p.ruang || '');
+    ruang = ruang.charAt(0).toUpperCase() + ruang.slice(1);
+    const bed = (p.bed || '').trim();
+    if (!bed) return ruang;
+    return (/^[A-Za-z]/.test(bed) && !/^bed\b/i.test(bed)) ? bed : `${ruang} ${bed}`;
+  }
+
+  function namaShift(e) {
+    const w = (e.shiftWaktu || '').replace(/^JAGA\s*/i, '').toLowerCase() || 'shift';
+    return w.charAt(0).toUpperCase() + w.slice(1);
+  }
+
+  function buatLaporanSOAP(p) {
+    const ent = p.cpptEntries || [], cur = ent[0] || {};
+    const T = x => htmlToWhatsAppText(x || '');
+    const isi = x => x !== undefined && x !== null && String(x).trim() !== '';
+    const nilai = x => isi(x) ? String(x).trim() : '-';
+    const hariIni = tglHariIni();
+    const uniq = (fn) => { const seen = new Set(); return ent.filter(e => { const k = fn(e); if (!k || seen.has(k)) return false; seen.add(k); return true; }); };
+
+    let o = `Assalamualaikum warahmatullahi wabarakatuh dok. Mohon maaf mengganggu waktuta dok. Mohon izin melaporkan pasien ta dok atas nama:\n\n`;
+    o += `*${formatNamaLengkap(p.gelar, p.nama)} /${p.rm} /${lokasiPasien(p)}/ ${p.usia ? p.usia + ' Tahun' : '-'}*\n`;
+    o += `Tanggal masuk : ${formatTanggalID(p.tglMasuk) || '-'}\n`;
+    if (p.tipePelayanan === 'KONSUL') {
+      o += `Tanggal konsul : ${formatTanggalID(p.tglKonsul) || '-'}\nDPJP Utama : ${nilai(p.dpjpUtama)}\nDPJP Konsul Kardio : ${p.dpjpKonsulList?.[0] || p.dpjpKonsul || '-'}\n`;
+    } else {
+      o += `DPJP Utama : ${nilai(p.dpjpUtama)}\n`;
+      if (p.dpjpKonsul) o += `DPJP Konsul : ${p.dpjpKonsul}\n`;
+    }
+    if (p.status === 'Baru') o += `\u{1F195} (Pasien Baru)\n`;
+
+    // ---- S/ ----
+    o += `\nS/\n`;
+    ent.filter(e => T(e.sKelSekarang)).forEach((e, i) => {
+      const ini = (i === 0 && e.tglPeriksa === hariIni) ? ' Ini' : '';
+      o += `*Keluhan ${namaShift(e)}${ini} (${formatTanggalID(e.tglPeriksa)})*\n${T(e.sKelSekarang)}\n\n`;
+    });
+    const masuk = ent.map(e => e.sKelMasuk).find(x => T(x));
+    const tglMasukTxt = formatTanggalID(p.tglMasuk) || (ent.length ? formatTanggalID(ent[ent.length - 1].tglPeriksa) : '');
+    o += `*Keluhan Masuk (${tglMasukTxt})*\n${T(masuk) || '-'}\n\n`;
+
+    o += `*Riwayat Penyakit Dahulu:*\n`;
+    [['Hipertensi', 'sR_HT'], ['Penyakit Jantung', 'sR_PJK'], ['Pengobatan', 'sR_RPO'], ['Diabetes', 'sR_DM'], ['Asam urat', 'sR_Uric'],
+     ['keluhan yang sama', 'sR_KelSerupa'], ['merokok', 'sR_Rokok'], ['minum alkohol', 'sR_Alkohol'], ['penyakit dalam keluarga', 'sR_Keluarga'],
+     ['alergi', 'sR_Alergi'], ['Operasi', 'sR_Operasi']].forEach(([lbl, k]) => { o += `- Riwayat ${lbl}${(lbl === 'Pengobatan' || lbl === 'minum alkohol') ? ':' : ' :'} ${nilai(cur[k])}\n`; });
+
+    // ---- Objektif ----
+    const gcs = nilai(cur.oGCS);
+    const kesTxt = cur.oGCSKes || (/^\d+$/.test(gcs) ? teksKesadaran(gcs) : '');
+    o += `\n*Objektif*\nKeadaan Umum Pasien: ${nilai(cur.oKU)}/GCS ${gcs}${kesTxt ? '/' + kesTxt : ''}\n`;
+    let rinci = (cur.oGCSDetail || '').trim();
+    if (!rinci && gcs === '15') rinci = 'E4M6V5';
+    const nGCS = parseInt(gcs, 10);
+    if (rinci) o += `Glasgow Coma Scale : ${rinci}${(nGCS < 15 && !/T/i.test(gcs)) ? ` (total ${nGCS}, penurunan kesadaran ${gcsDerajat(nGCS)})` : ''}\n`;
+    const mapTD = hitungMAP(cur.oTDSis, cur.oTDDia);
+    o += `Tekanan Darah : ${nilai(cur.oTDSis)}/${nilai(cur.oTDDia)}mmHg${mapTD ? ` (MAP ${mapTD})` : ''}\n`;
+    o += `Nadi: ${nilai(cur.oNadi)}x/menit\nPernapasan:${nilai(cur.oRR)}x/menit\n`;
+    o += `Suhu : ${nilai(cur.oSuhu).replace('.', ',')} C\n`;
+    o += `SpO2 : ${nilai(cur.oSpO2)}% Via ${teksViaO2(cur.oO2Via)}\n`;
+
+    const an = cariAntro(p);
+    if (an) {
+      const bb = parseFloat(an.antroBB), tb = parseFloat(an.antroTB), bmi = bb / Math.pow(tb / 100, 2);
+      const kat = katBMI(bmi); 
+      o += `\nBerat Badan : ${an.antroBB} kilogram\nTinggi Badan: ${an.antroTB} centimeter\nIndeks Massa Tubuh : ${bmi.toFixed(2).replace('.', ',')}kg/m\u{B2} (${kat.charAt(0).toLowerCase() + kat.slice(1)})\n`;
+    }
+
+    o += `\nKepala : ${nilai(cur.statusFisikKepala)}\nMata: ${nilai(cur.statusFisikMata)}\nBibir : ${nilai(cur.statusFisikBibir)}\nLeher : ${nilai(cur.statusFisikLeher)}\n`;
+    o += `\nThorax :\nInspeksi : ${nilai(cur.statusThoraxInspeksi)}\nPalpasi : ${nilai(cur.statusThoraxPalpasi)}\nPerkusi : ${nilai(cur.statusThoraxPerkusi)}\n`;
+    o += `Auskultasi :\nBunyi paru : ${nilai(cur.statusThoraxAuskParu)}\nBunyi Jantung : ${nilai(cur.statusThoraxAuskJantung)}\n`;
+    o += `\nAbdomen :\nInspeksi : ${nilai(cur.statusAbdInspeksi)}\nAuskultasi : ${nilai(cur.statusAbdAuskultasi)}\nPalpasi : ${nilai(cur.statusAbdPalpasi)}\nPerkusi : ${nilai(cur.statusAbdPerkusi)}\n`;
+    o += `\nEkstremitas :\n${nilai(cur.statusFisikEkstremitas)}\n`;
+
+    // ---- EKG ----
+    const ekgList = uniq(e => (e.ekgIrama || e.ekgHR || e.ekgKesan || e.ekgSegmenST) ? (e.ekgTanggal || e.tglPeriksa) : '');
+    ekgList.forEach(e => {
+      o += `\n*EKG${ekgList.length > 1 ? ' (' + formatTanggalID(e.ekgTanggal || e.tglPeriksa) + ')' : ''}*\n`;
+      [['Irama', 'ekgIrama'], ['HR', 'ekgHR'], ['Axis', 'ekgAksis'], ['Gel P', 'ekgGelP'], ['Interval PR', 'ekgIntervalPR'], ['Komp QRS', 'ekgQRS'],
+       ['Gel Q', 'ekgQPatologis'], ['RBBB/LBBB', 'ekgBundleBranch'], ['Segmen ST', 'ekgSegmenST'], ['Gel T', 'ekgGelT']]
+        .forEach(([l, k]) => { if (isi(e[k])) o += `${l} : ${e[k].trim()}\n`; });
+      if (isi(e.ekgKonfigLVH) || isi(e.ekgKonfigPRWP) || isi(e.ekgKonfigLowVolt)) {
+        o += `Konfigurasi \n`;
+        [['LVH/RVH', 'ekgKonfigLVH'], ['PRWP', 'ekgKonfigPRWP'], ['Low Voltage', 'ekgKonfigLowVolt']].forEach(([l, k]) => { if (isi(e[k])) o += `- ${l} : ${e[k].trim()}\n`; });
+      }
+      if (isi(e.ekgKesan)) o += `Kesan : ${e.ekgKesan.trim()}\n`;
+    });
+
+    // ---- Laboratorium ----
+    uniq(e => LAB_FIELD.some(f => isi(e[f[1]])) ? (e.labTanggal || e.tglPeriksa) : '').forEach(e => {
+      o += `\n*Pemeriksaan Laboratorium (${formatTanggalID(e.labTanggal || e.tglPeriksa)})*\n`;
+      LAB_FIELD.forEach(([l, k, u]) => {
+        if (!isi(e[k])) return;
+        const val = String(e[k]).trim();
+        o += `${l} : ${val}${(u && /^[\d.,\s]+$/.test(val)) ? ' ' + u : ''}\n`;
+      });
+    });
+
+    // ---- Penunjang lain: hanya yang terbaru, tanpa judul/tanggal otomatis ----
+    const pLain = ent.find(e => isi(e.penunjangLain));
+    if (pLain) {
+      o += `\n`;
+      String(pLain.penunjangLain).split('\n').map(x => x.trim()).filter(Boolean).forEach(x => {
+        o += (x.startsWith('*') ? x : `\t\u{2043}\t${x.replace(/^[-\u2022\u2043]+\s*/, '')}`) + '\n';
+      });
+    }
+
+    o += `\nA/ KARDIO\n${T(cur.diag) || '-'}\n\nI/ KARDIO\n${T(cur.pInstruksi) || '-'}\n\nP/KARDIO\n${T(cur.pPlan) || '-'}\n\n`;
+    o += `Tabe dok, mohon maaf jika ada kesalahan dok, mohon arahan dan bimbingannya dok\u{1F64F}\u{1F3FB}`;
+    return o;
+  }
+
   function generateFollowUpSOAP() {
     const fDoc = document.getElementById('filterDPJPReport')?.value || 'SEMUA';
     let target = [];
@@ -4225,83 +4716,11 @@ function ringkasanTotalDPJP(aktif) {
         return (p.dpjpUtama && p.dpjpUtama.includes(fDoc)) || (p.dpjpKonsul && p.dpjpKonsul.includes(fDoc));
       });
     }
-
     if (!target.length) {
       document.getElementById('outputArea').innerText = "Tidak ada pasien terpilih.";
       return;
     }
-
-    let out = "";
-    target.forEach(p => {
-      const cur = p.cpptEntries?.[0] || {};
-      const mapVal = hitungMAP(cur.oTDSis, cur.oTDDia);
-      const hrRawat = hitungHariRawat(p.tglMasuk), hrKonsul = p.tglKonsul ? hitungHariRawat(p.tglKonsul) : null;
-
-      out += `Assalamualaikum wr. wb. dok, izin melaporkan pasien:\n\n`;
-      out += `${formatNamaLengkap(p.gelar, p.nama)}/${p.rm}/${p.usia || '-'} Thn/${p.ruang} (${p.bed || '-'})\n`;
-      out += `Tanggal Masuk: ${formatTanggalID(p.tglMasuk) || '-'}${hrRawat ? ' (' + hrRawat + ' hari rawatan)' : ''}\n`;
-      if (p.tipePelayanan === 'KONSUL') {
-        out += `Tanggal Konsul: ${formatTanggalID(p.tglKonsul) || '-'}${hrKonsul ? ' (' + hrKonsul + ' hari konsul)' : ''}\nDPJP Utama : ${p.dpjpUtama}\nDPJP Konsul Kardio : ${p.dpjpKonsulList?.[0] || p.dpjpKonsul || '-'}\n`;
-      } else {
-        out += `DPJP Utama : ${p.dpjpUtama}\n${p.dpjpKonsul ? 'DPJP Konsul : ' + p.dpjpKonsul + '\n' : ''}`;
-      }
-      if (p.status === 'Baru') out += `\u{1F195} (Pasien Baru)\n`;
-      out += `\n`;
-
-      // S/ MEMPERTAHANKAN KETERANGAN SHIFT
-      out += `*S/*\n`;
-      if (p.status !== 'Baru' && cur.sKelSekarang) {
-        const shiftName = (cur.shiftWaktu || 'Shift').toUpperCase();
-        out += `*Keluhan ${shiftName} (${formatTanggalID(cur.tglPeriksa)})*\n${htmlToWhatsAppText(cur.sKelSekarang)}\n\n`;
-      }
-      out += `*Keluhan masuk (${formatTanggalID(p.tglMasuk) || formatTanggalID(cur.tglPeriksa)})*\n${htmlToWhatsAppText(cur.sKelMasuk || '-')}\n\n`;
-
-      out += `*RPD:*\nHT: ${cur.sR_HT || '-'} | Jantung: ${cur.sR_PJK || '-'} | DM: ${cur.sR_DM || '-'} | RPO: ${cur.sR_RPO || '-'}\nMerokok: ${cur.sR_Rokok || '-'} | Alergi: ${cur.sR_Alergi || '-'}\n\n`;
-
-      out += `*O/ Tanda Vital:*\nKU: ${cur.oKU || 'Sakit Sedang'} | GCS: ${cur.oGCS || '15'} | NRS: ${cur.oNRS || '0'}\n`;
-      out += `TD: ${cur.oTDSis || '-'}/${cur.oTDDia || '-'} mmHg ${mapVal ? '(MAP ' + mapVal + ')' : ''} | HR: ${cur.oNadi || '-'} x/m | RR: ${cur.oRR || '-'} x/m | SpO2: ${cur.oSpO2 || '-'}% (${cur.oO2Via || 'RA'}) | S: ${cur.oSuhu || '-'}\u{B0}C\n\n`;
-      const antro = cariAntro(p);
-      if (antro) out += `*Antropometri${antro.tglPeriksa !== cur.tglPeriksa ? ' (' + formatTanggalID(antro.tglPeriksa) + ')' : ''}:* ${teksAntro(antro)}\n\n`;
-      out += `Thorax: ${cur.statusThoraxAuskultasi || 'Vesikuler, ronki (-/-), BJ I/II Reg'}\n\n`;
-
-      out += `*Pemeriksaan Penunjang:*\n`;
-
-      // EKG HANYA FORMAT TANGGAL
-      let listEKG = [];
-      (p.cpptEntries || []).forEach(e => {
-        if (e.ekgIrama || e.ekgHR || e.ekgKesan || e.ekgSegmenST) {
-          let det = [];
-          if (e.ekgIrama) det.push(`Irama: ${e.ekgIrama}`);
-          if (e.ekgHR) det.push(`HR: ${e.ekgHR} bpm`);
-          if (e.ekgSegmenST) det.push(`ST: ${e.ekgSegmenST}`);
-          if (e.ekgKesan) det.push(`*Kesan: ${e.ekgKesan}*`);
-          listEKG.push(`\u{2022} *(${formatTanggalID(e.ekgTanggal || e.tglPeriksa)})*:\n  ${det.join(' | ')}`);
-        }
-      });
-      if (listEKG.length) out += `*EKG:*\n${listEKG.join('\n')}\n\n`;
-
-      // LAB HANYA FORMAT TANGGAL
-      let listLab = [];
-      (p.cpptEntries || []).forEach(e => {
-        let items = [];
-        if (e.labHb) items.push(`Hb: ${e.labHb}`);
-        if (e.labWBC) items.push(`WBC: ${e.labWBC}`);
-        if (e.labPLT) items.push(`PLT: ${e.labPLT}`);
-        if (e.labTroponin) items.push(`Troponin: ${e.labTroponin}`);
-        if (e.labGDS) items.push(`GDS: ${e.labGDS}`);
-        if (e.labUrCr) items.push(`Ur/Cr: ${e.labUrCr}`);
-        if (items.length) listLab.push(`\u{2022} *(${formatTanggalID(e.labTanggal || e.tglPeriksa)})*:\n  ${items.join(' | ')}`);
-      });
-      if (listLab.length) out += `*Laboratorium:*\n${listLab.join('\n')}\n\n`;
-
-      if (cur.penunjangLain) out += `*Penunjang Lain:*\n${cur.penunjangLain}\n\n`;
-
-      out += `*A/*\n${htmlToWhatsAppText(cur.diag || '-')}\n\n`;
-      out += `*I/ Terapi:*\n${htmlToWhatsAppText(cur.pInstruksi || '-')}\n\n`;
-      out += `*P/ Plan:*\n${htmlToWhatsAppText(cur.pPlan || '-')}\n\n`;
-      out += `Tabe dok, mohon arahan dan bimbingannya dok\u{1F64F}\u{1F3FB}\n--------------------------------------------------\n\n`;
-    });
-    document.getElementById('outputArea').innerText = out.trim();
+    document.getElementById('outputArea').innerText = target.map(buatLaporanSOAP).join('\n\n--------------------------------------------------\n\n').trim();
   }
 
   function salinTeks() {
@@ -4566,7 +4985,7 @@ const PANDUAN_CARDIO = {
     K("Catatan", "Pada ACS tanpa hipoksemia (SpO\u{2082} \u{2265}90%) oksigen rutin tidak dianjurkan; berikan bila &lt;90%. Pembacaan dapat keliru pada syok/akral dingin, AF, anemia berat, kuku bercat.", "warn") },
 
   antropometri: { judul: "Antropometri & BMI", html:
-    K("BMI = BB(kg) / TB(m)\u{B2}", "Klasifikasi Asia-Pasifik: &lt;18,5 berat badan kurang \u{B7} 18,5-22,9 normal \u{B7} 23-24,9 berat badan lebih (berisiko) \u{B7} 25-29,9 obesitas I \u{B7} \u{2265}30 obesitas II. Cut-off sama untuk laki-laki dan perempuan.", "highlight") +
+    K("BMI = BB(kg) / TB(m)\u{B2}", "Klasifikasi WHO: &lt;18,5 berat badan kurang \u{B7} 18,5-24,9 normal \u{B7} 25-29,9 berat badan lebih \u{B7} 30-34,9 obesitas I \u{B7} 35-39,9 obesitas II \u{B7} \u{2265}40 obesitas III. Cut-off sama untuk laki-laki dan perempuan. Pada populasi Asia banyak pedoman memakai ambang lebih ketat (\u{2265}23 berat badan lebih, \u{2265}25 obesitas); nilai ini perlu dipertimbangkan bersama faktor risiko lain.", "highlight") +
     K("Penilaian menurut jenis kelamin", "Berat badan ideal (Devine): laki-laki 50 kg + 0,9 kg tiap cm di atas 152,4 cm; perempuan 45,5 kg + 0,9 kg tiap cm di atas 152,4 cm. Ditampilkan sebagai % BB aktual terhadap BBI: &lt;90% di bawah ideal \u{B7} 90-110% ideal \u{B7} 110-120% di atas ideal \u{B7} &gt;120% jauh di atas ideal.<br>BSA (Mosteller) = \u{221A}(BB\u{D7}TB/3600) m\u{B2} \u{2014} dipakai untuk indeksasi ekokardiografi dan sebagian dosis obat.") +
     K("Relevansi kardiologi", "Obesitas: faktor risiko PJK, HT, DM, AF, HFpEF, sleep apnea. Pada gagal jantung, BB naik &gt;2 kg dalam 3 hari = retensi cairan; pantau BB kering sebagai target diuresis. Dosis enoksaparin (1 mg/kgBB), heparin, kontras dan inotrop memakai BB aktual.", "warn") },
 
@@ -4636,7 +5055,8 @@ const PANDUAN_CARDIO = {
 
   async function jalankanSistem() {
     bangunFormFisik();
-    tickJam(); setInterval(tickJam, 1000);
+    bangunFormGCS();
+    tickJam(); setInterval(tickJam, 1000); setInterval(cekPengingat, 30000);
     inisialisasiServiceWorker();
     await initIndexedDB();
     const d = await getPasienListDB();
