@@ -27,6 +27,8 @@
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-messaging-compat.js"></script>
 
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
       --primary: #881337;
@@ -1310,6 +1312,35 @@
       }
     }
   body.privasi #appMainContainer { filter: blur(16px); }
+  
+    /* ===== Tema profesional (lapisan penyempurnaan) ===== */
+    :root { --radius: 14px; --shadow: 0 1px 2px rgba(15,23,42,.06), 0 10px 28px -10px rgba(15,23,42,.35); }
+    body { font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 14px; -webkit-font-smoothing: antialiased; }
+    .container { max-width: 1180px; }
+    .medlog-header { border-radius: 18px; padding: 24px 28px; box-shadow: 0 18px 40px -16px rgba(225,29,72,.5); }
+    .card { border-radius: var(--radius); padding: 22px 24px; border: 1px solid rgba(203,213,225,.65); box-shadow: var(--shadow); }
+    .card h3 { display: flex; align-items: center; gap: 10px; font-size: 16px; font-weight: 800; letter-spacing: -.01em; margin-bottom: 14px; }
+    .card h3::after { content: ""; flex: 1; height: 1px; background: linear-gradient(90deg, #fecdd3, transparent); }
+    .section-title { background: #fff1f2; border: none; border-left: 4px solid var(--primary-accent); border-radius: 8px; padding: 8px 12px; margin: 20px 0 12px; }
+    input, select, textarea { border-radius: 10px; padding: 10px 12px; border: 1px solid #d5dde8; background: #fcfdff; transition: border-color .15s, box-shadow .15s; }
+    input:hover, select:hover, textarea:hover { border-color: #fda4af; }
+    button { border-radius: 10px; padding: 10px 16px; font-weight: 700; letter-spacing: .01em; box-shadow: 0 1px 2px rgba(0,0,0,.14); transition: transform .08s, box-shadow .2s, background .2s; }
+    button:hover { box-shadow: 0 6px 14px -6px rgba(136,19,55,.6); }
+    button:active { transform: translateY(1px); }
+    button:disabled { opacity: .45; cursor: not-allowed; box-shadow: none; }
+    table { border-collapse: separate; border-spacing: 0; border: 1px solid #e2e8f0; border-radius: 12px; overflow: hidden; }
+    th, td { border: none; border-bottom: 1px solid #edf1f6; padding: 10px 12px; }
+    th { background: #ffe4e6; font-size: 11px; text-transform: uppercase; letter-spacing: .06em; }
+    tbody tr:hover { background: #fff7f8; }
+    tbody tr:last-child td { border-bottom: none; }
+    .app-nav-tabs { border-radius: 14px; padding: 6px; gap: 4px; box-shadow: 0 8px 24px -12px rgba(0,0,0,.6); }
+    .tab-nav-btn { border-radius: 10px; padding: 11px 12px; font-weight: 700; }
+    .accordion-header, .guidance-box, .filter-box, .cppt-control-bar { border-radius: 12px; }
+    .sec-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .sec-head h3 { margin: 0; flex: 1; }
+    .search-box { max-width: 320px; margin-bottom: 10px; }
+    h4.sub { margin: 18px 0 8px; font-size: 13px; color: var(--primary); text-transform: uppercase; letter-spacing: .05em; }
+    @media (max-width: 768px) { body { padding: 10px 10px 88px; } .card { padding: 15px; } .medlog-header { padding: 18px; } }
   </style>
 </head>
 <body>
@@ -1802,7 +1833,7 @@
           <div class="label-wrapper">
             <label for="oGCS">GCS <span class="info-btn" onclick="showInfo('gcs', event)">&#x24D8;</span></label>
           </div>
-          <input type="text" id="oGCS" value="15" class="locked-field" readonly title="Terhitung otomatis dari E / M / V">
+          <input type="text" id="oGCS" value="" placeholder="Pilih E/M/V" class="locked-field" readonly title="Terhitung otomatis dari E / M / V">
           <input type="hidden" id="oGCSDetail"><input type="hidden" id="oGCSKes">
         </div>
         <div>
@@ -2044,6 +2075,19 @@
 
   <div id="tabJaga" class="tab-view-content">
     <div class="card">
+      <div class="sec-head"><h3>&#x1F4C5; Jadwal Jaga Saya (7 hari ke depan)</h3>
+        <div style="display:flex; gap:6px; flex-wrap:wrap;"><button type="button" class="backup-btn" onclick="cetakJadwalPDF('SAYA')">&#x1F4C4; PDF</button><button type="button" class="alt" onclick="eksporJadwalICS()">&#x1F4C6; Ke Kalender</button></div></div>
+      <div id="jagaHariIni" class="guidance-box" style="margin-top:0;"></div>
+      <div id="listJadwal" style="overflow-x:auto;"></div>
+      <div id="panelTukar" class="guidance-box" style="display:none;">
+        <b id="judulTukar">Tukar jaga dengan:</b>
+        <select id="tTukarDengan" style="margin-top:6px;"></select>
+        <div class="btn-group" style="margin-top:0;"><button type="button" onclick="kirimTukar()">Kirim Permintaan</button><button type="button" class="danger" onclick="document.getElementById('panelTukar').style.display='none'">Batal</button></div>
+      </div>
+      <div id="listTukar"></div>
+    </div>
+
+    <div class="card">
       <h3>&#x1F514; Pengingat & Notifikasi</h3>
       <div id="notifStatus" style="font-size:12.5px; line-height:1.5; margin-bottom:8px;"></div>
       <div class="btn-group" style="margin-top:0;">
@@ -2051,21 +2095,7 @@
         <button type="button" class="alt" onclick="tampilNotif('Tes MedLog', 'Notifikasi berfungsi.', 'tes')">Kirim Tes</button>
       </div>
     </div>
-    <div class="card">
-      <h3>&#x1F4C5; Jadwal Jaga</h3>
-      <div id="jagaHariIni" class="guidance-box" style="margin-top:0;"></div>
-      <div class="grid-4">
-        <div><label style="font-size:11px; font-weight:600;">Tanggal</label><input type="date" id="jTanggal"></div>
-        <div><label style="font-size:11px; font-weight:600;">Shift</label><select id="jShift"><option value="JAGA PAGI">JAGA PAGI (08.00)</option><option value="JAGA SIANG">JAGA SIANG (14.00)</option><option value="JAGA MALAM">JAGA MALAM (20.00)</option></select></div>
-        <div><label style="font-size:11px; font-weight:600;">Ruang / Catatan</label><input type="text" id="jRuang" placeholder="IGD / ICCU / bangsal"></div>
-        <div id="jKoasWrap" style="display:none;"><label style="font-size:11px; font-weight:600;">Untuk koas (chief)</label><select id="jKoas"></select></div>
-      </div>
-      <div class="btn-group" style="margin-top:4px;">
-        <button type="button" onclick="tambahJadwal()">+ Tambah Jadwal</button>
-        <button type="button" class="backup-btn" onclick="eksporJadwalICS()">&#x1F4C6; Ekspor ke Kalender (alarm)</button>
-      </div>
-      <div id="listJadwal" style="overflow-x:auto;"></div>
-    </div>
+
     <div class="card">
       <h3>&#x2705; Tugas Bangsal</h3>
       <div class="grid-4">
@@ -2082,10 +2112,37 @@
       <div class="output-area" id="handoverOutput" style="margin-top:10px; display:none;"></div>
       <div class="btn-group"><button type="button" class="alt" style="display:none;" id="btnSalinHandover" onclick="salinDari('handoverOutput')">Salin Serah Terima</button></div>
     </div>
+
+    <div class="card" id="panelCapt" style="display:none;">
+      <h3>&#x1F396;&#xFE0F; Panel Capt Koas</h3>
+      <div class="grid-3">
+        <div><label style="font-size:11px; font-weight:600;">Tanggal</label><input type="date" id="cTanggal" onchange="renderPanelCapt(true)"></div>
+        <div><label style="font-size:11px; font-weight:600;">Shift</label><select id="cShift" onchange="renderPanelCapt(true)"><option value="JAGA PAGI">JAGA PAGI (07.00-14.00)</option><option value="JAGA SIANG">JAGA SIANG (14.00-21.00)</option><option value="JAGA MALAM">JAGA MALAM (21.00-07.00)</option></select></div>
+        <div><label style="font-size:11px; font-weight:600;">Cari nama</label><input type="text" id="cariCapt" placeholder="&#x1F50D; Cari nama koas..." oninput="filterBaris('listCapt','cariCapt')"></div>
+      </div>
+      <div id="listCapt" style="overflow-x:auto;"></div>
+      <div class="btn-group"><button type="button" onclick="simpanPosisiTim()">&#x1F4BE; Simpan Posisi & Tugas Tim</button></div>
+      <h4 class="sub">Serahkan posisi Capt</h4>
+      <div class="filter-box"><select id="cCaptBaru" style="max-width:260px;"></select><button type="button" class="warn-btn" onclick="serahkanPeran('capt')">Serahkan Capt</button><span style="font-size:11.5px; color:#64748b;">Setelah diserahkan, Anda kembali menjadi koas.</span></div>
+    </div>
+
     <div class="card" id="panelChief" style="display:none;">
-      <h3>&#x1F451; Panel Chief Koas</h3>
-      <div style="font-size:12px; color:#475569; margin-bottom:6px;">Ubah peran atau nonaktifkan akun koas. Akun nonaktif otomatis ditolak oleh server (Firebase Rules).</div>
+      <div class="sec-head"><h3>&#x1F451; Panel Chief Koas</h3>
+        <div style="display:flex; gap:6px; flex-wrap:wrap;"><button type="button" onclick="simpanJadwalMingguan()">&#x1F4BE; Simpan Jadwal</button><button type="button" class="backup-btn" onclick="cetakJadwalPDF('SEMUA')">&#x1F4C4; PDF Semua</button></div></div>
+      <input type="text" id="cariChief" class="search-box" placeholder="&#x1F50D; Cari nama / NIM koas..." oninput="filterBaris('gridJadwal','cariChief'); filterBaris('listAkun','cariChief')">
+      <div style="font-size:11.5px; color:#64748b; margin-bottom:6px;">Sel kosong pada hari biasa otomatis terisi JAGA PAGI (kecuali Sabtu). Jadwal baru berlaku setelah disimpan.</div>
+      <div id="gridJadwal" style="overflow-x:auto;"></div>
+      <h4 class="sub">Akun koas</h4>
       <div id="listAkun" style="overflow-x:auto;"></div>
+      <h4 class="sub">Serahkan peran Chief</h4>
+      <div class="filter-box"><select id="cChiefBaru" style="max-width:260px;"></select><button type="button" class="warn-btn" onclick="serahkanPeran('chief')">Serahkan Chief</button><span style="font-size:11.5px; color:#64748b;">Setelah diserahkan, akses fitur Chief Anda hilang.</span></div>
+    </div>
+
+    <div class="card" id="panelMaster" style="display:none;">
+      <h3>&#x1F6E1;&#xFE0F; Panel Master</h3>
+      <div style="font-size:12px; color:#475569; margin-bottom:8px;">Master mengatur seluruh akun dan menunjuk/memindahkan Chief. Peran Master hanya dapat diubah lewat Firebase Console.</div>
+      <input type="text" id="cariMaster" class="search-box" placeholder="&#x1F50D; Cari nama / NIM..." oninput="filterBaris('listMaster','cariMaster')">
+      <div id="listMaster" style="overflow-x:auto;"></div>
     </div>
   </div>
 
@@ -2237,6 +2294,7 @@ function tickJam() {
 
 function setelahSinkronWaktu() {
   setTanggalOtomatis(true);
+  shiftOtomatis();
   tickJam();
 }
 
@@ -2260,20 +2318,24 @@ function bangunFormGCS() {
   if (!c) return;
   const judul = { E: 'Eye (E) - Buka mata', M: 'Motorik (M)', V: 'Verbal (V)' };
   c.innerHTML = ['E', 'M', 'V'].map(k => `<div><div class="label-wrapper"><label for="gcs${k}" style="font-size:11px;">${judul[k]}</label></div>` +
-    `<select id="gcs${k}" onchange="hitungGCS()">${GCS_OPSI[k].map(o => `<option value="${o[0]}">${o[0]} - ${o[1]}</option>`).join('')}</select></div>`).join('');
+    `<select id="gcs${k}" onchange="hitungGCS()"><option value="">-- Pilih --</option>${GCS_OPSI[k].map(o => `<option value="${o[0]}">${o[0]} - ${o[1]}</option>`).join('')}</select></div>`).join('');
   hitungGCS();
 }
 
 function hitungGCS() {
   const e = getVal('gcsE'), m = getVal('gcsM'), v = getVal('gcsV');
-  if (!e || !m || !v) return;
+  const el = document.getElementById('gcsHasil');
+  if (!e || !m || !v) {
+    setVal('oGCS', ''); setVal('oGCSDetail', ''); setVal('oGCSKes', '');
+    if (el) { el.style.color = '#64748b'; el.innerText = (e || m || v) ? 'Lengkapi pilihan E, M, dan V.' : 'Belum diisi.'; }
+    return;
+  }
   const intub = (v === 'T');
   const total = parseInt(e, 10) + parseInt(m, 10) + (intub ? 0 : parseInt(v, 10));
   const totalTxt = intub ? total + 'T' : String(total);
   const detail = 'E' + e + 'M' + m + 'V' + v;
   const kes = intub ? '' : teksKesadaran(total);
   setVal('oGCS', totalTxt); setVal('oGCSDetail', detail); setVal('oGCSKes', kes);
-  const el = document.getElementById('gcsHasil');
   if (!el) return;
   const tafsir = intub ? 'V tidak dapat dinilai (terintubasi)'
     : total >= 15 ? 'normal, tidak ada penurunan kesadaran'
@@ -2282,7 +2344,7 @@ function hitungGCS() {
   el.innerText = `GCS ${totalTxt} (${detail})${kes ? ' - ' + kes : ''} | ${tafsir}`;
 }
 
-function resetGCS() { setVal('gcsE', '4'); setVal('gcsM', '6'); setVal('gcsV', '5'); hitungGCS(); }
+function resetGCS() { setVal('gcsE', ''); setVal('gcsM', ''); setVal('gcsV', ''); hitungGCS(); }
 
 function muatGCS(e) {
   let E = e.oGCSE, M = e.oGCSM, V = e.oGCSV;
@@ -2290,15 +2352,15 @@ function muatGCS(e) {
     const m = /E(\d)M(\d)V(\d|T)/i.exec(e.oGCSDetail || '');
     if (m) { E = m[1]; M = m[2]; V = m[3].toUpperCase(); }
   }
-  setVal('gcsE', E || '4'); setVal('gcsM', M || '6'); setVal('gcsV', V || '5');
+  setVal('gcsE', E || ''); setVal('gcsM', M || ''); setVal('gcsV', V || '');
   hitungGCS();
 }
 
 // ================= JADWAL JAGA, TUGAS BANGSAL, PENGINGAT, PRIVASI =================
 const VAPID_KEY = '';   // isi dengan Web Push certificate key (Firebase Console > Project settings > Cloud Messaging)
-const JAGA_MULAI = { 'JAGA PAGI': '08:00', 'JAGA SIANG': '14:00', 'JAGA MALAM': '20:00' };
-const JAGA_DURASI_JAM = { 'JAGA PAGI': 6, 'JAGA SIANG': 6, 'JAGA MALAM': 12 };
-let peranUser = 'koas', jadwalList = [], tugasList = [], akunList = [], refJadwal = null, refTugas = null, swReg = null, terakhirAktif = performance.now();
+const JAGA_MULAI = { 'JAGA PAGI': '07:00', 'JAGA SIANG': '14:00', 'JAGA MALAM': '21:00' };
+const JAGA_DURASI_JAM = { 'JAGA PAGI': 7, 'JAGA SIANG': 7, 'JAGA MALAM': 10 };
+let peranUser = 'koas', jadwalList = [], tugasList = [], tukarList = [], akunList = [], refJadwal = null, refTugas = null, refTukar = null, refRole = null, kotorGrid = false, kotorCapt = false, tukarAsal = null, shiftAutoTerakhir = '', swReg = null, terakhirAktif = performance.now();
 
 const esc = x => String(x == null ? '' : x).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const epochWITA = (tgl, jam) => Date.parse(`${tgl}T${jam}:00+08:00`);
@@ -2308,27 +2370,270 @@ const tglSebelum = tgl => new Intl.DateTimeFormat('en-CA', { timeZone: ZONA_RS }
 const aktifPasien = p => !['Pulang', 'Meninggal', 'Lepas Rawat'].includes(p.status);
 const daftarDari = v => v ? Object.entries(v).map(([id, x]) => Object.assign({ id }, x)) : [];
 
+const LABEL_PERAN = { koas: 'Koas', capt: 'Capt', chief: 'Chief', master: 'Master' };
+const JAM_SHIFT = { 'JAGA PAGI': '07.00-14.00', 'JAGA SIANG': '14.00-21.00', 'JAGA MALAM': '21.00-07.00' };
+const SHIFT_SINGKAT = { 'JAGA PAGI': 'Pagi', 'JAGA SIANG': 'Siang', 'JAGA MALAM': 'Malam', 'LIBUR': 'Libur' };
+const RUANG_RS = ['IGD', 'ICU / ICCU', 'Lt 5 gedung lama (al araf)', 'Lt 4 gedung lama (al fath)', 'Lt 2 gedung baru (an nasr)', 'Lt 3 gedung baru (ar rahman)', 'Lt 4 gedung baru (al ikhlas)', 'Lt 5 gedung baru (an nur)'];
+const opsiRuang = sel => '<option value="">- Posisi jaga -</option>' + RUANG_RS.map(r => `<option value="${esc(r)}" ${r === sel ? 'selected' : ''}>${esc(r)}</option>`).join('');
+const punyaPeran = (...r) => r.includes(peranUser);
+const hariSabtu = tgl => new Date(epochWITA(tgl, '12:00')).getUTCDay() === 6;
+const labelHari = tgl => new Intl.DateTimeFormat('id-ID', { timeZone: ZONA_RS, weekday: 'short', day: '2-digit', month: 'short' }).format(new Date(epochWITA(tgl, '12:00')));
+const tujuhHari = () => { const a = tglHariIni(); return Array.from({ length: 7 }, (_, i) => new Intl.DateTimeFormat('en-CA', { timeZone: ZONA_RS }).format(new Date(epochWITA(a, '12:00') + i * 864e5))); };
+
 function mulaiListenerJaga() {
   if (!isFirebaseReady || refJadwal) return;
-  refJadwal = db.ref('jadwal'); refTugas = db.ref('tugas');
-  refJadwal.on('value', s => { jadwalList = daftarDari(s.val()); renderJaga(); cekPengingat(); });
+  refRole = db.ref('users/' + currentUserAuth.uid + '/role');
+  refRole.on('value', s => { peranUser = s.val() || 'koas'; terapkanPeran(); });
+  refJadwal = db.ref('jadwal'); refTugas = db.ref('tugas'); refTukar = db.ref('tukar');
+  refJadwal.on('value', s => { jadwalList = daftarDari(s.val()); renderSemuaJaga(); cekPengingat(); });
   refTugas.on('value', s => { tugasList = daftarDari(s.val()); renderTugas(); cekPengingat(); });
-  const chief = peranUser === 'chief';
-  document.getElementById('panelChief').style.display = chief ? 'block' : 'none';
-  document.getElementById('jKoasWrap').style.display = chief ? 'block' : 'none';
-  if (chief) muatDaftarAkun();
+  refTukar.on('value', s => { tukarList = daftarDari(s.val()); renderTukar(); });
   perbaruiStatusNotif();
 }
 
 function hentikanListenerJaga() {
-  if (refJadwal) refJadwal.off();
-  if (refTugas) refTugas.off();
-  refJadwal = refTugas = null; jadwalList = []; tugasList = [];
+  [refRole, refJadwal, refTugas, refTukar].forEach(r => { if (r) r.off(); });
+  refRole = refJadwal = refTugas = refTukar = null; jadwalList = []; tugasList = []; tukarList = []; akunList = []; peranUser = 'koas';
 }
 
 function bukaTabJaga() {
-  if (!getVal('jTanggal')) setVal('jTanggal', tglHariIni());
-  isiPilihanPasienTugas(); renderJaga(); renderTugas(); perbaruiStatusNotif();
+  if (!getVal('cTanggal')) setVal('cTanggal', tglHariIni());
+  const p = periodeSekarang();
+  if (p && !getVal('cShift')) setVal('cShift', p.shift);
+  isiPilihanPasienTugas(); renderSemuaJaga(); renderTugas(); perbaruiStatusNotif();
+}
+
+function terapkanPeran() {
+  const p = peranUser, adm = p === 'chief' || p === 'master';
+  const tampil = (id, v) => { const e = document.getElementById(id); if (e) e.style.display = v ? 'block' : 'none'; };
+  tampil('panelChief', adm); tampil('panelCapt', p === 'capt' || p === 'master'); tampil('panelMaster', p === 'master');
+  const sh = document.getElementById('shiftJaga'); if (sh) sh.disabled = (p === 'koas');
+  const el = document.getElementById('currentUserNameText');
+  if (el) el.innerText = el.innerText.split(' \u00B7 ')[0] + (p !== 'koas' ? ' \u00B7 ' + LABEL_PERAN[p] : '');
+  if (adm || p === 'capt') muatDaftarAkun();
+  renderSemuaJaga();
+}
+
+function renderSemuaJaga() { renderJaga(); renderPanelChief(); renderPanelCapt(); renderTukar(); shiftOtomatis(); }
+
+// ---------- Shift otomatis mengikuti jadwal (default: semua koas jaga pagi, kecuali Sabtu) ----------
+function periodeSekarang() {
+  const t = nowT();
+  if (!t) return null;
+  const hh = parseInt(new Intl.DateTimeFormat('en-GB', { timeZone: ZONA_RS, hour: '2-digit', hourCycle: 'h23' }).format(t), 10), tgl = tglHariIni();
+  if (hh < 7) return { tgl: tglSebelum(tgl), shift: 'JAGA MALAM' };   // 00.00-07.00 masih shift malam hari sebelumnya
+  return { tgl: tgl, shift: hh < 14 ? 'JAGA PAGI' : hh < 21 ? 'JAGA SIANG' : 'JAGA MALAM' };
+}
+
+function shiftOtomatis() {
+  const p = periodeSekarang();
+  if (!p || !currentUserAuth) return;
+  const uid = currentUserAuth.uid, hariIni = jadwalList.filter(j => j.uid === uid && j.tgl === p.tgl);
+  const aktif = hariIni.filter(j => j.shift !== 'LIBUR');
+  let shift;
+  if (aktif.length) shift = (aktif.find(j => j.shift === p.shift) || aktif[0]).shift;
+  else if (hariIni.length) shift = p.shift;                              // libur: ikut jam saat ini
+  else shift = hariSabtu(p.tgl) ? p.shift : 'JAGA PAGI';               // tanpa jadwal: pagi, kecuali Sabtu
+  if (shift !== shiftAutoTerakhir) { shiftAutoTerakhir = shift; setVal('shiftJaga', shift); simpanOtomatisKoas(); toggleStatusPasien(); }
+}
+
+// ---------- Jadwal saya, tukar jaga ----------
+function renderJaga() {
+  const el = document.getElementById('listJadwal');
+  if (!el || !nowT() || !currentUserAuth) return;
+  const hari = tujuhHari(), uid = currentUserAuth.uid;
+  const saya = jadwalList.filter(j => j.uid === uid && hari.includes(j.tgl)).sort((a, b) => a.tgl.localeCompare(b.tgl) || epochJaga(a) - epochJaga(b));
+  const ini = saya.find(j => j.tgl === hari[0] && j.shift !== 'LIBUR');
+  document.getElementById('jagaHariIni').innerHTML = '<b>Hari ini:</b> ' + (ini ? `${esc(ini.shift)} (${JAM_SHIFT[ini.shift]}) &middot; Posisi: <b>${esc(ini.ruang || 'belum ditentukan Capt')}</b>` : (hariSabtu(hari[0]) ? 'tidak ada jadwal (Sabtu).' : 'jaga pagi sesuai ketentuan umum, belum ada jadwal khusus.'));
+  el.innerHTML = saya.length ? '<table><thead><tr><th>Hari</th><th>Shift</th><th>Posisi jaga</th><th>Tugas bangsal</th><th></th></tr></thead><tbody>' + saya.map(j =>
+    `<tr><td>${esc(labelHari(j.tgl))}</td><td>${esc(SHIFT_SINGKAT[j.shift] || j.shift)}<br><small>${JAM_SHIFT[j.shift] || ''}</small></td><td>${esc(j.ruang || 'Belum ditentukan')}</td><td>${esc(j.tugasBangsal || '-')}</td>` +
+    `<td>${j.shift !== 'LIBUR' ? `<button type="button" class="warn-btn" style="padding:5px 10px;" onclick="mulaiTukar('${esc(j.id)}')">Tukar Jaga</button>` : ''}</td></tr>`).join('') + '</tbody></table>'
+    : '<div style="font-size:12px; color:#64748b; margin-top:8px;">Belum ada jadwal dari Chief untuk 7 hari ke depan.</div>';
+}
+
+function mulaiTukar(id) {
+  tukarAsal = jadwalList.find(j => j.id === id);
+  if (!tukarAsal) return;
+  const hari = tujuhHari(), uid = currentUserAuth.uid;
+  const kand = jadwalList.filter(j => j.uid !== uid && j.shift !== 'LIBUR' && hari.includes(j.tgl)).sort((a, b) => (a.nama || '').localeCompare(b.nama || '') || a.tgl.localeCompare(b.tgl));
+  if (!kand.length) { alert('Belum ada jadwal koas lain yang dapat ditukar.'); return; }
+  document.getElementById('judulTukar').innerText = `Tukar jaga Anda (${labelHari(tukarAsal.tgl)} - ${SHIFT_SINGKAT[tukarAsal.shift]}) dengan:`;
+  document.getElementById('tTukarDengan').innerHTML = kand.map(j => `<option value="${esc(j.id)}">${esc(j.nama)} - ${esc(labelHari(j.tgl))} - ${esc(SHIFT_SINGKAT[j.shift])}${j.ruang ? ' (' + esc(j.ruang) + ')' : ''}</option>`).join('');
+  document.getElementById('panelTukar').style.display = 'block';
+}
+
+async function kirimTukar() {
+  const b = jadwalList.find(j => j.id === getVal('tTukarDengan')), a = tukarAsal;
+  if (!a || !b) return;
+  if (!(await verifikasiWaktu())) return;
+  const id = db.ref('tukar').push().key;
+  try {
+    await db.ref('tukar/' + id).set({ idA: a.id, uidA: a.uid, namaA: a.nama, tglA: a.tgl, shiftA: a.shift, idB: b.id, uidB: b.uid, namaB: b.nama, tglB: b.tgl, shiftB: b.shift, status: 'menunggu', serverStamp: firebase.database.ServerValue.TIMESTAMP });
+    document.getElementById('panelTukar').style.display = 'none'; showToast('Permintaan tukar jaga dikirim.');
+  } catch (e) { alert('Permintaan gagal dikirim.'); }
+}
+
+function renderTukar() {
+  const el = document.getElementById('listTukar');
+  if (!el || !currentUserAuth) return;
+  const me = currentUserAuth.uid;
+  const masuk = tukarList.filter(t => t.uidB === me && t.status === 'menunggu');
+  const keluar = tukarList.filter(t => t.uidA === me && t.status !== 'selesai').slice(-3);
+  el.innerHTML = masuk.map(t => `<div class="guidance-box"><b>${esc(t.namaA)}</b> meminta tukar: ${esc(labelHari(t.tglA))} ${esc(SHIFT_SINGKAT[t.shiftA])} &harr; jaga Anda ${esc(labelHari(t.tglB))} ${esc(SHIFT_SINGKAT[t.shiftB])}.` +
+    `<div class="btn-group" style="margin-top:6px;"><button type="button" class="alt" onclick="jawabTukar('${esc(t.id)}', true)">Setujui</button><button type="button" class="danger" onclick="jawabTukar('${esc(t.id)}', false)">Tolak</button></div></div>`).join('') +
+    keluar.map(t => `<div style="font-size:12px; color:#475569; margin-top:6px;">Permintaan tukar ke ${esc(t.namaB)} (${esc(labelHari(t.tglB))}): <b>${esc(t.status)}</b></div>`).join('');
+}
+
+async function jawabTukar(id, ya) {
+  const t = tukarList.find(x => x.id === id);
+  if (!t) return;
+  if (!ya) { await db.ref('tukar/' + id + '/status').set('ditolak'); return; }
+  const A = jadwalList.find(j => j.id === t.idA), B = jadwalList.find(j => j.id === t.idB);
+  if (!A || !B || A.uid !== t.uidA || B.uid !== t.uidB) { alert('Jadwal sudah berubah; permintaan tidak berlaku.'); await db.ref('tukar/' + id + '/status').set('ditolak'); return; }
+  try {
+    await db.ref('tukar/' + id + '/status').set('disetujui');
+    const u = {};
+    u['jadwal/' + A.id + '/uid'] = B.uid; u['jadwal/' + A.id + '/nama'] = B.nama; u['jadwal/' + A.id + '/tukarId'] = id;
+    u['jadwal/' + B.id + '/uid'] = A.uid; u['jadwal/' + B.id + '/nama'] = A.nama; u['jadwal/' + B.id + '/tukarId'] = id;
+    await db.ref().update(u);
+    await db.ref('tukar/' + id + '/status').set('selesai');
+    showToast('Tukar jaga disetujui.');
+  } catch (e) { alert('Gagal menukar jadwal.'); }
+}
+
+// ---------- Panel Chief: jadwal mingguan ----------
+function filterBaris(wadah, input) {
+  const q = (getVal(input) || '').toLowerCase();
+  document.querySelectorAll('#' + wadah + ' tr[data-cari]').forEach(tr => { tr.style.display = tr.dataset.cari.includes(q) ? '' : 'none'; });
+}
+
+function renderPanelChief(paksa) {
+  const el = document.getElementById('gridJadwal');
+  if (!el || !punyaPeran('chief', 'master') || !nowT()) return;
+  if (kotorGrid && !paksa) return;
+  const hari = tujuhHari();
+  const peserta = akunList.filter(u => u.aktif !== false && ['koas', 'capt'].includes(u.role || 'koas'));
+  const opsi = [['', '-'], ['JAGA PAGI', 'Pagi'], ['JAGA SIANG', 'Siang'], ['JAGA MALAM', 'Malam'], ['LIBUR', 'Libur']];
+  el.innerHTML = '<table><thead><tr><th>Koas</th>' + hari.map(t => `<th>${esc(labelHari(t))}</th>`).join('') + '</tr></thead><tbody>' + peserta.map(u =>
+    `<tr data-cari="${esc(((u.nama || '') + ' ' + (u.nim || '')).toLowerCase())}"><td><b>${esc(u.nama)}</b><br><small>${esc(u.nim || '-')}${u.role === 'capt' ? ' &middot; Capt' : ''}</small></td>` +
+    hari.map(t => { const ada = jadwalList.find(j => j.uid === u.id && j.tgl === t), v = ada ? ada.shift : (hariSabtu(t) ? '' : 'JAGA PAGI');
+      return `<td><select class="selJadwal" data-uid="${esc(u.id)}" data-nama="${esc(u.nama)}" data-tgl="${t}" onchange="kotorGrid=true" style="min-width:76px; padding:6px;">${opsi.map(o => `<option value="${o[0]}" ${o[0] === v ? 'selected' : ''}>${o[1]}</option>`).join('')}</select></td>`; }).join('') + '</tr>').join('') + '</tbody></table>';
+  kotorGrid = false; filterBaris('gridJadwal', 'cariChief');
+}
+
+async function simpanJadwalMingguan() {
+  if (!(await verifikasiWaktu())) return;
+  const u = {}, me = currentUserAuth.uid;
+  document.querySelectorAll('.selJadwal').forEach(s => {
+    const uid = s.dataset.uid, tgl = s.dataset.tgl, id = uid + '_' + tgl, ada = jadwalList.find(j => j.uid === uid && j.tgl === tgl);
+    if (!s.value) { if (ada) u['jadwal/' + ada.id] = null; return; }
+    if (ada && ada.id === id && ada.shift === s.value) return;
+    if (ada && ada.id !== id) u['jadwal/' + ada.id] = null;
+    const tetap = ada && ada.shift === s.value;
+    u['jadwal/' + id] = { uid: uid, nama: s.dataset.nama, tgl: tgl, shift: s.value, ruang: tetap ? (ada.ruang || '') : '', tugasBangsal: tetap ? (ada.tugasBangsal || '') : '', dibuatOleh: me, serverStamp: firebase.database.ServerValue.TIMESTAMP };
+  });
+  if (!Object.keys(u).length) { showToast('Tidak ada perubahan.'); return; }
+  try { await db.ref().update(u); kotorGrid = false; showToast('Jadwal tersimpan.'); } catch (e) { alert('Gagal menyimpan jadwal (hanya Chief/Master yang diizinkan server).'); }
+}
+
+// ---------- Panel Capt: posisi & tugas bangsal tim yang jaga ----------
+function tandaiKotor(jenis) { if (jenis === 'capt') kotorCapt = true; }
+
+function renderPanelCapt(paksa) {
+  const el = document.getElementById('listCapt');
+  if (!el || !punyaPeran('capt', 'master') || !nowT() || !currentUserAuth) return;
+  if (kotorCapt && !paksa) return;
+  const tgl = getVal('cTanggal') || tglHariIni(), shift = getVal('cShift') || 'JAGA PAGI', me = currentUserAuth.uid;
+  const tim = jadwalList.filter(j => j.tgl === tgl && j.shift === shift).sort((a, b) => (a.nama || '').localeCompare(b.nama || ''));
+  if (peranUser !== 'master' && !tim.some(j => j.uid === me)) { el.innerHTML = '<div style="font-size:12px; color:#b45309; margin:8px 0;">Anda tidak terjadwal pada shift ini. Panel hanya untuk Capt yang sedang jaga pada shift tersebut.</div>'; kotorCapt = false; return; }
+  el.innerHTML = tim.length ? '<table><thead><tr><th>Koas</th><th>Posisi jaga</th><th>Tugas bangsal</th></tr></thead><tbody>' + tim.map(j =>
+    `<tr data-cari="${esc((j.nama || '').toLowerCase())}"><td><b>${esc(j.nama)}</b></td><td><select class="selRuang" data-id="${esc(j.id)}" onchange="tandaiKotor('capt')">${opsiRuang(j.ruang)}</select></td>` +
+    `<td><input type="text" class="inpTugas" data-id="${esc(j.id)}" value="${esc(j.tugasBangsal || '')}" placeholder="mis. visit pasien Al-A'raf, EKG pasien baru" oninput="tandaiKotor('capt')"></td></tr>`).join('') + '</tbody></table>'
+    : '<div style="font-size:12px; color:#64748b; margin:8px 0;">Tidak ada koas terjadwal pada tanggal dan shift ini.</div>';
+  kotorCapt = false; filterBaris('listCapt', 'cariCapt');
+}
+
+async function simpanPosisiTim() {
+  const u = {};
+  document.querySelectorAll('.selRuang').forEach(s => { u['jadwal/' + s.dataset.id + '/ruang'] = s.value; });
+  document.querySelectorAll('.inpTugas').forEach(i => { u['jadwal/' + i.dataset.id + '/tugasBangsal'] = i.value.trim(); });
+  if (!Object.keys(u).length) return;
+  try { await db.ref().update(u); kotorCapt = false; showToast('Posisi & tugas tim tersimpan.'); } catch (e) { alert('Gagal menyimpan (hanya Capt yang diizinkan server).'); }
+}
+
+// ---------- Akun, peran, serah terima peran ----------
+async function muatDaftarAkun() {
+  if (!punyaPeran('chief', 'master', 'capt')) return;
+  try { akunList = daftarDari((await db.ref('users').once('value')).val()).sort((a, b) => (a.nama || '').localeCompare(b.nama || '')); } catch (e) { return; }
+  renderPanelChief(true); renderAkun(); renderPanelCapt(true); isiPilihanTim();
+}
+
+function tabelAkun(master) {
+  const me = currentUserAuth.uid;
+  const baris = akunList.filter(u => master || !['chief', 'master'].includes(u.role)).map(u => {
+    const r = u.role || 'koas', kunci = (r === 'master' || u.id === me) ? 'disabled' : '';
+    const opsi = (master ? ['koas', 'capt', 'chief'] : ['koas', 'capt']).map(x => `<option value="${x}" ${r === x ? 'selected' : ''}>${LABEL_PERAN[x]}</option>`).join('');
+    return `<tr data-cari="${esc(((u.nama || '') + ' ' + (u.nim || '')).toLowerCase())}"><td><b>${esc(u.nama)}</b><br><small>${esc(u.nim || '-')}</small></td>` +
+      `<td>${r === 'master' ? 'Master' : `<select ${kunci} onchange="ubahAkun('${esc(u.id)}', 'role', this.value)">${opsi}</select>`}</td>` +
+      `<td><select ${kunci} onchange="ubahAkun('${esc(u.id)}', 'aktif', this.value === '1')"><option value="1" ${u.aktif !== false ? 'selected' : ''}>Aktif</option><option value="0" ${u.aktif === false ? 'selected' : ''}>Nonaktif</option></select></td></tr>`;
+  }).join('');
+  return '<table><thead><tr><th>Nama / NIM</th><th>Peran</th><th>Status</th></tr></thead><tbody>' + baris + '</tbody></table>';
+}
+
+function renderAkun() {
+  if (punyaPeran('chief', 'master')) { document.getElementById('listAkun').innerHTML = tabelAkun(false); filterBaris('listAkun', 'cariChief'); }
+  if (peranUser === 'master') { document.getElementById('listMaster').innerHTML = tabelAkun(true); filterBaris('listMaster', 'cariMaster'); }
+}
+
+function isiPilihanTim() {
+  const me = currentUserAuth.uid, aktif = akunList.filter(u => u.aktif !== false && u.id !== me && !['master', 'chief'].includes(u.role));
+  const pil = l => '<option value="">- Pilih koas aktif -</option>' + l.map(u => `<option value="${esc(u.id)}">${esc(u.nama)}</option>`).join('');
+  const c = document.getElementById('cCaptBaru'), h = document.getElementById('cChiefBaru'), tu = document.getElementById('tUntuk');
+  if (c) c.innerHTML = pil(aktif.filter(u => (u.role || 'koas') === 'koas'));
+  if (h) h.innerHTML = pil(aktif);
+  if (tu) tu.innerHTML = '<option value="ME">Saya</option><option value="SEMUA">Seluruh tim</option>' + aktif.map(u => `<option value="${esc(u.id)}|${esc(u.nama)}">${esc(u.nama)}</option>`).join('');
+}
+
+async function ubahAkun(uid, field, nilai) {
+  const u = {};
+  if (field === 'role' && nilai === 'chief') { const lama = akunList.find(a => a.role === 'chief' && a.id !== uid); if (lama) u['users/' + lama.id + '/role'] = 'koas'; }
+  u['users/' + uid + '/' + field] = nilai;
+  if (field === 'aktif' && nilai === false) jadwalList.filter(j => j.uid === uid && j.tgl >= tglHariIni()).forEach(j => { u['jadwal/' + j.id] = null; });
+  try { await db.ref().update(u); showToast('Akun diperbarui.'); } catch (e) { alert('Gagal memperbarui akun (tidak diizinkan oleh server).'); }
+  muatDaftarAkun();
+}
+
+async function serahkanPeran(peran) {
+  const baru = getVal(peran === 'capt' ? 'cCaptBaru' : 'cChiefBaru');
+  if (!baru) { alert('Pilih koas aktif penerima peran.'); return; }
+  const nm = (akunList.find(a => a.id === baru) || {}).nama || 'koas tersebut';
+  if (!confirm(`Serahkan peran ${LABEL_PERAN[peran]} kepada ${nm}? Anda akan kembali menjadi koas dan kehilangan akses fitur ${LABEL_PERAN[peran]}.`)) return;
+  const u = {}; u['users/' + currentUserAuth.uid + '/role'] = 'koas'; u['users/' + baru + '/role'] = peran;
+  try { await db.ref().update(u); showToast('Peran diserahkan.'); } catch (e) { alert('Gagal menyerahkan peran.'); }
+}
+
+// ---------- Cetak jadwal jaga (PDF lewat dialog cetak) ----------
+function cetakJadwalPDF(mode) {
+  const hari = tujuhHari(), uid = currentUserAuth.uid, semua = mode === 'SEMUA' && punyaPeran('chief', 'master', 'capt');
+  const baris = new Map();
+  jadwalList.filter(j => hari.includes(j.tgl) && (semua || j.uid === uid)).forEach(j => {
+    if (!baris.has(j.uid)) baris.set(j.uid, { nama: j.nama, sel: {} });
+    (baris.get(j.uid).sel[j.tgl] = baris.get(j.uid).sel[j.tgl] || []).push(j);
+  });
+  if (!baris.size) { alert('Belum ada jadwal untuk dicetak.'); return; }
+  const sel = (l) => (l || []).map(j => `<b>${esc(SHIFT_SINGKAT[j.shift] || j.shift)}</b>${j.ruang ? '<br><span style="font-size:7pt;">' + esc(j.ruang) + '</span>' : ''}`).join('<hr style="margin:2px 0;">') || '-';
+  const th = 'border:1px solid #881337; background:#ffe4e6; padding:5px; font-size:8.5pt;', td = 'border:1px solid #94a3b8; padding:5px; text-align:center; font-size:8.5pt; vertical-align:top;';
+  const rows = [...baris.values()].sort((a, b) => a.nama.localeCompare(b.nama)).map(r =>
+    `<tr><td style="${td} text-align:left; font-weight:bold;">${esc(r.nama)}</td>${hari.map(t => `<td style="${td}">${sel(r.sel[t])}</td>`).join('')}</tr>`).join('');
+  document.getElementById('printResumeArea').innerHTML =
+    `<style>@page { size: A4 landscape; margin: 12mm; }</style>
+    <div style="text-align:center; border-bottom:2px solid #881337; padding-bottom:6px; margin-bottom:10px;">
+      <h2 style="margin:0; font-size:14pt; color:#881337;">JADWAL JAGA KOAS KARDIOLOGI &amp; KEDOKTERAN VASKULER</h2>
+      <div style="font-size:9pt;">RS Pendidikan Ibnu Sina Y.W. UMI &middot; Periode ${esc(formatTanggalID(hari[0]))} s.d. ${esc(formatTanggalID(hari[6]))}</div>
+    </div>
+    <table style="width:100%; border-collapse:collapse;"><thead><tr><th style="${th} text-align:left;">Nama</th>${hari.map(t => `<th style="${th}">${esc(labelHari(t))}</th>`).join('')}</tr></thead><tbody>${rows}</tbody></table>
+    <div style="margin-top:8px; font-size:8.5pt;">Keterangan: Pagi 07.00-14.00 &middot; Siang 14.00-21.00 &middot; Malam 21.00-07.00. Dicetak ${esc(stampWITA())} oleh ${esc(getVal('koasNama'))}.</div>`;
+  setTimeout(() => window.print(), 150);
 }
 
 // ---------- Notifikasi ----------
@@ -2386,7 +2691,7 @@ function cekPengingat() {
     picu(x.due - 15 * 6e4, 'tg15' + x.id, 'Tugas 15 menit lagi', isi);
     picu(x.due, 'tg0' + x.id, 'Tugas jatuh tempo', isi);
   });
-  jadwalList.filter(j => j.uid === uid).forEach(j => {
+  jadwalList.filter(j => j.uid === uid && j.shift !== 'LIBUR').forEach(j => {
     const m = epochJaga(j), isi = j.shift + (j.ruang ? ' - ' + j.ruang : '') + ' (mulai ' + fmtWITA(m) + ')';
     picu(epochWITA(tglSebelum(j.tgl), '18:00'), 'jg1d' + j.id, 'Besok Anda jaga', isi);
     picu(m - 36e5, 'jg1h' + j.id, 'Jaga 1 jam lagi', isi);
@@ -2394,38 +2699,8 @@ function cekPengingat() {
   });
 }
 
-// ---------- Jadwal jaga ----------
-async function tambahJadwal() {
-  if (!(await verifikasiWaktu())) return;
-  const tgl = getVal('jTanggal'), shift = getVal('jShift');
-  if (!tgl) { alert('Pilih tanggal jaga.'); return; }
-  if (tgl < tglHariIni()) { alert('Tanggal jaga tidak boleh sebelum hari ini.'); return; }
-  let uid = currentUserAuth.uid, nama = getVal('koasNama');
-  if (peranUser === 'chief' && getVal('jKoas')) { const p = getVal('jKoas').split('|'); uid = p[0]; nama = p[1]; }
-  if (jadwalList.some(j => j.uid === uid && j.tgl === tgl && j.shift === shift)) { alert('Jadwal yang sama sudah ada.'); return; }
-  const id = db.ref('jadwal').push().key;
-  await db.ref('jadwal/' + id).set({ uid: uid, nama: nama, tgl: tgl, shift: shift, ruang: getVal('jRuang'), dibuatOleh: currentUserAuth.uid, serverStamp: firebase.database.ServerValue.TIMESTAMP });
-  setVal('jRuang', ''); showToast('Jadwal jaga ditambahkan.');
-}
-
-async function hapusJadwal(id) {
-  if (confirm('Hapus jadwal jaga ini?')) await db.ref('jadwal/' + id).remove();
-}
-
-function renderJaga() {
-  const el = document.getElementById('listJadwal');
-  if (!el || !nowT()) return;
-  const hari = tglHariIni(), uid = currentUserAuth && currentUserAuth.uid;
-  const ke = jadwalList.filter(j => j.tgl >= hari).sort((a, b) => epochJaga(a) - epochJaga(b));
-  const ini = ke.filter(j => j.tgl === hari);
-  document.getElementById('jagaHariIni').innerHTML = '<b>Jaga hari ini:</b> ' + (ini.length ? ini.map(j => `${esc(j.shift.replace('JAGA ', ''))}: ${esc(j.nama)}`).join(' &middot; ') : 'belum ada jadwal.');
-  el.innerHTML = ke.length ? '<table><thead><tr><th>Tanggal</th><th>Shift</th><th>Koas</th><th>Ruang</th><th></th></tr></thead><tbody>' + ke.map(j =>
-    `<tr${j.uid === uid ? ' style="background:#fff1f2;"' : ''}><td>${esc(formatTanggalID(j.tgl))}</td><td>${esc(j.shift)}</td><td>${esc(j.nama)}</td><td>${esc(j.ruang || '-')}</td>` +
-    `<td>${(j.uid === uid || peranUser === 'chief') ? `<button type="button" class="danger" style="padding:3px 8px;" onclick="hapusJadwal('${esc(j.id)}')">Hapus</button>` : ''}</td></tr>`).join('') + '</tbody></table>' : '<div style="font-size:12px; color:#64748b; margin-top:8px;">Belum ada jadwal mendatang.</div>';
-}
-
 function eksporJadwalICS() {
-  const hari = tglHariIni(), saya = jadwalList.filter(j => j.uid === currentUserAuth.uid && j.tgl >= hari);
+  const hari = tglHariIni(), saya = jadwalList.filter(j => j.uid === currentUserAuth.uid && j.tgl >= hari && j.shift !== 'LIBUR');
   if (!saya.length) { alert('Belum ada jadwal jaga Anda yang akan datang.'); return; }
   const f = ms => new Date(ms).toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '');
   const L = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//MedLog//Jadwal Jaga//ID'];
@@ -2456,12 +2731,12 @@ async function tambahTugas() {
   const judul = getVal('tJudul');
   if (!judul) { alert('Tulis tugasnya dulu.'); return; }
   const p = pasienList.find(x => x.idPasien === getVal('tPasien'));
-  const saya = getVal('tUntuk') === 'ME';
+  const tu = getVal('tUntuk'), saya = tu === 'ME', orang = tu.indexOf('|') > 0 ? tu.split('|') : null;
   const id = db.ref('tugas').push().key;
   await db.ref('tugas/' + id).set({
     judul: judul, due: getVal('tDue') ? Date.parse(getVal('tDue') + ':00+08:00') : 0,
     pasienId: p ? p.idPasien : '', pasienNama: p ? p.nama : '',
-    untuk: saya ? currentUserAuth.uid : '', untukNama: saya ? getVal('koasNama') : 'Tim',
+    untuk: saya ? currentUserAuth.uid : (orang ? orang[0] : ''), untukNama: saya ? getVal('koasNama') : (orang ? orang[1] : 'Tim'),
     dibuatOleh: currentUserAuth.uid, dibuatNama: getVal('koasNama'), selesai: false,
     serverStamp: firebase.database.ServerValue.TIMESTAMP
   });
@@ -2480,7 +2755,7 @@ function renderTugas() {
   const el = document.getElementById('listTugas');
   if (!el) return;
   const uid = currentUserAuth && currentUserAuth.uid;
-  const urut = tugasList.filter(x => !x.untuk || x.untuk === uid || peranUser === 'chief').sort((a, b) => (a.selesai - b.selesai) || ((a.due || 9e15) - (b.due || 9e15)));
+  const urut = tugasList.filter(x => !x.untuk || x.untuk === uid || peranUser !== 'koas').sort((a, b) => (a.selesai - b.selesai) || ((a.due || 9e15) - (b.due || 9e15)));
   el.innerHTML = urut.length ? '<table><thead><tr><th></th><th>Tugas</th><th>Pasien</th><th>Batas</th><th>Untuk</th><th></th></tr></thead><tbody>' + urut.map(x =>
     `<tr style="${x.selesai ? 'opacity:.55; text-decoration:line-through;' : ''}"><td><input type="checkbox" ${x.selesai ? 'checked' : ''} onchange="selesaiTugas('${esc(x.id)}', this.checked)"></td>` +
     `<td>${esc(x.judul)}</td><td>${esc(x.pasienNama || '-')}</td><td>${x.due ? esc(fmtWITA(x.due)) : '-'}</td><td>${esc(x.untukNama || 'Tim')}</td>` +
@@ -2503,27 +2778,6 @@ function buatHandover() {
 
 function salinDari(id) {
   navigator.clipboard.writeText(document.getElementById(id).innerText).then(() => showToast('Disalin!'));
-}
-
-// ---------- Panel chief ----------
-async function muatDaftarAkun() {
-  if (peranUser !== 'chief') return;
-  try {
-    const s = await db.ref('users').once('value');
-    akunList = daftarDari(s.val()).sort((a, b) => (a.nama || '').localeCompare(b.nama || ''));
-  } catch (e) { return; }
-  const me = currentUserAuth.uid;
-  document.getElementById('listAkun').innerHTML = '<table><thead><tr><th>Nama / NIM</th><th>Peran</th><th>Status</th></tr></thead><tbody>' + akunList.map(u =>
-    `<tr><td><b>${esc(u.nama)}</b><br><small>${esc(u.nim || '-')}</small></td>` +
-    `<td><select ${u.id === me ? 'disabled' : ''} onchange="ubahAkun('${esc(u.id)}', 'role', this.value)"><option value="koas" ${u.role !== 'chief' ? 'selected' : ''}>Koas</option><option value="chief" ${u.role === 'chief' ? 'selected' : ''}>Chief</option></select></td>` +
-    `<td><select ${u.id === me ? 'disabled' : ''} onchange="ubahAkun('${esc(u.id)}', 'aktif', this.value === '1')"><option value="1" ${u.aktif !== false ? 'selected' : ''}>Aktif</option><option value="0" ${u.aktif === false ? 'selected' : ''}>Nonaktif</option></select></td></tr>`).join('') + '</tbody></table>';
-  document.getElementById('jKoas').innerHTML = '<option value="">- Saya sendiri -</option>' + akunList.filter(u => u.aktif !== false).map(u => `<option value="${esc(u.id)}|${esc(u.nama)}">${esc(u.nama)}</option>`).join('');
-}
-
-async function ubahAkun(uid, field, nilai) {
-  try { await db.ref('users/' + uid + '/' + field).set(nilai); showToast('Akun diperbarui.'); }
-  catch (e) { alert('Gagal memperbarui akun (hanya chief yang diizinkan oleh server).'); }
-  muatDaftarAkun();
 }
 
 // ---------- Privasi: sesi otomatis berakhir & layar disamarkan ----------
@@ -4637,13 +4891,13 @@ function ringkasanTotalDPJP(aktif) {
      ['alergi', 'sR_Alergi'], ['Operasi', 'sR_Operasi']].forEach(([lbl, k]) => { o += `- Riwayat ${lbl}${(lbl === 'Pengobatan' || lbl === 'minum alkohol') ? ':' : ' :'} ${nilai(cur[k])}\n`; });
 
     // ---- Objektif ----
-    const gcs = nilai(cur.oGCS);
-    const kesTxt = cur.oGCSKes || (/^\d+$/.test(gcs) ? teksKesadaran(gcs) : '');
-    o += `\n*Objektif*\nKeadaan Umum Pasien: ${nilai(cur.oKU)}/GCS ${gcs}${kesTxt ? '/' + kesTxt : ''}\n`;
+    const gcs = isi(cur.oGCS) ? String(cur.oGCS).trim() : '';
+    const kesTxt = gcs ? (cur.oGCSKes || (/^\d+$/.test(gcs) ? teksKesadaran(gcs) : '')) : '';
+    o += `\n*Objektif*\nKeadaan Umum Pasien: ${nilai(cur.oKU)}${gcs ? '/GCS ' + gcs + (kesTxt ? '/' + kesTxt : '') : ''}\n`;
     let rinci = (cur.oGCSDetail || '').trim();
-    if (!rinci && gcs === '15') rinci = 'E4M6V5';
+    if (gcs && !rinci && gcs === '15') rinci = 'E4M6V5';
     const nGCS = parseInt(gcs, 10);
-    if (rinci) o += `Glasgow Coma Scale : ${rinci}${(nGCS < 15 && !/T/i.test(gcs)) ? ` (total ${nGCS}, penurunan kesadaran ${gcsDerajat(nGCS)})` : ''}\n`;
+    if (gcs && rinci) o += `Glasgow Coma Scale : ${rinci}${(nGCS < 15 && !/T/i.test(gcs)) ? ` (total ${nGCS}, penurunan kesadaran ${gcsDerajat(nGCS)})` : ''}\n`;
     const mapTD = hitungMAP(cur.oTDSis, cur.oTDDia);
     o += `Tekanan Darah : ${nilai(cur.oTDSis)}/${nilai(cur.oTDDia)}mmHg${mapTD ? ` (MAP ${mapTD})` : ''}\n`;
     o += `Nadi: ${nilai(cur.oNadi)}x/menit\nPernapasan:${nilai(cur.oRR)}x/menit\n`;
@@ -5056,7 +5310,7 @@ const PANDUAN_CARDIO = {
   async function jalankanSistem() {
     bangunFormFisik();
     bangunFormGCS();
-    tickJam(); setInterval(tickJam, 1000); setInterval(cekPengingat, 30000);
+    tickJam(); setInterval(tickJam, 1000); setInterval(() => { cekPengingat(); shiftOtomatis(); }, 30000);
     inisialisasiServiceWorker();
     await initIndexedDB();
     const d = await getPasienListDB();
