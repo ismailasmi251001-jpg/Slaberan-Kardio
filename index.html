@@ -1415,6 +1415,10 @@
       #tabelPasien td[data-label="Aksi"] { order: 9; margin-top: 8px; padding-top: 10px; border-top: 1px solid #f1f5f9; }
       #tabelPasien .more-menu { top: auto; bottom: calc(100% + 4px); }
     }
+  
+    /* perbaikan: menu turunan header tidak terpotong */
+    .medlog-header.compact { overflow: visible; position: relative; z-index: 100; }
+    .medlog-header.compact::after { display: none; }
   </style>
 </head>
 <body data-tab="tabPasien">
@@ -2625,7 +2629,7 @@ function renderPanelCapt(paksa) {
   if (kotorCapt && !paksa) return;
   const tgl = getVal('cTanggal') || tglHariIni(), shift = getVal('cShift') || 'JAGA PAGI', me = currentUserAuth.uid;
   const tim = jadwalList.filter(j => j.tgl === tgl && j.shift === shift).sort((a, b) => (a.nama || '').localeCompare(b.nama || ''));
-  if (peranUser !== 'master' && !tim.some(j => j.uid === me)) { el.innerHTML = '<div style="font-size:12px; color:#b45309; margin:8px 0;">Anda tidak terjadwal pada shift ini. Panel hanya untuk Capt yang sedang jaga pada shift tersebut.</div>'; kotorCapt = false; return; }
+  if (peranUser !== 'master' && !tim.some(j => j.uid === me)) { el.innerHTML = '<div style="font-size:12px; color:#b45309; margin:8px 0;">Anda belum terjadwal pada tanggal dan shift ini. Panel Capt baru aktif bila Chief sudah menyimpan jadwal yang memuat Anda. Ganti tanggal atau shift di atas untuk melihat shift lain.</div>'; kotorCapt = false; return; }
   el.innerHTML = tim.length ? '<table><thead><tr><th>Koas</th><th>Posisi jaga</th><th>Tugas bangsal</th></tr></thead><tbody>' + tim.map(j =>
     `<tr data-cari="${esc((j.nama || '').toLowerCase())}"><td><b>${esc(j.nama)}</b></td><td><select class="selRuang" data-id="${esc(j.id)}" onchange="tandaiKotor('capt')">${opsiRuang(j.ruang)}</select></td>` +
     `<td><input type="text" class="inpTugas" data-id="${esc(j.id)}" value="${esc(j.tugasBangsal || '')}" placeholder="mis. visit pasien Al-A'raf, EKG pasien baru" oninput="tandaiKotor('capt')"></td></tr>`).join('') + '</tbody></table>'
@@ -2875,7 +2879,18 @@ let langkahCPPT = 1;
 
 function tutupSemuaMenu() { document.querySelectorAll('.more-wrap.open, .profil-wrap.open').forEach(e => e.classList.remove('open')); }
 document.addEventListener('click', tutupSemuaMenu);
-function toggleMore(ev, btn) { ev.stopPropagation(); const w = btn.parentElement, buka = !w.classList.contains('open'); tutupSemuaMenu(); if (buka) w.classList.add('open'); }
+window.addEventListener('scroll', tutupSemuaMenu, true);
+function toggleMore(ev, btn) {
+  ev.stopPropagation();
+  const w = btn.parentElement, buka = !w.classList.contains('open');
+  tutupSemuaMenu();
+  if (!buka) return;
+  w.classList.add('open');
+  const m = w.querySelector('.more-menu'), r = btn.getBoundingClientRect(), tinggi = m.offsetHeight || 90;
+  m.style.position = 'fixed'; m.style.left = 'auto'; m.style.right = (window.innerWidth - r.right) + 'px';
+  if (r.bottom + tinggi + 8 > window.innerHeight) { m.style.top = 'auto'; m.style.bottom = (window.innerHeight - r.top + 4) + 'px'; }
+  else { m.style.bottom = 'auto'; m.style.top = (r.bottom + 4) + 'px'; }
+}
 function toggleMenuProfil(ev) { ev.stopPropagation(); const w = document.getElementById('currentUserBadge'), buka = !w.classList.contains('open'); tutupSemuaMenu(); if (buka) w.classList.add('open'); }
 function toggleFilter() { document.querySelector('#tabPasien .filter-box').classList.toggle('open'); }
 function toggleIdentitas(paksaBuka) {
