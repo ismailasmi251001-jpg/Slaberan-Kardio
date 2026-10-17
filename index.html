@@ -1419,6 +1419,14 @@
     /* perbaikan: menu turunan header tidak terpotong */
     .medlog-header.compact { overflow: visible; position: relative; z-index: 100; }
     .medlog-header.compact::after { display: none; }
+  
+    .modal-content label { display: block; font-size: 11.5px; font-weight: 600; color: #334155; margin: 8px 0 3px; }
+    .modal-content label.toggle-row { display: flex; align-items: center; gap: 10px; font-size: 13px; cursor: pointer; }
+    .modal-content label.toggle-row input { width: 20px; height: 20px; margin: 0; }
+    .modal-content button { margin-top: 6px; }
+    #slotIdentitas .grid-5 { grid-template-columns: 1fr 1fr; }
+    #slotIdentitas .label-wrapper label { margin: 8px 0 3px; }
+    #masterVapidWrap { background: #fff7ed; border: 1px solid #fed7aa; border-radius: 12px; padding: 10px 12px; margin-bottom: 10px; }
   </style>
 </head>
 <body data-tab="tabPasien">
@@ -1519,7 +1527,8 @@
           <button type="button" class="profil-btn" onclick="toggleMenuProfil(event)" aria-label="Menu akun"><span class="avatar" id="avatarInisial">D</span><span id="currentUserNameText">Dokter</span><span class="caret">&#9662;</span></button>
           <div class="menu-profil">
             <div class="menu-head"><b id="mpNama">-</b><span id="mpPeran">Koas</span><small>Kardiologi &amp; Kedokteran Vaskuler<br>RS Pendidikan Ibnu Sina Y.W. UMI</small></div>
-            <button type="button" onclick="toggleIdentitas(true)">&#x1F9FE; Identitas jaga</button>
+            <button type="button" onclick="bukaModalAkun()">&#x2699;&#xFE0F; Akun &amp; Pengaturan</button>
+            <button type="button" onclick="bukaModalAkun('notif')">&#x1F514; Notifikasi</button>
             <button type="button" onclick="bukaModalHistoryGlobal()">&#x1F4DC; Log &amp; Riwayat</button>
             <button type="button" class="danger-txt" onclick="eksekusiLogout()">&#x1F6AA; Keluar</button>
             <div class="menu-foot">Dibuat oleh <b>@IsmailAsmi_</b> &#xB7; FK UMI</div>
@@ -1533,7 +1542,7 @@
   <!-- Identitas Dokter Muda & Pengaturan RS (Identitas Terkunci Sesuai Akun Login) -->
   <div class="jaga-bar">
     <div class="jaga-ringkas"><span>&#x1F512;</span><b id="rjShift">-</b><span class="sep">&middot;</span><span id="rjNama">-</span><span class="sep hide-m">&middot;</span><span id="rjRS" class="hide-m">-</span></div>
-    <button type="button" class="btn-ghost" onclick="toggleIdentitas()">Ubah &#9662;</button>
+    <button type="button" class="btn-ghost" onclick="bukaModalAkun()">Ubah &#9662;</button>
   </div>
   <div class="card" id="identitasDetail" style="display:none; margin-bottom:12px; padding:14px 16px;">
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 10px; flex-wrap:wrap; gap:8px;">
@@ -2168,15 +2177,6 @@
     </div>
 
     <div class="card">
-      <h3>&#x1F514; Pengingat & Notifikasi</h3>
-      <div id="notifStatus" style="font-size:12.5px; line-height:1.5; margin-bottom:8px;"></div>
-      <div class="btn-group" style="margin-top:0;">
-        <button type="button" onclick="aktifkanNotifikasi()">&#x1F514; Aktifkan Notifikasi</button>
-        <button type="button" class="alt" onclick="tampilNotif('Tes MedLog', 'Notifikasi berfungsi.', 'tes')">Kirim Tes</button>
-      </div>
-    </div>
-
-    <div class="card">
       <h3>&#x2705; Tugas Bangsal</h3>
       <div class="grid-4">
         <div><label style="font-size:11px; font-weight:600;">Tugas</label><input type="text" id="tJudul" placeholder="Ambil lab, konfirmasi ECHO..."></div>
@@ -2210,7 +2210,7 @@
       <div class="sec-head"><h3>&#x1F451; Panel Chief Koas</h3>
         <div style="display:flex; gap:6px; flex-wrap:wrap;"><button type="button" onclick="simpanJadwalMingguan()">&#x1F4BE; Simpan Jadwal</button><button type="button" class="backup-btn" onclick="cetakJadwalPDF('SEMUA')">&#x1F4C4; PDF Semua</button></div></div>
       <input type="text" id="cariChief" class="search-box" placeholder="&#x1F50D; Cari nama / NIM koas..." oninput="filterBaris('gridJadwal','cariChief'); filterBaris('listAkun','cariChief')">
-      <div style="font-size:11.5px; color:#64748b; margin-bottom:6px;">Sel kosong pada hari biasa otomatis terisi JAGA PAGI (kecuali Sabtu). Jadwal baru berlaku setelah disimpan.</div>
+      <div style="font-size:11.5px; color:#64748b; margin-bottom:6px;">Sel kosong Senin-Jumat otomatis terisi JAGA PAGI; Sabtu dan Minggu diisi sesuai kebutuhan. Jadwal baru berlaku setelah disimpan.</div>
       <div id="gridJadwal" style="overflow-x:auto;"></div>
       <h4 class="sub">Akun koas</h4>
       <div id="listAkun" style="overflow-x:auto;"></div>
@@ -2221,6 +2221,9 @@
     <div class="card" id="panelMaster" style="display:none;">
       <h3>&#x1F6E1;&#xFE0F; Panel Master</h3>
       <div style="font-size:12px; color:#475569; margin-bottom:8px;">Master mengatur seluruh akun dan menunjuk/memindahkan Chief. Peran Master hanya dapat diubah lewat Firebase Console.</div>
+      <div id="masterVapidWrap"><label style="font-size:11.5px; font-weight:700;">Kunci VAPID (notifikasi push saat aplikasi tertutup)</label>
+        <input type="text" id="masterVapid" placeholder="Tempel Web Push key pair dari Firebase Console" style="margin-top:4px;">
+        <button type="button" onclick="simpanVapid()">Simpan Kunci</button></div>
       <input type="text" id="cariMaster" class="search-box" placeholder="&#x1F50D; Cari nama / NIM..." oninput="filterBaris('listMaster','cariMaster')">
       <div id="listMaster" style="overflow-x:auto;"></div>
     </div>
@@ -2261,6 +2264,42 @@
   <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
   <img id="lightboxImg" src="" alt="Pratinjau">
   <div id="lightboxCaption"></div>
+</div>
+
+<div class="modal-backdrop" id="modalAkun" onclick="tutupModalAkun(event)">
+  <div class="modal-content" onclick="event.stopPropagation()" style="max-width:620px;">
+    <div class="modal-header"><h4>&#x2699;&#xFE0F; Akun &amp; Pengaturan</h4><button class="modal-close" onclick="tutupModalAkun()">&times;</button></div>
+
+    <h4 class="sub" style="margin-top:0;">Identitas jaga</h4>
+    <div id="slotIdentitas"></div>
+
+    <h4 class="sub">Profil</h4>
+    <div class="grid-2">
+      <div><label for="akunNama">Nama lengkap</label><input type="text" id="akunNama"></div>
+      <div><label for="akunNim">NIM / Stambuk</label><input type="text" id="akunNim"></div>
+    </div>
+    <label for="akunWA">Nomor WhatsApp</label><input type="tel" id="akunWA" placeholder="08xxxxxxxxxx">
+    <button type="button" onclick="simpanProfil()">&#x1F4BE; Simpan Profil</button>
+
+    <h4 class="sub">Email &amp; Kata Sandi</h4>
+    <div style="font-size:12px; color:#475569; margin-bottom:6px;">Email aktif: <b id="akunEmailAktif">-</b>. Perubahan email atau kata sandi memerlukan kata sandi Anda saat ini.</div>
+    <label for="akunPassLama">Kata sandi saat ini</label><input type="password" id="akunPassLama" autocomplete="current-password">
+    <label for="akunEmailBaru">Email baru</label><input type="email" id="akunEmailBaru" autocomplete="off" placeholder="nama@email.com">
+    <button type="button" class="backup-btn" onclick="ubahEmail()">&#x2709;&#xFE0F; Ubah Email</button>
+    <div class="grid-2" style="margin-top:10px;">
+      <div><label for="akunPassBaru">Kata sandi baru (min. 6)</label><input type="password" id="akunPassBaru" autocomplete="new-password"></div>
+      <div><label for="akunPassBaru2">Ulangi kata sandi baru</label><input type="password" id="akunPassBaru2" autocomplete="new-password"></div>
+    </div>
+    <button type="button" class="backup-btn" onclick="ubahPassword()">&#x1F511; Ubah Kata Sandi</button>
+
+    <h4 class="sub" id="judulNotif">Notifikasi &amp; pengingat</h4>
+    <label class="toggle-row"><input type="checkbox" id="notifToggle" onchange="ubahToggleNotif(this.checked)"><span>Aktifkan pengingat tugas &amp; jadwal jaga</span></label>
+    <div id="notifStatus" style="font-size:12.5px; line-height:1.6; margin:8px 0;"></div>
+    <div class="btn-group" style="margin-top:0;">
+      <button type="button" onclick="aktifkanNotifikasi()">&#x1F514; Izinkan Notifikasi</button>
+      <button type="button" class="alt" onclick="tampilNotif('Tes MedLog', 'Notifikasi berfungsi.', 'tes')">Kirim Tes</button>
+    </div>
+  </div>
 </div>
 
 <div class="modal-backdrop" id="modalPanduan" onclick="closeInfo(event)">
@@ -2440,7 +2479,8 @@ function muatGCS(e) {
 }
 
 // ================= JADWAL JAGA, TUGAS BANGSAL, PENGINGAT, PRIVASI =================
-const VAPID_KEY = '';   // isi dengan Web Push certificate key (Firebase Console > Project settings > Cloud Messaging)
+const VAPID_KEY = '';
+let vapidKey = VAPID_KEY;   // isi dengan Web Push certificate key (Firebase Console > Project settings > Cloud Messaging)
 const JAGA_MULAI = { 'JAGA PAGI': '07:00', 'JAGA SIANG': '14:00', 'JAGA MALAM': '21:00' };
 const JAGA_DURASI_JAM = { 'JAGA PAGI': 7, 'JAGA SIANG': 7, 'JAGA MALAM': 10 };
 let peranUser = 'koas', jadwalList = [], tugasList = [], tukarList = [], akunList = [], refJadwal = null, refTugas = null, refTukar = null, refRole = null, kotorGrid = false, kotorCapt = false, tukarAsal = null, shiftAutoTerakhir = '', swReg = null, terakhirAktif = performance.now();
@@ -2460,6 +2500,7 @@ const RUANG_RS = ['IGD', 'ICU / ICCU', 'Lt 5 gedung lama (al araf)', 'Lt 4 gedun
 const opsiRuang = sel => '<option value="">- Posisi jaga -</option>' + RUANG_RS.map(r => `<option value="${esc(r)}" ${r === sel ? 'selected' : ''}>${esc(r)}</option>`).join('');
 const punyaPeran = (...r) => r.includes(peranUser);
 const hariSabtu = tgl => new Date(epochWITA(tgl, '12:00')).getUTCDay() === 6;
+const pagiBawaan = tgl => { const d = new Date(epochWITA(tgl, '12:00')).getUTCDay(); return d >= 1 && d <= 5; };   // jaga pagi bawaan: Senin-Jumat
 const labelHari = tgl => new Intl.DateTimeFormat('id-ID', { timeZone: ZONA_RS, weekday: 'short', day: '2-digit', month: 'short' }).format(new Date(epochWITA(tgl, '12:00')));
 const tujuhHari = () => { const a = tglHariIni(); return Array.from({ length: 7 }, (_, i) => new Intl.DateTimeFormat('en-CA', { timeZone: ZONA_RS }).format(new Date(epochWITA(a, '12:00') + i * 864e5))); };
 
@@ -2471,6 +2512,7 @@ function mulaiListenerJaga() {
   refJadwal.on('value', s => { jadwalList = daftarDari(s.val()); renderSemuaJaga(); cekPengingat(); });
   refTugas.on('value', s => { tugasList = daftarDari(s.val()); renderTugas(); cekPengingat(); });
   refTukar.on('value', s => { tukarList = daftarDari(s.val()); renderTukar(); });
+  db.ref('config/vapid').once('value').then(s => { vapidKey = VAPID_KEY || s.val() || ''; setVal('masterVapid', vapidKey); perbaruiStatusNotif(); }).catch(() => {});
   perbaruiStatusNotif();
 }
 
@@ -2517,7 +2559,7 @@ function shiftOtomatis() {
   let shift;
   if (aktif.length) shift = (aktif.find(j => j.shift === p.shift) || aktif[0]).shift;
   else if (hariIni.length) shift = p.shift;                              // libur: ikut jam saat ini
-  else shift = hariSabtu(p.tgl) ? p.shift : 'JAGA PAGI';               // tanpa jadwal: pagi, kecuali Sabtu
+  else shift = pagiBawaan(p.tgl) ? 'JAGA PAGI' : p.shift;               // tanpa jadwal: pagi, kecuali Sabtu
   if (shift !== shiftAutoTerakhir) { shiftAutoTerakhir = shift; setVal('shiftJaga', shift); simpanOtomatisKoas(); toggleStatusPasien(); }
 }
 
@@ -2528,7 +2570,7 @@ function renderJaga() {
   const hari = tujuhHari(), uid = currentUserAuth.uid;
   const saya = jadwalList.filter(j => j.uid === uid && hari.includes(j.tgl)).sort((a, b) => a.tgl.localeCompare(b.tgl) || epochJaga(a) - epochJaga(b));
   const ini = saya.find(j => j.tgl === hari[0] && j.shift !== 'LIBUR');
-  document.getElementById('jagaHariIni').innerHTML = '<b>Hari ini:</b> ' + (ini ? `${esc(ini.shift)} (${JAM_SHIFT[ini.shift]}) &middot; Posisi: <b>${esc(ini.ruang || 'belum ditentukan Capt')}</b>` : (hariSabtu(hari[0]) ? 'tidak ada jadwal (Sabtu).' : 'jaga pagi sesuai ketentuan umum, belum ada jadwal khusus.'));
+  document.getElementById('jagaHariIni').innerHTML = '<b>Hari ini:</b> ' + (ini ? `${esc(ini.shift)} (${JAM_SHIFT[ini.shift]}) &middot; Posisi: <b>${esc(ini.ruang || 'belum ditentukan Capt')}</b>` : (pagiBawaan(hari[0]) ? 'jaga pagi sesuai ketentuan umum, belum ada jadwal khusus.' : 'tidak ada jadwal (akhir pekan).'));
   el.innerHTML = saya.length ? '<table><thead><tr><th>Hari</th><th>Shift</th><th>Posisi jaga</th><th>Tugas bangsal</th><th></th></tr></thead><tbody>' + saya.map(j =>
     `<tr><td>${esc(labelHari(j.tgl))}</td><td>${esc(SHIFT_SINGKAT[j.shift] || j.shift)}<br><small>${JAM_SHIFT[j.shift] || ''}</small></td><td>${esc(j.ruang || 'Belum ditentukan')}</td><td>${esc(j.tugasBangsal || '-')}</td>` +
     `<td>${j.shift !== 'LIBUR' ? `<button type="button" class="warn-btn" style="padding:5px 10px;" onclick="mulaiTukar('${esc(j.id)}')">Tukar Jaga</button>` : ''}</td></tr>`).join('') + '</tbody></table>'
@@ -2600,7 +2642,7 @@ function renderPanelChief(paksa) {
   const opsi = [['', '-'], ['JAGA PAGI', 'Pagi'], ['JAGA SIANG', 'Siang'], ['JAGA MALAM', 'Malam'], ['LIBUR', 'Libur']];
   el.innerHTML = '<table><thead><tr><th>Koas</th>' + hari.map(t => `<th>${esc(labelHari(t))}</th>`).join('') + '</tr></thead><tbody>' + peserta.map(u =>
     `<tr data-cari="${esc(((u.nama || '') + ' ' + (u.nim || '')).toLowerCase())}"><td><b>${esc(u.nama)}</b><br><small>${esc(u.nim || '-')}${u.role === 'capt' ? ' &middot; Capt' : ''}</small></td>` +
-    hari.map(t => { const ada = jadwalList.find(j => j.uid === u.id && j.tgl === t), v = ada ? ada.shift : (hariSabtu(t) ? '' : 'JAGA PAGI');
+    hari.map(t => { const ada = jadwalList.find(j => j.uid === u.id && j.tgl === t), v = ada ? ada.shift : (pagiBawaan(t) ? 'JAGA PAGI' : '');
       return `<td><select class="selJadwal" data-uid="${esc(u.id)}" data-nama="${esc(u.nama)}" data-tgl="${t}" onchange="kotorGrid=true" style="min-width:76px; padding:6px;">${opsi.map(o => `<option value="${o[0]}" ${o[0] === v ? 'selected' : ''}>${o[1]}</option>`).join('')}</select></td>`; }).join('') + '</tr>').join('') + '</tbody></table>';
   kotorGrid = false; filterBaris('gridJadwal', 'cariChief');
 }
@@ -2699,24 +2741,45 @@ async function serahkanPeran(peran) {
 // ---------- Cetak jadwal jaga (PDF lewat dialog cetak) ----------
 function cetakJadwalPDF(mode) {
   const hari = tujuhHari(), uid = currentUserAuth.uid, semua = mode === 'SEMUA' && punyaPeran('chief', 'master', 'capt');
-  const baris = new Map();
-  jadwalList.filter(j => hari.includes(j.tgl) && (semua || j.uid === uid)).forEach(j => {
-    if (!baris.has(j.uid)) baris.set(j.uid, { nama: j.nama, sel: {} });
-    (baris.get(j.uid).sel[j.tgl] = baris.get(j.uid).sel[j.tgl] || []).push(j);
+  if (!jadwalList.some(j => hari.includes(j.tgl))) { alert('Belum ada jadwal untuk dicetak.'); return; }
+  const P = 'JAGA PAGI', S = 'JAGA SIANG', M = 'JAGA MALAM', dow = t => new Date(epochWITA(t, '12:00')).getUTCDay();
+  const kolom = [];   // pagi Senin-Jumat adalah ketentuan umum sehingga tidak dicetak (seperti lembar jadwal)
+  hari.forEach(t => {
+    const d = dow(t), pagi = d === 0 || (d === 6 && jadwalList.some(j => j.tgl === t && j.shift === P));
+    (pagi ? [P, S, M] : [S, M]).forEach(sh => kolom.push({ tgl: t, shift: sh }));
   });
-  if (!baris.size) { alert('Belum ada jadwal untuk dicetak.'); return; }
-  const sel = (l) => (l || []).map(j => `<b>${esc(SHIFT_SINGKAT[j.shift] || j.shift)}</b>${j.ruang ? '<br><span style="font-size:7pt;">' + esc(j.ruang) + '</span>' : ''}`).join('<hr style="margin:2px 0;">') || '-';
-  const th = 'border:1px solid #881337; background:#ffe4e6; padding:5px; font-size:8.5pt;', td = 'border:1px solid #94a3b8; padding:5px; text-align:center; font-size:8.5pt; vertical-align:top;';
-  const rows = [...baris.values()].sort((a, b) => a.nama.localeCompare(b.nama)).map(r =>
-    `<tr><td style="${td} text-align:left; font-weight:bold;">${esc(r.nama)}</td>${hari.map(t => `<td style="${td}">${sel(r.sel[t])}</td>`).join('')}</tr>`).join('');
+  const roleDari = id => (akunList.find(a => a.id === id) || {}).role;
+  const orang = new Map();
+  if (semua) akunList.filter(a => a.aktif !== false && !['chief', 'master'].includes(a.role)).forEach(a => orang.set(a.id, a.nama));
+  jadwalList.filter(j => hari.includes(j.tgl) && (semua || j.uid === uid)).forEach(j => { if (!orang.has(j.uid) && roleDari(j.uid) !== 'chief') orang.set(j.uid, j.nama); });
+  const chief = semua ? akunList.find(a => a.role === 'chief') : null;
+  const fmt = (t, tahun) => new Intl.DateTimeFormat('id-ID', { timeZone: ZONA_RS, day: 'numeric', month: 'long', year: tahun ? 'numeric' : undefined }).format(new Date(epochWITA(t, '12:00'))).toUpperCase();
+  const namaHari = t => new Intl.DateTimeFormat('id-ID', { timeZone: ZONA_RS, weekday: 'long' }).format(new Date(epochWITA(t, '12:00'))).toUpperCase();
+  const warna = ['#fde68a', '#a5f3fc', '#fbcfe8', '#bbf7d0', '#c7d2fe', '#fed7aa', '#e9d5ff', '#fecaca', '#d9f99d', '#bae6fd', '#f5d0fe', '#fef08a'];
+  const td = 'border:1px solid #000; padding:2px 3px; text-align:center; font-size:7.5pt; height:14px;';
+  const th = 'border:1px solid #000; padding:3px; text-align:center; font-size:8pt; font-weight:bold; background:#fff;';
+  let no = 0;
+  const barisChief = chief ? `<tr><td style="${td} background:#1d4ed8; color:#fff;">${++no}</td><td style="${td} background:#1d4ed8; color:#fff; text-align:left; font-weight:bold;">${esc(chief.nama)}</td>${kolom.map(() => `<td style="${td} background:#1d4ed8; color:#fff; font-weight:bold;">CHIEF</td>`).join('')}<td style="${td} background:#1d4ed8; color:#fff; font-weight:bold;">${kolom.length}</td></tr>` : '';
+  const baris = [...orang.entries()].sort((a, b) => (a[1] || '').localeCompare(b[1] || '')).map(([id, nama], i) => {
+    const bg = warna[i % warna.length]; let total = 0;
+    const sel = kolom.map(k => {
+      if (!jadwalList.some(x => x.uid === id && x.tgl === k.tgl && x.shift === k.shift)) return `<td style="${td}"></td>`;
+      total++; return `<td style="${td} background:${bg}; font-weight:bold;">${roleDari(id) === 'capt' ? 'CAPT' : 'y'}</td>`;
+    }).join('');
+    return `<tr><td style="${td}">${++no}</td><td style="${td} background:${bg}; text-align:left;">${esc(nama)}</td>${sel}<td style="${td} font-weight:bold;">${total}</td></tr>`;
+  }).join('');
+  const grupHari = hari.map(t => `<th style="${th}" colspan="${kolom.filter(k => k.tgl === t).length}">${esc(namaHari(t))}<br><span style="font-weight:normal; font-size:7pt;">${esc(fmt(t).replace(/ .*/, '') + ' ' + new Intl.DateTimeFormat('id-ID', { timeZone: ZONA_RS, month: 'short' }).format(new Date(epochWITA(t, '12:00'))).toUpperCase())}</span></th>`).join('');
+  const subHari = kolom.map(k => `<th style="${th} font-size:7pt;">${k.shift === P ? 'PAGI' : k.shift === S ? 'SIANG' : 'MALAM'}</th>`).join('');
   document.getElementById('printResumeArea').innerHTML =
-    `<style>@page { size: A4 landscape; margin: 12mm; }</style>
-    <div style="text-align:center; border-bottom:2px solid #881337; padding-bottom:6px; margin-bottom:10px;">
-      <h2 style="margin:0; font-size:14pt; color:#881337;">JADWAL JAGA KOAS KARDIOLOGI &amp; KEDOKTERAN VASKULER</h2>
-      <div style="font-size:9pt;">RS Pendidikan Ibnu Sina Y.W. UMI &middot; Periode ${esc(formatTanggalID(hari[0]))} s.d. ${esc(formatTanggalID(hari[6]))}</div>
-    </div>
-    <table style="width:100%; border-collapse:collapse;"><thead><tr><th style="${th} text-align:left;">Nama</th>${hari.map(t => `<th style="${th}">${esc(labelHari(t))}</th>`).join('')}</tr></thead><tbody>${rows}</tbody></table>
-    <div style="margin-top:8px; font-size:8.5pt;">Keterangan: Pagi 07.00-14.00 &middot; Siang 14.00-21.00 &middot; Malam 21.00-07.00. Dicetak ${esc(stampWITA())} oleh ${esc(getVal('koasNama'))}.</div>`;
+    `<style>@page { size: A4 landscape; margin: 8mm; }</style>
+    <div style="font-family:'Times New Roman', Times, serif;">
+      <div style="text-align:center; font-weight:bold; font-size:12pt; line-height:1.35; margin-bottom:6px;">JADWAL JAGA KARDIOLOGI DAN KEDOKTERAN VASKULER<br>${esc(fmt(hari[0]))} - ${esc(fmt(hari[6], true))}</div>
+      <table style="width:100%; border-collapse:collapse; font-family:'Times New Roman', Times, serif;">
+        <thead><tr><th style="${th}" rowspan="2">NO</th><th style="${th}; text-align:left; min-width:120px;" rowspan="2">Nama</th>${grupHari}<th style="${th}" rowspan="2">TOTAL JAGA</th></tr><tr>${subHari}</tr></thead>
+        <tbody>${barisChief}${baris}</tbody>
+      </table>
+      <div style="margin-top:6px; font-size:7.5pt;">Keterangan: y = jaga &middot; CAPT = capt jaga &middot; Pagi 07.00-14.00 (Senin-Jumat seluruh koas aktif), Siang 14.00-21.00, Malam 21.00-07.00. Dicetak ${esc(stampWITA())} oleh ${esc(getVal('koasNama'))}.</div>
+    </div>`;
   setTimeout(() => window.print(), 150);
 }
 
@@ -2742,18 +2805,41 @@ function tampilNotif(judul, isi, tag) {
   }
 }
 
+const notifAktif = () => localStorage.getItem('medlog_notif_on') !== '0';
+const kunciToken = t => t.slice(-24).replace(/[^A-Za-z0-9_-]/g, '_');
+
 async function aktifkanNotifikasi() {
   if (!('Notification' in window)) { alert('Browser ini tidak mendukung notifikasi. Di iPhone, pasang MedLog ke Layar Utama (Share > Add to Home Screen) lalu buka dari ikon tersebut.'); return; }
-  const izin = await Notification.requestPermission();
-  if (izin === 'granted') await daftarPush();
+  localStorage.setItem('medlog_notif_on', '1');
+  const cb = document.getElementById('notifToggle'); if (cb) cb.checked = true;
+  if (Notification.permission === 'default') await Notification.requestPermission();
+  if (Notification.permission === 'granted') await daftarPush();
+  perbaruiStatusNotif();
+}
+
+async function ubahToggleNotif(on) {
+  if (on) { await aktifkanNotifikasi(); return; }
+  localStorage.setItem('medlog_notif_on', '0');
+  await matikanPush();
   perbaruiStatusNotif();
 }
 
 async function daftarPush() {
-  if (!VAPID_KEY || !swReg || !currentUserAuth || !firebase.messaging) return;
+  if (!vapidKey || !swReg || !currentUserAuth || !(firebase.messaging && firebase.messaging.isSupported())) return;
   try {
-    const token = await firebase.messaging().getToken({ vapidKey: VAPID_KEY, serviceWorkerRegistration: swReg });
-    if (token) await db.ref('fcmTokens/' + currentUserAuth.uid + '/' + token.slice(-24).replace(/[^A-Za-z0-9_-]/g, '_')).set({ token: token, serverStamp: firebase.database.ServerValue.TIMESTAMP });
+    const token = await firebase.messaging().getToken({ vapidKey: vapidKey, serviceWorkerRegistration: swReg });
+    if (token) {
+      await db.ref('fcmTokens/' + currentUserAuth.uid + '/' + kunciToken(token)).set({ token: token, serverStamp: firebase.database.ServerValue.TIMESTAMP });
+      localStorage.setItem('medlog_fcm_token', token);
+    }
+  } catch (e) {}
+}
+
+async function matikanPush() {
+  try {
+    const tok = localStorage.getItem('medlog_fcm_token');
+    if (tok && currentUserAuth) { await db.ref('fcmTokens/' + currentUserAuth.uid + '/' + kunciToken(tok)).remove(); await firebase.messaging().deleteToken(); }
+    localStorage.removeItem('medlog_fcm_token');
   } catch (e) {}
 }
 
@@ -2761,13 +2847,91 @@ function perbaruiStatusNotif() {
   const el = document.getElementById('notifStatus');
   if (!el) return;
   const izin = ('Notification' in window) ? Notification.permission : 'tidak didukung';
-  const push = VAPID_KEY ? 'Push saat aplikasi tertutup: aktif bila server pengingat (Cloud Function) sudah dipasang.' : 'Push saat aplikasi tertutup: belum dikonfigurasi (VAPID key kosong).';
-  el.innerHTML = `Izin notifikasi: <b>${esc(izin)}</b>. Pengingat tugas dan jadwal jaga berjalan selama MedLog terbuka. ${push}<br>Tanpa server: pakai <b>Ekspor ke Kalender</b> agar alarm jaga berbunyi dari kalender HP walau MedLog tertutup.`;
+  const baris = [
+    [izin === 'granted', 'Izin notifikasi browser: <b>' + esc(izin) + '</b>'],
+    [!!swReg, 'Service worker: ' + (swReg ? 'terdaftar' : 'belum terdaftar (file firebase-messaging-sw.js harus ada di folder yang sama dan situs memakai HTTPS)')],
+    [!!vapidKey, 'Kunci VAPID: ' + (vapidKey ? 'terpasang' : 'belum diisi (Master mengisinya di Panel Master)')],
+    [!!localStorage.getItem('medlog_fcm_token'), 'Push saat aplikasi tertutup di perangkat ini: ' + (localStorage.getItem('medlog_fcm_token') ? 'aktif' : 'belum aktif')]
+  ];
+  let bantuan = '';
+  if (izin === 'denied') bantuan = '<div class="guidance-box" style="margin:8px 0 0;"><b>Notifikasi sedang diblokir browser.</b> Buka kembali blokirnya:<br>&bull; <b>Chrome Android / desktop:</b> ketuk ikon gembok di samping alamat &rarr; Izin / Pengaturan situs &rarr; Notifikasi &rarr; Izinkan, lalu muat ulang halaman.<br>&bull; <b>iPhone:</b> pasang MedLog ke Layar Utama, buka dari ikonnya, lalu Pengaturan &rarr; Notifikasi &rarr; MedLog &rarr; Izinkan.<br>Setelah itu tekan &quot;Izinkan Notifikasi&quot; lagi.</div>';
+  el.innerHTML = baris.map(b => (b[0] ? '\u{2705} ' : '\u{274C} ') + b[1]).join('<br>') + bantuan + '<div style="color:#64748b; margin-top:6px;">Pengingat dalam aplikasi berjalan selama MedLog terbuka. Alternatif tanpa server: Ekspor ke Kalender di tab Jaga &amp; Tugas.</div>';
+  const cb = document.getElementById('notifToggle'); if (cb) cb.checked = notifAktif();
+}
+
+// ---------- Akun & Pengaturan ----------
+function pindahkanIdentitas() {   // kolom identitas jaga dipindah dari kartu lama ke dalam jendela Akun & Pengaturan
+  const kartu = document.getElementById('identitasDetail'), slot = document.getElementById('slotIdentitas');
+  if (!kartu || !slot) return;
+  Array.from(kartu.children).filter(k => k.classList.contains('grid-5') || k.querySelector('#tglLaporan')).forEach(k => slot.appendChild(k));
+  ['koasNama', 'koasNim', 'koasWA'].forEach(id => { const e = document.getElementById(id); if (e && e.parentElement) e.parentElement.style.display = 'none'; });
+  kartu.remove();
+}
+
+function bukaModalAkun(bagian) {
+  setVal('akunNama', getVal('koasNama')); setVal('akunNim', getVal('koasNim')); setVal('akunWA', getVal('koasWA'));
+  ['akunPassLama', 'akunEmailBaru', 'akunPassBaru', 'akunPassBaru2'].forEach(id => setVal(id, ''));
+  const em = document.getElementById('akunEmailAktif'); if (em) em.innerText = (currentUserAuth && currentUserAuth.email) || '-';
+  perbaruiStatusNotif();
+  document.getElementById('modalAkun').style.display = 'flex';
+  if (bagian === 'notif') setTimeout(() => document.getElementById('judulNotif').scrollIntoView({ behavior: 'smooth', block: 'start' }), 60);
+}
+
+function tutupModalAkun(e) { if (!e || e.target.id === 'modalAkun') document.getElementById('modalAkun').style.display = 'none'; }
+
+async function simpanProfil() {
+  const nama = getVal('akunNama'), nim = getVal('akunNim'), wa = getVal('akunWA');
+  if (!nama || !nim) { alert('Nama dan NIM wajib diisi.'); return; }
+  try {
+    await db.ref('users/' + currentUserAuth.uid).update({ nama: nama, nim: nim, wa: wa, updatedAt: new Date().toISOString() });
+    await currentUserAuth.updateProfile({ displayName: nama });
+    setVal('koasNama', nama); setVal('koasNim', nim); setVal('koasWA', wa); simpanOtomatisKoas();
+    document.getElementById('currentUserNameText').innerText = nama.split(' ')[0];
+    terapkanPeran(); showToast('Profil diperbarui.');
+  } catch (e) { alert('Gagal menyimpan profil: ' + e.message); }
+}
+
+async function reauth() {
+  const pass = getVal('akunPassLama');
+  if (!pass) { alert('Isi kata sandi Anda saat ini terlebih dahulu.'); return false; }
+  try { await currentUserAuth.reauthenticateWithCredential(firebase.auth.EmailAuthProvider.credential(currentUserAuth.email, pass)); return true; }
+  catch (e) { alert('Kata sandi saat ini salah.'); return false; }
+}
+
+async function ubahEmail() {
+  const baru = getVal('akunEmailBaru');
+  if (!baru) { alert('Tulis email baru.'); return; }
+  if (!(await reauth())) return;
+  try {
+    await currentUserAuth.updateEmail(baru);
+    await db.ref('users/' + currentUserAuth.uid).update({ email: baru });
+    document.getElementById('akunEmailAktif').innerText = baru; setVal('akunEmailBaru', ''); showToast('Email diperbarui.');
+  } catch (e) {
+    if (e.code === 'auth/operation-not-allowed') {
+      try { await currentUserAuth.verifyBeforeUpdateEmail(baru); alert('Tautan verifikasi dikirim ke ' + baru + '. Email berganti setelah Anda membukanya.'); } catch (e2) { alert('Gagal: ' + e2.message); }
+    } else alert('Gagal mengubah email: ' + e.message);
+  }
+}
+
+async function ubahPassword() {
+  const a = getVal('akunPassBaru'), b = getVal('akunPassBaru2');
+  if (a.length < 6) { alert('Kata sandi baru minimal 6 karakter.'); return; }
+  if (a !== b) { alert('Pengulangan kata sandi tidak sama.'); return; }
+  if (!(await reauth())) return;
+  try { await currentUserAuth.updatePassword(a); ['akunPassLama', 'akunPassBaru', 'akunPassBaru2'].forEach(id => setVal(id, '')); showToast('Kata sandi diperbarui.'); }
+  catch (e) { alert('Gagal mengubah kata sandi: ' + e.message); }
+}
+
+async function simpanVapid() {
+  const k = getVal('masterVapid');
+  try { await db.ref('config/vapid').set(k); vapidKey = VAPID_KEY || k; perbaruiStatusNotif(); showToast('Kunci VAPID disimpan.'); }
+  catch (e) { alert('Gagal menyimpan (hanya Master yang diizinkan server).'); }
 }
 
 function cekPengingat() {
   const t = nowT();
   if (!t || !currentUserAuth) return;
+  if (!notifAktif()) return;
   const now = t.getTime(), uid = currentUserAuth.uid, JENDELA = 6 * 36e5;
   const picu = (waktu, kunci, judul, isi) => { if (now >= waktu && now < waktu + JENDELA && tandaiNotif(kunci)) tampilNotif(judul, isi, kunci); };
   tugasList.filter(x => !x.selesai && x.due && (!x.untuk || x.untuk === uid)).forEach(x => {
@@ -2893,11 +3057,7 @@ function toggleMore(ev, btn) {
 }
 function toggleMenuProfil(ev) { ev.stopPropagation(); const w = document.getElementById('currentUserBadge'), buka = !w.classList.contains('open'); tutupSemuaMenu(); if (buka) w.classList.add('open'); }
 function toggleFilter() { document.querySelector('#tabPasien .filter-box').classList.toggle('open'); }
-function toggleIdentitas(paksaBuka) {
-  const d = document.getElementById('identitasDetail');
-  d.style.display = (paksaBuka || d.style.display === 'none') ? 'block' : 'none';
-  if (paksaBuka) window.scrollTo({ top: 0, behavior: 'smooth' });
-}
+function toggleIdentitas() { bukaModalAkun(); }
 
 function setHtmlBila(el, html) { if (el && el.dataset.h !== html) { el.dataset.h = html; el.innerHTML = html; } }
 
@@ -5484,6 +5644,7 @@ const PANDUAN_CARDIO = {
     bangunFormFisik();
     bangunFormGCS();
     bangunStepperCPPT();
+    pindahkanIdentitas();
     tickJam(); setInterval(tickJam, 1000); setInterval(() => { cekPengingat(); shiftOtomatis(); }, 30000);
     inisialisasiServiceWorker();
     await initIndexedDB();
