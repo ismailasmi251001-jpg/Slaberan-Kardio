@@ -1341,9 +1341,83 @@
     .search-box { max-width: 320px; margin-bottom: 10px; }
     h4.sub { margin: 18px 0 8px; font-size: 13px; color: var(--primary); text-transform: uppercase; letter-spacing: .05em; }
     @media (max-width: 768px) { body { padding: 10px 10px 88px; } .card { padding: 15px; } .medlog-header { padding: 18px; } }
+  
+    /* ===== UI: header ringkas, identitas, stepper, kartu pasien ===== */
+    .hide-m { }
+    .wajib { color: #e11d48; font-weight: 800; }
+    .btn-ghost { background: #fff; color: var(--primary); border: 1.5px solid #fecdd3; box-shadow: none; }
+    .btn-ghost:hover { background: #fff1f2; box-shadow: none; }
+    .btn-primary-sm { padding: 7px 16px; font-size: 12.5px; }
+    .medlog-header.compact { padding: 12px 18px; margin-bottom: 12px; border-radius: 16px; }
+    .medlog-header.compact::after { font-size: 70px; bottom: -14px; opacity: .1; }
+    .hdr-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: nowrap; }
+    .hdr-right { display: flex; align-items: center; gap: 8px; min-width: 0; }
+    .logo-text-main { font-size: 22px; }
+    .profil-wrap { position: relative; }
+    .profil-btn { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,.14); border: 1px solid rgba(255,255,255,.3); padding: 4px 10px 4px 4px; border-radius: 999px; box-shadow: none; max-width: 190px; }
+    .profil-btn:hover { background: rgba(255,255,255,.24); box-shadow: none; }
+    .profil-btn #currentUserNameText { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 12.5px; }
+    .avatar { width: 28px; height: 28px; border-radius: 50%; background: #fb7185; color: #4c0519; display: inline-flex; align-items: center; justify-content: center; font-weight: 800; }
+    .menu-profil, .more-menu { display: none; position: absolute; right: 0; z-index: 99995; background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; box-shadow: 0 18px 40px -12px rgba(15,23,42,.45); overflow: hidden; }
+    .menu-profil { top: calc(100% + 8px); min-width: 230px; color: var(--text-main); }
+    .profil-wrap.open .menu-profil, .more-wrap.open .more-menu { display: block; }
+    .menu-head { padding: 12px 14px; background: #fff1f2; display: flex; flex-direction: column; gap: 2px; font-size: 13px; }
+    .menu-head span { font-size: 11px; font-weight: 700; color: var(--primary-accent); }
+    .menu-head small { color: var(--text-muted); font-size: 10.5px; margin-top: 4px; line-height: 1.4; }
+    .menu-profil button, .more-menu button { display: block; width: 100%; text-align: left; background: #fff; color: var(--text-main); border-radius: 0; box-shadow: none; padding: 11px 14px; font-weight: 600; }
+    .menu-profil button:hover, .more-menu button:hover { background: #fff1f2; box-shadow: none; }
+    .menu-profil .danger-txt, .more-menu .danger { color: #b91c1c; background: #fff; }
+    .menu-foot { padding: 8px 14px; font-size: 10.5px; color: var(--text-muted); border-top: 1px solid #f1f5f9; }
+    .jaga-bar { display: flex; align-items: center; justify-content: space-between; gap: 10px; background: rgba(255,255,255,.96); border: 1px solid #e2e8f0; border-radius: 12px; padding: 8px 8px 8px 14px; margin-bottom: 12px; }
+    .jaga-ringkas { display: flex; align-items: center; gap: 7px; font-size: 13px; min-width: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+    .jaga-ringkas .sep { color: #cbd5e1; }
+    .stepper { display: flex; gap: 6px; margin: 6px 0 8px; overflow-x: auto; }
+    .step-chip { flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: 7px; background: #f1f5f9; color: #64748b; border: 1px solid #e2e8f0; box-shadow: none; padding: 9px 10px; white-space: nowrap; font-size: 12.5px; }
+    .step-chip:hover { background: #ffe4e6; box-shadow: none; }
+    .step-chip .no { width: 22px; height: 22px; border-radius: 50%; background: #cbd5e1; color: #fff; display: inline-flex; align-items: center; justify-content: center; font-size: 11px; }
+    .step-chip.lewat .no { background: #059669; }
+    .step-chip.aktif { background: linear-gradient(135deg, #e11d48, #be123c); color: #fff; border-color: transparent; }
+    .step-chip.aktif .no { background: rgba(255,255,255,.28); }
+    .step-ringkas { font-size: 12px; color: #475569; background: #f8fafc; border: 1px dashed #cbd5e1; border-radius: 10px; padding: 7px 12px; margin-bottom: 4px; }
+    .cppt-sticky { position: sticky; bottom: 14px; z-index: 60; background: rgba(255,255,255,.94); backdrop-filter: blur(8px); border: 1px solid #fecdd3; border-radius: 14px; padding: 10px; box-shadow: 0 14px 34px -10px rgba(136,19,55,.55); justify-content: space-between; margin-top: 18px; }
+    .cppt-sticky #btnSimpanPasien { flex: 1; }
+    .aksi-pasien { display: flex; align-items: center; gap: 6px; }
+    .more-wrap { position: relative; }
+    .more-btn { background: #f1f5f9; color: #334155; box-shadow: none; padding: 5px 11px; font-size: 16px; line-height: 1; }
+    .more-menu { top: calc(100% + 4px); min-width: 150px; }
+    .fab { display: none; position: fixed; right: 22px; bottom: 26px; width: 56px; height: 56px; padding: 0; border-radius: 50%; font-size: 30px; line-height: 1; z-index: 99980; align-items: center; justify-content: center; box-shadow: 0 14px 28px -8px rgba(225,29,72,.7); }
+    body[data-tab="tabPasien"] .fab { display: flex; }
+    .filter-toggle { display: none; }
+    @media (max-width: 768px) {
+      .hide-m { display: none !important; }
+      .hdr-row { gap: 6px; }
+      .logo-text-main { font-size: 19px; }
+      .profil-btn #currentUserNameText, .profil-btn .caret { display: none; }
+      .profil-btn { padding: 3px; }
+      .step-chip .lbl { display: none; }
+      .step-chip.aktif .lbl { display: inline; }
+      .step-chip { flex: 0 0 auto; min-width: 44px; }
+      .step-chip.aktif { flex: 1; }
+      .cppt-sticky { bottom: calc(70px + env(safe-area-inset-bottom)); }
+      .fab { bottom: calc(150px + env(safe-area-inset-bottom)); right: 16px; }
+      .filter-toggle { display: inline-flex; }
+      #tabPasien .filter-box select { display: none; width: 100%; max-width: none !important; }
+      #tabPasien .filter-box.open select { display: block; }
+      #tabPasien .filter-box input { flex: 1; max-width: none !important; }
+      #tabelPasien thead { display: none; }
+      #tabelPasien, #tabelPasien tbody, #tabelPasien tr, #tabelPasien td { display: block; width: 100%; box-sizing: border-box; }
+      #tabelPasien { border: none; }
+      #tabelPasien tr { position: relative; display: flex; flex-direction: column; background: #fff; border: 1px solid #e2e8f0; border-radius: 14px; padding: 12px 14px; margin-bottom: 10px; box-shadow: 0 4px 14px -8px rgba(15,23,42,.35); }
+      #tabelPasien td { border: none; padding: 3px 0; }
+      #tabelPasien td::before { content: attr(data-label); display: block; font-size: 9.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; color: #94a3b8; }
+      #tabelPasien td[data-label="Pasien"] { order: -3; } #tabelPasien td[data-label="Ruang / Bed"] { order: -2; } #tabelPasien td[data-label="Status"] { order: -1; }
+      #tabelPasien td[data-label="Pilih"] { position: absolute; top: 10px; right: 12px; width: auto; padding: 0; } #tabelPasien td[data-label="Pilih"]::before, #tabelPasien td[data-label="Aksi"]::before { display: none; }
+      #tabelPasien td[data-label="Aksi"] { order: 9; margin-top: 8px; padding-top: 10px; border-top: 1px solid #f1f5f9; }
+      #tabelPasien .more-menu { top: auto; bottom: calc(100% + 4px); }
+    }
   </style>
 </head>
-<body>
+<body data-tab="tabPasien">
 
 <!-- SPLASH SCREEN PEMBUKA APLIKASI -->
 <div id="appSplashScreen">
@@ -1427,36 +1501,37 @@
     <span id="notifText">Data berhasil disinkronisasi!</span>
   </div>
 
-  <div class="medlog-header">
-    <div class="logo-container">
+  <div class="medlog-header compact">
+    <div class="hdr-row">
       <div class="logo-badge-group">
         <img src="icon_192x192.png" alt="Logo MedLog" class="header-app-logo">
         <div class="logo-text-main">Med<span>Log</span></div>
-        <span class="logo-tag">Online EMR</span>
+        <span class="logo-tag hide-m">Kardiologi</span>
       </div>
-      <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+      <div class="hdr-right">
         <span id="jamRealtime" class="user-auth-badge" title="Waktu server (tidak terpengaruh jam perangkat)" style="font-variant-numeric:tabular-nums;">&#x23F3; Menyinkronkan waktu...</span>
-        <span id="cloudStatusBadge" class="cloud-status">&#x2601;&#xFE0F; Multi-Device Live</span>
-        <button type="button" class="backup-btn" style="padding:4px 10px; font-size:11px; border-radius:20px;" onclick="bukaModalHistoryGlobal()">&#x1F4DC; Log & Riwayat</button>
-        <div class="dept-badge">
-          <span style="font-size: 16px; line-height: 1;">&#x1FAC0;</span>
-          <span>Stase: Kardiologi & Kedokteran Vaskuler</span>
-        </div>
-        <div id="currentUserBadge" class="user-auth-badge" style="display:none;">
-          <span id="currentUserNameText">Dokter</span>
-          <button type="button" class="logout-btn-header" onclick="eksekusiLogout()">Keluar (Log Out)</button>
+        <span id="cloudStatusBadge" class="cloud-status">&#x2601;&#xFE0F; Live</span>
+        <div id="currentUserBadge" class="profil-wrap" style="display:none;">
+          <button type="button" class="profil-btn" onclick="toggleMenuProfil(event)" aria-label="Menu akun"><span class="avatar" id="avatarInisial">D</span><span id="currentUserNameText">Dokter</span><span class="caret">&#9662;</span></button>
+          <div class="menu-profil">
+            <div class="menu-head"><b id="mpNama">-</b><span id="mpPeran">Koas</span><small>Kardiologi &amp; Kedokteran Vaskuler<br>RS Pendidikan Ibnu Sina Y.W. UMI</small></div>
+            <button type="button" onclick="toggleIdentitas(true)">&#x1F9FE; Identitas jaga</button>
+            <button type="button" onclick="bukaModalHistoryGlobal()">&#x1F4DC; Log &amp; Riwayat</button>
+            <button type="button" class="danger-txt" onclick="eksekusiLogout()">&#x1F6AA; Keluar</button>
+            <div class="menu-foot">Dibuat oleh <b>@IsmailAsmi_</b> &#xB7; FK UMI</div>
+          </div>
         </div>
       </div>
     </div>
-    <div id="jamPeringatan" style="display:none; margin:0 0 8px; font-size:11.5px; background:rgba(251,191,36,.2); border:1px solid #fcd34d; color:#fef3c7; border-radius:6px; padding:5px 10px;"></div>
-    <p>Sistem EMR, CPPT & Ronde Klinis Terintegrasi KSM Jantung & Pembuluh Darah RS Pendidikan Ibnu Sina Y.W. UMI. Akses terotentikasi, basis data terproteksi, dan sinkronisasi atomik real-time multi-device.</p>
-    <div class="medlog-creator">
-      Dibuat oleh: <b>@IsmailAsmi_</b> &#x2014; Fakultas Kedokteran Universitas Muslim Indonesia
-    </div>
+    <div id="jamPeringatan" style="display:none; margin:8px 0 0; font-size:11.5px; background:rgba(251,191,36,.2); border:1px solid #fcd34d; color:#fef3c7; border-radius:6px; padding:5px 10px;"></div>
   </div>
 
   <!-- Identitas Dokter Muda & Pengaturan RS (Identitas Terkunci Sesuai Akun Login) -->
-  <div class="card" style="margin-bottom:12px; padding:14px 16px;">
+  <div class="jaga-bar">
+    <div class="jaga-ringkas"><span>&#x1F512;</span><b id="rjShift">-</b><span class="sep">&middot;</span><span id="rjNama">-</span><span class="sep hide-m">&middot;</span><span id="rjRS" class="hide-m">-</span></div>
+    <button type="button" class="btn-ghost" onclick="toggleIdentitas()">Ubah &#9662;</button>
+  </div>
+  <div class="card" id="identitasDetail" style="display:none; margin-bottom:12px; padding:14px 16px;">
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 10px; flex-wrap:wrap; gap:8px;">
       <div style="display:flex; align-items:center; gap:8px;">
         <h3 style="margin:0; font-size:14px; color:#881337;">Identitas Jaga & Dokter Muda</h3>
@@ -1567,6 +1642,7 @@
       <div class="filter-box">
         <!-- Kolom Pencarian Cepat Nama / RM -->
         <input type="text" id="cariNamaRM" placeholder="&#x1F50D; Cari Nama atau RM..." style="max-width:210px;" oninput="renderTable()">
+        <button type="button" class="btn-ghost filter-toggle" onclick="toggleFilter()">&#x2699; Filter <span id="filterAktifCount"></span></button>
         
         <select id="filterTabelStatus" class="history-select" style="max-width:160px;" onchange="renderTable()">
           <option value="AKTIF" selected>Hanya Aktif</option>
@@ -1690,7 +1766,7 @@
           </select>
         </div>
         <div>
-          <div class="label-wrapper"><label for="pNama">Nama Pasien</label></div>
+          <div class="label-wrapper"><label for="pNama">Nama Pasien <span class="wajib">*</span></label></div>
           <input type="text" id="pNama" list="list_pNama" placeholder="Nama lengkap pasien">
           <datalist id="list_pNama"></datalist>
         </div>
@@ -1699,7 +1775,7 @@
           <input type="number" id="pUsia" placeholder="Contoh: 63">
         </div>
         <div>
-          <div class="label-wrapper"><label for="pRM">No. Rekam Medis (RM)</label></div>
+          <div class="label-wrapper"><label for="pRM">No. Rekam Medis (RM) <span class="wajib">*</span></label></div>
           <input type="text" id="pRM" list="list_pRM" placeholder="Contoh: 234055">
           <datalist id="list_pRM"></datalist>
         </div>
@@ -2146,6 +2222,8 @@
     </div>
   </div>
 
+  <button type="button" class="fab" onclick="bukaFormPasienBaru()" aria-label="Pasien baru">+</button>
+
   <!-- TAB 3: LAPORAN WHATSAPP -->
   <div id="tabReport" class="tab-view-content">
     <div class="card">
@@ -2281,7 +2359,7 @@ function tickJam() {
       const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ZONA_RS;   // mengikuti zona waktu perangkat
       const tgl = new Intl.DateTimeFormat('id-ID', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric', timeZone: tz }).format(t);
       const jam = new Intl.DateTimeFormat('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit', hourCycle: 'h23', timeZone: tz }).format(t).replace(/\./g, ':');
-      el.innerText = `\u{1F552} ${tgl} \u00B7 ${jam} ${labelZona(tz, t)}`;
+      el.innerHTML = `<span class="hide-m">\u{1F552} ${esc(tgl)} &middot; </span>${esc(jam)} ${esc(labelZona(tz, t))}`;
     }
   }
   if (warn) {
@@ -2290,6 +2368,7 @@ function tickJam() {
     if (sel > 120000) warn.innerText = `\u26A0\uFE0F Jam perangkat berbeda \u00B1${Math.round(sel / 60000)} menit dari waktu server. MedLog memakai waktu server, bukan jam perangkat.`;
   }
   cekModeTanggal();
+  perbaruiUI();
 }
 
 function setelahSinkronWaktu() {
@@ -2410,6 +2489,7 @@ function terapkanPeran() {
   const sh = document.getElementById('shiftJaga'); if (sh) sh.disabled = (p === 'koas');
   const el = document.getElementById('currentUserNameText');
   if (el) el.innerText = el.innerText.split(' \u00B7 ')[0] + (p !== 'koas' ? ' \u00B7 ' + LABEL_PERAN[p] : '');
+  perbaruiUI();
   if (adm || p === 'capt') muatDaftarAkun();
   renderSemuaJaga();
 }
@@ -2789,6 +2869,85 @@ setInterval(() => {
 }, 30000);
 document.addEventListener('visibilitychange', () => document.body.classList.toggle('privasi', document.hidden));
 
+// ================= UI: menu, identitas, stepper CPPT, filter =================
+const LANGKAH_CPPT = ['Identitas', 'Subjektif', 'Objektif', 'Penunjang', 'Asesmen & Plan'];
+let langkahCPPT = 1;
+
+function tutupSemuaMenu() { document.querySelectorAll('.more-wrap.open, .profil-wrap.open').forEach(e => e.classList.remove('open')); }
+document.addEventListener('click', tutupSemuaMenu);
+function toggleMore(ev, btn) { ev.stopPropagation(); const w = btn.parentElement, buka = !w.classList.contains('open'); tutupSemuaMenu(); if (buka) w.classList.add('open'); }
+function toggleMenuProfil(ev) { ev.stopPropagation(); const w = document.getElementById('currentUserBadge'), buka = !w.classList.contains('open'); tutupSemuaMenu(); if (buka) w.classList.add('open'); }
+function toggleFilter() { document.querySelector('#tabPasien .filter-box').classList.toggle('open'); }
+function toggleIdentitas(paksaBuka) {
+  const d = document.getElementById('identitasDetail');
+  d.style.display = (paksaBuka || d.style.display === 'none') ? 'block' : 'none';
+  if (paksaBuka) window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function setHtmlBila(el, html) { if (el && el.dataset.h !== html) { el.dataset.h = html; el.innerHTML = html; } }
+
+function perbaruiUI() {
+  const nama = getVal('koasNama') || '-', shift = (getVal('shiftJaga') || '').toLowerCase().replace(/^./, c => c.toUpperCase()) || '-';
+  const set = (id, t) => { const e = document.getElementById(id); if (e && e.innerText !== t) e.innerText = t; };
+  set('rjShift', shift); set('rjNama', nama); set('rjRS', getNamaRS());
+  set('mpNama', nama); set('mpPeran', LABEL_PERAN[peranUser] || 'Koas'); set('avatarInisial', nama.charAt(0).toUpperCase() || 'D');
+  perbaruiRingkasCPPT();
+}
+
+function bangunStepperCPPT() {
+  const card = document.querySelector('#tabCPPT > .card');
+  if (!card || card.dataset.stepper) return;
+  const kids = Array.from(card.children), awal = kids.findIndex(k => k.classList.contains('section-title'));
+  const grup = kids.filter(k => k.classList.contains('btn-group')).pop();
+  if (awal < 0 || !grup) return;
+  const wrap = LANGKAH_CPPT.map((_, i) => { const d = document.createElement('div'); d.className = 'cppt-step'; d.dataset.step = i + 1; return d; });
+  let judul = 0;
+  kids.slice(awal, kids.indexOf(grup)).forEach(k => { if (k.classList.contains('section-title')) judul++; wrap[Math.min(judul, 5) - 1].appendChild(k); });
+  const nav = document.createElement('div'); nav.className = 'stepper'; nav.id = 'stepperCPPT';
+  nav.innerHTML = LANGKAH_CPPT.map((l, i) => `<button type="button" class="step-chip" data-step="${i + 1}" onclick="pindahStep(${i + 1})"><span class="no">${i + 1}</span><span class="lbl">${l}</span></button>`).join('');
+  const ring = document.createElement('div'); ring.id = 'stepRingkas'; ring.className = 'step-ringkas';
+  card.insertBefore(nav, grup); card.insertBefore(ring, grup); wrap.forEach(w => card.insertBefore(w, grup));
+  const lain = document.createElement('div'); lain.className = 'btn-group'; lain.style.marginTop = '14px';   // aksi sekunder pindah ke langkah terakhir
+  ['btnSimpanBaruPasien'].forEach(id => { const b = document.getElementById(id); if (b) lain.appendChild(b); });
+  const reset = grup.querySelector('button[onclick="clearForm()"]'); if (reset) lain.appendChild(reset);
+  wrap[4].appendChild(lain);
+  grup.classList.add('cppt-sticky');
+  grup.insertAdjacentHTML('afterbegin', '<button type="button" id="stepPrev" class="btn-ghost" onclick="pindahStep(langkahCPPT - 1)">&larr;</button><button type="button" id="stepNext" class="alt" onclick="langkahBerikut()">Lanjut &rarr;</button>');
+  card.dataset.stepper = '1';
+  card.addEventListener('input', perbaruiRingkasCPPT); card.addEventListener('change', perbaruiRingkasCPPT);
+  pindahStep(1, false);
+}
+
+function pindahStep(n, gulir) {
+  n = Math.max(1, Math.min(5, n)); langkahCPPT = n;
+  document.querySelectorAll('#tabCPPT .cppt-step').forEach(w => { w.style.display = (+w.dataset.step === n) ? 'block' : 'none'; });
+  document.querySelectorAll('#stepperCPPT .step-chip').forEach(c => { const k = +c.dataset.step; c.classList.toggle('aktif', k === n); c.classList.toggle('lewat', k < n); });
+  const p = document.getElementById('stepPrev'), nx = document.getElementById('stepNext');
+  if (p) p.style.visibility = n === 1 ? 'hidden' : 'visible';
+  if (nx) nx.style.display = n === 5 ? 'none' : '';
+  perbaruiRingkasCPPT();
+  const c = document.getElementById('stepperCPPT');
+  if (c && gulir !== false) c.scrollIntoView({ block: 'start', behavior: 'smooth' });
+}
+
+function langkahBerikut() {
+  if (langkahCPPT === 1 && (!getVal('pNama') || !getVal('pRM'))) { showToast('Isi Nama Pasien dan No. RM dulu.'); return; }
+  pindahStep(langkahCPPT + 1);
+}
+
+function perbaruiRingkasCPPT() {
+  const el = document.getElementById('stepRingkas');
+  if (!el) return;
+  const b = [];
+  if (getVal('pNama')) b.push('<b>' + esc(formatNamaLengkap(getVal('pGelar'), getVal('pNama'))) + '</b>');
+  if (getVal('pRM')) b.push('RM ' + esc(getVal('pRM')));
+  if (getVal('oTDSistol') && getVal('oTDDiastol')) b.push('TD ' + esc(getVal('oTDSistol')) + '/' + esc(getVal('oTDDiastol')));
+  if (getVal('oNadi')) b.push('HR ' + esc(getVal('oNadi')));
+  if (getVal('oGCS')) b.push('GCS ' + esc(getVal('oGCS')));
+  const dx = getTextVal('pDiag').split('\n')[0]; if (dx) b.push('Dx: ' + esc(dx));
+  setHtmlBila(el, b.length ? b.join(' &middot; ') : 'Isi data pasien untuk memulai.');
+}
+
 function dismissSplashScreen() {
     const splash = document.getElementById('appSplashScreen');
     if (!splash) return;
@@ -2830,13 +2989,14 @@ function dismissSplashScreen() {
     document.getElementById('tabBtnReport').classList.toggle('active', targetTabId === 'tabReport');
     document.getElementById('tabBtnJaga').classList.toggle('active', targetTabId === 'tabJaga');
     if (targetTabId === 'tabJaga') bukaTabJaga();
+    document.body.dataset.tab = targetTabId;
     window.scrollTo({ top: 100, behavior: 'smooth' });
   }
 
   function bukaFormPasienBaru() {
     clearForm();
     document.getElementById('tabLabelCPPT').innerText = "CPPT (Pasien Baru)";
-    switchMainTab('tabCPPT');
+    switchMainTab('tabCPPT'); pindahStep(1);
   }
 
   function toggleAccordion(accId) {
@@ -2945,10 +3105,10 @@ function dismissSplashScreen() {
         db.ref(".info/connected").on("value", function(snap) {
           const badge = document.getElementById('cloudStatusBadge');
           if (snap.val() === true) {
-            if (badge) { badge.innerText = "\u{2601}\u{FE0F} Multi-Device Live"; badge.style.background = "rgba(16, 185, 129, 0.2)"; badge.style.color = "#6ee7b7"; }
+            if (badge) { badge.innerText = "\u{2601}\u{FE0F} Live"; badge.style.background = "rgba(16, 185, 129, 0.2)"; badge.style.color = "#6ee7b7"; }
             kirimAntreanOfflineKeCloud();
           } else if (badge) {
-            badge.innerText = "\u{26A1} Mode Offline"; badge.style.background = "rgba(217, 119, 6, 0.2)"; badge.style.color = "#fcd34d";
+            badge.innerText = "\u{26A1} Offline"; badge.style.background = "rgba(217, 119, 6, 0.2)"; badge.style.color = "#fcd34d";
           }
         });
 
@@ -3004,7 +3164,7 @@ function dismissSplashScreen() {
   function fallbackToLocalIndexedDB() {
     isFirebaseReady = false;
     const badge = document.getElementById('cloudStatusBadge');
-    if (badge) { badge.innerText = "\u{1F4BE} Penyimpanan Lokal"; badge.style.background = "rgba(225, 29, 72, 0.15)"; badge.style.color = "#fda4af"; }
+    if (badge) { badge.innerText = "\u{1F4BE} Lokal"; badge.style.background = "rgba(225, 29, 72, 0.15)"; badge.style.color = "#fda4af"; }
   }
 
   const DB_NAME = "MedLogDatabase_IbnuSina", STORE_NAME = "patients_emr_cardio", QUEUE_STORE = "offline_sync_queue";
@@ -4476,7 +4636,7 @@ function ringkasanTotalDPJP(aktif) {
 
     updateDropdownRiwayatEKG(p, tglDefault);
     updateDropdownRiwayatLab(p, tglDefault);
-    switchMainTab('tabCPPT');
+    switchMainTab('tabCPPT'); pindahStep(1);
   }
 
   function clearForm() {
@@ -4685,9 +4845,9 @@ function ringkasanTotalDPJP(aktif) {
       const waBtn = p.nomorWATerakhir ? `<br><a class="wa-link" href="https://wa.me/${cleanWANumber(p.nomorWATerakhir)}" target="_blank">\u{1F4F1} ${p.nomorWATerakhir}</a>` : '';
 
       tr.innerHTML = `
-        <td style="text-align:center;"><input type="checkbox" ${isChecked} onchange="togglePilihPasien('${p.idPasien}', this.checked)"></td>
-        <td><b>${p.ruang}</b><br><small>${p.bed || '-'}</small></td>
-        <td>
+        <td data-label="Pilih" style="text-align:center;"><input type="checkbox" ${isChecked} onchange="togglePilihPasien('${p.idPasien}', this.checked)"></td>
+        <td data-label="Ruang / Bed"><b>${p.ruang}</b><br><small>${p.bed || '-'}</small></td>
+        <td data-label="Status">
           <select class="status-select-inline ${stClass}" onchange="ubahStatusPasienLangsung('${p.idPasien}', this.value)">
             <option value="Baru" ${p.status === 'Baru'?'selected':''}>Baru (\u{1F195})</option>
             <option value="Lama" ${p.status === 'Lama'?'selected':''}>Lama</option>
@@ -4696,21 +4856,19 @@ function ringkasanTotalDPJP(aktif) {
             <option value="Meninggal" ${p.status === 'Meninggal'?'selected':''}>Meninggal</option>
           </select>${rInfo}
         </td>
-        <td><b>${formatNamaLengkap(p.gelar, p.nama)}</b> (${p.usia || '-'} Thn)<br><small>RM: ${p.rm}</small>${badges}</td>
-        <td><b style="color:#be123c;">\u{1FAC0} ${docKardio}</b>${docNon}</td>
-        <td><b>${p.terakhirDiisiOleh || '-'}</b>${waBtn}<br><small style="color:#64748b;">\u{1F552} ${p.waktuUpdateTerakhir || '-'}</small><br><small style="color:#64748b;">\u{1F4C5} CPPT: ${entries[0] ? formatTanggalID(entries[0].tglPeriksa) : '-'}</small><br><span class="cppt-chip">${entries.length} CPPT</span></td>
-        <td>
-          <div style="display:flex; gap:3px; flex-wrap:wrap;">
-            <button type="button" style="padding:4px 8px;" onclick="editPasien('${p.idPasien}')">Buka</button>
-            <button type="button" class="backup-btn" style="padding:4px 7px;" onclick="cetakResumePDF('${p.idPasien}')">PDF</button>
-            <button type="button" class="danger" style="padding:4px 7px;" onclick="hapusPasien('${p.idPasien}')">Hapus</button>
-          </div>
+        <td data-label="Pasien"><b>${formatNamaLengkap(p.gelar, p.nama)}</b> (${p.usia || '-'} Thn)<br><small>RM: ${p.rm}</small>${badges}</td>
+        <td data-label="Dokter"><b style="color:#be123c;">\u{1FAC0} ${docKardio}</b>${docNon}</td>
+        <td data-label="Pengisi terakhir"><b>${p.terakhirDiisiOleh || '-'}</b>${waBtn}<br><small style="color:#64748b;">\u{1F552} ${p.waktuUpdateTerakhir || '-'}</small><br><small style="color:#64748b;">\u{1F4C5} CPPT: ${entries[0] ? formatTanggalID(entries[0].tglPeriksa) : '-'}</small><br><span class="cppt-chip">${entries.length} CPPT</span></td>
+        <td data-label="Aksi">
+          <div class="aksi-pasien"><button type="button" class="btn-primary-sm" onclick="editPasien('${p.idPasien}')">Buka</button><div class="more-wrap"><button type="button" class="more-btn" aria-label="Aksi lain" onclick="toggleMore(event, this)">\u{22EF}</button><div class="more-menu"><button type="button" onclick="cetakResumePDF('${p.idPasien}')">\u{1F4C4} Cetak PDF</button><button type="button" class="danger" onclick="hapusPasien('${p.idPasien}')">\u{1F5D1} Hapus</button></div></div></div>
         </td>
       `;
       tbody.appendChild(tr);
     });
 
     document.getElementById('totalBadge').innerText = count;
+    const nFilter = [fStatus !== 'AKTIF', fRS !== 'SEMUA', fRuang !== 'SEMUA', fDPJP !== 'SEMUA'].filter(Boolean).length;
+    const fc = document.getElementById('filterAktifCount'); if (fc) fc.innerText = nFilter ? '(' + nFilter + ')' : '';
     document.getElementById('tabCountPasien').innerText = count;
     renderAlertBanners(planList, echoList);
   }
@@ -5310,6 +5468,7 @@ const PANDUAN_CARDIO = {
   async function jalankanSistem() {
     bangunFormFisik();
     bangunFormGCS();
+    bangunStepperCPPT();
     tickJam(); setInterval(tickJam, 1000); setInterval(() => { cekPengingat(); shiftOtomatis(); }, 30000);
     inisialisasiServiceWorker();
     await initIndexedDB();
